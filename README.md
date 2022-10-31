@@ -50,7 +50,7 @@ long à charger, la connexion automatique peut échouer dans ce cas si
 on ne rajoute pas de délai (ex: openclassrooms).
 
 Les cases en dessous le champ de mot de passe correspondent aux
-caractères à inclure ou non dans le mot de passe. 
+caractères à inclure ou non dans le mot de passe.
 
 La case `no similar` permet d'éviter les caractères similaires (ex : 0 et O)
 
@@ -64,7 +64,7 @@ passe correspondant à vos critères.
 
 ### Modifier un mot de passe
 Pour modifier un mot de passe, cliquez sur le bouton en forme de crayon
-à côté du compte que vous souhaitez modifier. La modification suit les 
+à côté du compte que vous souhaitez modifier. La modification suit les
 mêmes règles que l'ajout.
 
 ### Supprimer un mot de passe
@@ -79,10 +79,10 @@ les mêmes que pour l'ajout d'un mot de passe.
 ### Connexion automatique
 N'oubliez pas de spécifier le dossier du profil de votre navigateur
 depuis `Options > Profil > Modifier Préférences` si vous souhaitez utiliser
-votre profil habituel pour la connexion automatique. 
+votre profil habituel pour la connexion automatique.
 
 Trouver le dossier du profil de votre navigateur (dans la barre d'adresse) :
-- Firefox : `about:support` 
+- Firefox : `about:support`
 - Chrome : `chrome://version/`
 
 Pour utiliser la connexion automatique, lancer un navigateur contrôlé
@@ -97,7 +97,7 @@ en forme de globe d'un autre compte, soit ouvrir un nouvel onglet et
 arriver sur la page de connexion, le programme détectera automatiquement
 que vous êtes sur une page de connexion et vous connectera automatiquement.
 
-Notez que cette détéction automatique ne fonctionne que dans le 
+Notez que cette détéction automatique ne fonctionne que dans le
 dernier onglet ouvert.
 
 Si vous souhaitez désactiver temporairment la connexion automatique,
@@ -105,7 +105,7 @@ vous pouvez décocher la case `autoconnection (temp)`.
 
 ### Préférences
 Vous pouvez modifier les préférences depuis `Options > Profil > Modifier Préférences`.
-En plus de spécifier le dossier du profil de votre navigateur, vous pouvez 
+En plus de spécifier le dossier du profil de votre navigateur, vous pouvez
 décider d'activer ou non par défaut la connexion automatique, d'inclure
 par défaut certains types de caractères dans les mots de passe générés, etc.
 
@@ -148,7 +148,7 @@ vos différents appareils.
 
 Vous pouvez également récupérer vos données en clair au format JSON depuis
 `Options > Données > Exporter les données`. Attention, le fichier profuit contiendra
-toutes vos données non chiffrées. 
+toutes vos données non chiffrées.
 
 ### Importer les données
 Vous pouvez importer des données depuis `Options > Données > Importer des données`.
@@ -159,8 +159,8 @@ Si un compte avec le même nom existe déjà, l'application vous laisse le choix
 d'écraser la version déjà existante, d'ignorer la version en cours d'importation,
 ou de renommer la version en cours d'importation. Si vous choisissez une des
 deux premières options, vous avez la possibilité d'appliquer le même choix
-pour tous les autres comptes qui suivent. Si durant l'import vous ouvrez une 
-autre fenêtre de l'application, appuyer sur `Annuler` ou alors fermez la 
+pour tous les autres comptes qui suivent. Si durant l'import vous ouvrez une
+autre fenêtre de l'application, appuyer sur `Annuler` ou alors fermez la
 boîte de dialogue, l'importation dans son entièreté sera annulée.
 
 ### Connexion persistante
@@ -192,8 +192,19 @@ Les fonctions liées à la sécurité sont implémentées dans le fichier `secur
 + Ajouter les droits d'exécution à `main.py`, puis créer un raccourci clavier contenant la commande `/path/to/gest_mdp/main.py`
 
 
-+ Utiliser le fichier `gest.desktop` fourni dans le dossier `additional_resources/`. 
++ Utiliser le fichier `gest.desktop` fourni dans le dossier `additional_resources/`.
 Il faut donner les droits d'exécution aux fichiers `gest.desktop` et `main.py`. Ensuite, il faut modifier les
 chemins dans le fichier `gest.desktop` pour qu'ils correspondent à votre installation. Enfin, il faut copier le fichier
 dans le dossier `~/.local/share/applications/`. Cette solution rendra l'application disponible dans la liste de vos
 applications.
+
+### Windows
++ Lancer directement le programme depuis un terminal :
+`python C:\path\to\gest_mdp\main.py`
+
++ Utiliser le fichier `gest.bat` fourni dans le dossier `additional_resources/`.
+Il faut modifier les chemins dans le fichier `gest.bat` pour qu'ils correspondent
+à votre installation. Vous pouvez ensuite soit utiliser directement ce fichier,
+soit créer un raccourci vers ce fichier, ce qui vous permettra de définir une
+icône. Une image au bon format, `logo.ico` est également fournie dans le dossier
+`additional_resources/`.
