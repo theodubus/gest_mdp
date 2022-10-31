@@ -115,7 +115,7 @@ Vous pouvez modifier votre mot de passe depuis `Options > Profil > Sécurité > 
 ### Modifier la clé de chiffrement
 Vous pouvez chiffrer vos données avec une nouvelle clé de chiffrement depuis `Options > Profil > Sécurité > Changer de clé de chiffrement`.
 Cette opération peut prendre du temps étant donné qu'elle nécessite la réécriture de toutes les
-données (déchiffrement avec l'anncienne clé de chiffrement, chiffrement avec la nouvelle clé).
+données (déchiffrement avec l'ancienne clé de chiffrement, chiffrement avec la nouvelle clé).
 Attendez-vous à une attente de quelques secondes pour une centaine de comptes.
 
 ### Supprimer toutes les données
