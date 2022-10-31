@@ -172,7 +172,7 @@ choisir de vérouiller l'application en vous déconnectant depuis `Options > Se 
 ## Sécurité
 La sécurité des données suit les mêmes principes que beaucoup d'autres logiciels similaires.
 On dérive le mot de passe de l'utilisateur (avec un salt) avec une fonction
-coûtant beaucoup de temps (PBKDF2 avec 1M d'itérations) pour obtenir une clé de chiffrement, une clé "dérivée".
+coûtant beaucoup de temps (PBKDF2-HMAC-SHA256 avec 1M d'itérations) pour obtenir une clé de chiffrement, une clé "dérivée".
 (Voir [recommandation officielle](https://cryptography.io/en/latest/fernet/#using-passwords-with-fernet)
 du module `cryptography`).
 
@@ -182,6 +182,15 @@ mais cela aurait pour conséquence de devoir déchiffrer et rechiffrer toutes le
 de chiffrement une clé aléatoire générée par le module `cryptograpy` et on la chiffre avec la clé "dérivée".
 
 Les fonctions liées à la sécurité sont implémentées dans le fichier `security.py`.
+
+La puissance des ordinateurs est amenée à augmenter dans les années à venir,
+la fonction de dérivation du mot de passe pourrait donc devoir être modifiée.
+Voici différentes approches qui pourraient être amenées à être utilisées dans le futur
+si cela devient nécessaire :
++ PBKDF2-HMAC avec SHA512 au lieu de SHA256
++ Augmentation du nombre d'itérations
++ Utilisation d'une fonction de dérivation différente (scrypt, argon2, bcrypt, etc.) en fonction de celle qui
+sera jugée la plus sécurisée à ce moment-là
 
 ## Accès au logiciel
 ### Linux
