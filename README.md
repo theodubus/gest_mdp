@@ -189,7 +189,8 @@ Les fonctions liées à la sécurité sont implémentées dans le fichier `secur
 `python3 /path/to/gest_mdp/main.py`
 
 
-+ <ins>Option 2 :</ins> Ajouter les droits d'exécution à `main.py`, puis créer un raccourci clavier contenant la commande `/path/to/gest_mdp/main.py`
++ <ins>Option 2 :</ins> Ajouter les droits d'exécution à `main.py`, puis créer un raccourci clavier contenant la
+commande `/path/to/gest_mdp/main.py`
 
 
 + <ins>Option 3 :</ins> Utiliser le fichier `gest.desktop` fourni dans le dossier `additional_resources/`.
