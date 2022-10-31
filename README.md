@@ -185,27 +185,27 @@ Les fonctions liées à la sécurité sont implémentées dans le fichier `secur
 
 ## Accès au logiciel
 ### Linux
-+ Lancer directement le programme depuis un terminal :
++ <ins>Option 1 :</ins> Lancer directement le programme depuis un terminal :
 `python3 /path/to/gest_mdp/main.py`
 
 
-+ Ajouter les droits d'exécution à `main.py`, puis créer un raccourci clavier contenant la commande `/path/to/gest_mdp/main.py`
++ <ins>Option 2 :</ins> Ajouter les droits d'exécution à `main.py`, puis créer un raccourci clavier contenant la commande `/path/to/gest_mdp/main.py`
 
 
-+ Utiliser le fichier `gest.desktop` fourni dans le dossier `additional_resources/`.
++ <ins>Option 3 :</ins> Utiliser le fichier `gest.desktop` fourni dans le dossier `additional_resources/`.
 Il faut donner les droits d'exécution aux fichiers `gest.desktop` et `main.py`. Ensuite, il faut modifier les
 chemins dans le fichier `gest.desktop` pour qu'ils correspondent à votre installation. Enfin, il faut copier le fichier
 dans le dossier `~/.local/share/applications/`. Cette solution rendra l'application disponible dans la liste de vos
 applications.
 
 ### Windows
-+ Lancer directement le programme depuis un terminal :
++ <ins>Option 1 :</ins> Lancer directement le programme depuis un terminal :
 `python C:\path\to\gest_mdp\main.py`
 
 
-+ Utiliser le fichier `gest.bat` fourni dans le dossier `additional_resources/`.
++ <ins>Option 2 :</ins> Utiliser le fichier `gest.bat` fourni dans le dossier `additional_resources/`.
 Il faut modifier les chemins dans le fichier `gest.bat` pour qu'ils correspondent
 à votre installation. Vous pouvez ensuite soit utiliser directement ce fichier,
 soit créer un raccourci vers ce fichier, ce qui vous permettra de définir une
-icône. Une image au bon format, `logo.ico` est également fournie dans le dossier
+icône. Une image au bon format, `logo.ico` est également disponible dans le dossier
 `additional_resources/`.
