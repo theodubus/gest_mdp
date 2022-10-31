@@ -179,7 +179,7 @@ du module `cryptography`).
 Cette clé pourrait être directement utilisée pour chiffrer les données,
 mais cela aurait pour conséquence de devoir déchiffrer et rechiffrer toutes les données
 à chaque fois que l'utilisateur change son mot de passe. Pour éviter cela, on utilise comme clé
-de chiffrement une clé aléatoire générée par le module `cryptograpy` et on la chiffre avec la clé "dérivée".
+de chiffrement une clé aléatoire générée par le module `cryptography` et on la chiffre avec la clé "dérivée".
 
 Les fonctions liées à la sécurité sont implémentées dans le fichier `security.py`.
 
