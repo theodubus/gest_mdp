@@ -202,6 +202,7 @@ applications.
 + Lancer directement le programme depuis un terminal :
 `python C:\path\to\gest_mdp\main.py`
 
+
 + Utiliser le fichier `gest.bat` fourni dans le dossier `additional_resources/`.
 Il faut modifier les chemins dans le fichier `gest.bat` pour qu'ils correspondent
 à votre installation. Vous pouvez ensuite soit utiliser directement ce fichier,
