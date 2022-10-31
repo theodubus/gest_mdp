@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=/path/to/gest_mdp/main.py
+Path=/path/to/gest_mdp/
+Name=Gestionnaire mdp
+Icon=/path/to/gest_mdp/images/logo.png
+Terminal=false
+Categories=Development;Python;
