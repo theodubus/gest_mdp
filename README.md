@@ -2,12 +2,12 @@
 Gestionnaire de mots de passe avec connexion automatique
 
 ## Sommaire
-+ [Installation](#installation)
-+ [Accès au logiciel](#----accs-au-logiciel)
-+ [Fonctionnalités](#---fonctionnalits)
-+ [Sécurité](#---scurit)
++ [Installation](#----installation)
++ [Accès au logiciel](#----accès-au-logiciel)
++ [Fonctionnalités](#---fonctionnalités)
++ [Sécurité](#---sécurité)
 
-## Installation
+## ⚙️ - Installation
 ```bash
 git clone https://github.com/4igle/gest_mdp.git
 cd gest_mdp
@@ -33,7 +33,7 @@ le driver dans la fonction `connexion_chrome_1()` ou `connexion_chrome_2()`
 dans le fichier `gest_mdp/web.py`.
 
 
-## 🖥️ -  Accès au logiciel
+## 💻 - Accès au logiciel
 ### Linux
 + <ins>Option 1 :</ins> Lancer directement le programme depuis un terminal :
 `python3 /path/to/gest_mdp/main.py`
