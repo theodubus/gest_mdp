@@ -1,7 +1,13 @@
 # gest_mdp
 Gestionnaire de mots de passe avec connexion automatique
 
-## Installation
+## Sommaire
++ [Installation](#----installation)
++ [Accès au logiciel](#----accs-au-logiciel)
++ [Fonctionnalités](#---fonctionnalits)
++ [Sécurité](#---scurit)
+
+## ⚙️ -  Installation
 ```bash
 git clone https://github.com/4igle/gest_mdp.git
 cd gest_mdp
@@ -27,14 +33,36 @@ le driver dans la fonction `connexion_chrome_1()` ou `connexion_chrome_2()`
 dans le fichier `gest_mdp/web.py`.
 
 
-## Utilisation
+## 🖥️ -  Accès au logiciel
+### Linux
++ <ins>Option 1 :</ins> Lancer directement le programme depuis un terminal :
+`python3 /path/to/gest_mdp/main.py`
 
-```bash
-python gest.py
-```
-Lors de la première utilisation, vous devez saisir votre mot de passe
-maître qui servira à chiffrer vos mots de passe.
 
++ <ins>Option 2 :</ins> Ajouter les droits d'exécution à `main.py`, puis créer un raccourci clavier contenant la
+commande `/path/to/gest_mdp/main.py`
+
+
++ <ins>Option 3 :</ins> Utiliser le fichier `gest.desktop` fourni dans le dossier `additional_resources/`.
+Il faut donner les droits d'exécution aux fichiers `gest.desktop` et `main.py`. Ensuite, il faut modifier les
+chemins dans le fichier `gest.desktop` pour qu'ils correspondent à votre installation. Enfin, il faut copier le fichier
+dans le dossier `~/.local/share/applications/`. Cette solution rendra l'application disponible dans la liste de vos
+applications.
+
+### Windows
++ <ins>Option 1 :</ins> Lancer directement le programme depuis un terminal :
+`python C:\path\to\gest_mdp\main.py`
+
+
++ <ins>Option 2 :</ins> Utiliser le fichier `gest.bat` fourni dans le dossier `additional_resources/`.
+Il faut modifier les chemins dans le fichier `gest.bat` pour qu'ils correspondent
+à votre installation. Vous pouvez ensuite soit utiliser directement ce fichier,
+soit créer un raccourci vers ce fichier, ce qui vous permettra de définir une
+icône. Une image au bon format, `logo.ico` est également disponible dans le dossier
+`additional_resources/`.
+
+
+## 🛠 - Fonctionnalités
 ### Ajouter un mot de passe
 
 Vous pouvez ensuite stocker des nouveaux mots de passe en cliquant
@@ -169,7 +197,7 @@ de vous reconnecter à chaque fois que vous lancerez l'application, mais uniquem
 au premier lancement après un redémarrage de l'ordinateur. Vous tout de même
 choisir de vérouiller l'application en vous déconnectant depuis `Options > Se déconnecter`.
 
-## Sécurité
+## 🔒 - Sécurité
 La sécurité des données suit les mêmes principes que beaucoup d'autres logiciels similaires.
 On dérive le mot de passe de l'utilisateur (avec un salt) avec une fonction
 coûtant beaucoup de temps (PBKDF2-HMAC-SHA256 avec 1M d'itérations) pour obtenir une clé de chiffrement, une clé "dérivée".
@@ -191,31 +219,3 @@ si cela devient nécessaire :
 + Augmentation du nombre d'itérations
 + Utilisation d'une fonction de dérivation différente (scrypt, argon2, bcrypt, etc.) en fonction de celle qui
 sera jugée la plus sécurisée à ce moment-là
-
-## Accès au logiciel
-### Linux
-+ <ins>Option 1 :</ins> Lancer directement le programme depuis un terminal :
-`python3 /path/to/gest_mdp/main.py`
-
-
-+ <ins>Option 2 :</ins> Ajouter les droits d'exécution à `main.py`, puis créer un raccourci clavier contenant la
-commande `/path/to/gest_mdp/main.py`
-
-
-+ <ins>Option 3 :</ins> Utiliser le fichier `gest.desktop` fourni dans le dossier `additional_resources/`.
-Il faut donner les droits d'exécution aux fichiers `gest.desktop` et `main.py`. Ensuite, il faut modifier les
-chemins dans le fichier `gest.desktop` pour qu'ils correspondent à votre installation. Enfin, il faut copier le fichier
-dans le dossier `~/.local/share/applications/`. Cette solution rendra l'application disponible dans la liste de vos
-applications.
-
-### Windows
-+ <ins>Option 1 :</ins> Lancer directement le programme depuis un terminal :
-`python C:\path\to\gest_mdp\main.py`
-
-
-+ <ins>Option 2 :</ins> Utiliser le fichier `gest.bat` fourni dans le dossier `additional_resources/`.
-Il faut modifier les chemins dans le fichier `gest.bat` pour qu'ils correspondent
-à votre installation. Vous pouvez ensuite soit utiliser directement ce fichier,
-soit créer un raccourci vers ce fichier, ce qui vous permettra de définir une
-icône. Une image au bon format, `logo.ico` est également disponible dans le dossier
-`additional_resources/`.
