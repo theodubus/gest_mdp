@@ -6,6 +6,7 @@ Gestionnaire de mots de passe avec connexion automatique
 + [Accès au logiciel](#---accès-au-logiciel)
 + [Fonctionnalités](#---fonctionnalités)
 + [Sécurité](#---sécurité)
++ [Structure du code](#---structure)
 
 ## ⚙️ - Installation
 ```bash
@@ -219,3 +220,34 @@ si cela devient nécessaire :
 + Augmentation du nombre d'itérations
 + Utilisation d'une fonction de dérivation différente (scrypt, argon2, bcrypt, etc.) en fonction de celle qui
 sera jugée la plus sécurisée à ce moment-là
+
+## 🗄️ - Structure du code
+```
+.
+├── .data
+│   ├── master_password.txt
+│   ├── preferences.txt
+│   ├── salt.txt
+│   └── store.txt
+├── images
+│   ├── copier.png
+│   ├── crayon.png
+│   ├── logo.png
+│   ├── oeil_a.png
+│   ├── oeil.png
+│   ├── poubelle.png
+│   └── web.png
+├── additional_resources
+│   ├── gest.bat
+│   ├── gest.desktop
+│   └── logo.ico
+├── README.md
+├── requirements.txt
+├── main.py
+├── control.py
+├── gest.py
+├── fonctions.py
+├── scroll.py
+├── security.py
+└── web.py
+```
