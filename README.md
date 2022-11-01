@@ -1,7 +1,7 @@
 # gest_mdp
 Gestionnaire de mots de passe avec connexion automatique
 
-## Sommaire
+## 📑 - Sommaire
 + [Installation](#%EF%B8%8F---installation)
 + [Accès au logiciel](#---accès-au-logiciel)
 + [Fonctionnalités](#---fonctionnalités)
