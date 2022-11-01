@@ -6,7 +6,7 @@ Gestionnaire de mots de passe avec connexion automatique
 + [Accès au logiciel](#---accès-au-logiciel)
 + [Fonctionnalités](#---fonctionnalités)
 + [Sécurité](#---sécurité)
-+ [Structure du code](#---structure-du-code)
++ [Structure du code](#%EF%B8%8F---structure-du-code)
 
 ## ⚙️ - Installation
 ```bash
