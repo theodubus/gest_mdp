@@ -2,12 +2,12 @@
 Gestionnaire de mots de passe avec connexion automatique
 
 ## Sommaire
-+ [Installation](#----installation)
++ [Installation](#installation)
 + [Accès au logiciel](#----accs-au-logiciel)
 + [Fonctionnalités](#---fonctionnalits)
 + [Sécurité](#---scurit)
 
-## ⚙️ -  Installation
+## Installation
 ```bash
 git clone https://github.com/4igle/gest_mdp.git
 cd gest_mdp
