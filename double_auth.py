@@ -58,7 +58,7 @@ def get_authy_code(account):
     time.sleep(0.25)
 
     # On se déplace jusqu'au compte et on clique dessus
-    pyautogui.move(0, -500)
+    pyautogui.move(0, 75)
     time.sleep(0.25)
     pyautogui.click()
     time.sleep(0.25)
@@ -93,7 +93,7 @@ def get_authy_code(account):
 
 
 
-
+get_authy_code('github')
 
 
 
