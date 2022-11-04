@@ -6,7 +6,7 @@ from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchWindowException as closed_tab
-from doubleauth import get_authy_code
+from double_auth import get_authy_code
 
 
 def connexion_firefox(profil):

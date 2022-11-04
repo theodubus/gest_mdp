@@ -68,9 +68,12 @@ icône. Une image au bon format, `logo.ico` est également disponible dans le do
 
 Vous pouvez ensuite stocker des nouveaux mots de passe en cliquant
 sur le bouton `+` ou dans `Options > Données > Nouveau compte`. Seul le nom du compte
-et le mot de passe sont obligatoires. La case `Lien` correspond au
-lien vers la page de connexion si vous souhaitez mettre en place la
-connexion automatique pour ce compte (incluez le lien entier avec https://).
+et le mot de passe sont obligatoires.
+
+La case `Lien` correspond au lien vers la page de connexion si vous souhaitez
+mettre en place la connexion automatique pour ce compte
+(incluez le lien entier avec https://).
+
 La case `prio` permet de définir une priorité pour la connexion automatique
 (ex : si vous avez plusieurs comptes Amazon ou autre).
 
@@ -78,10 +81,12 @@ La case `long` permet de mettre un délai si un site est particulièrement
 long à charger, la connexion automatique peut échouer dans ce cas si
 on ne rajoute pas de délai (ex: openclassrooms).
 
+La case `2FA` permet d'indiquer que ce compte possède une [double authentification](#double-authentification).
+
 Les cases en dessous le champ de mot de passe correspondent aux
 caractères à inclure ou non dans le mot de passe.
 
-La case `no similar` permet d'éviter les caractères similaires (ex : 0 et O)
+La case `no similar` permet d'éviter les caractères similaires (ex : 0 et O).
 
 Si vous ne souhaitez pas un mot de passe aléatoire,
 il est possible de le saisir manuellement.
@@ -131,6 +136,14 @@ dernier onglet ouvert.
 
 Si vous souhaitez désactiver temporairment la connexion automatique,
 vous pouvez décocher la case `autoconnection (temp)`.
+
+### Double authentification
+Si vous avez activé la double authentification pour un compte, l'application
+essayera d'ouvrir Authy, de taper le nom du compte et de récupérer le code.
+Vous devez donc avoir Authy installé et configuré sur votre ordinateur. De plus,
+le nom du compte voulu doit avoir le même nom que celui dans Authy. Vous pouvez 
+modifier la fonction `get_authy_code` dans `double_auth.py` pour utiliser une autre
+application de double authentification (très peu de code est à modifier).
 
 ### Préférences
 Vous pouvez modifier les préférences depuis `Options > Profil > Modifier Préférences`.
