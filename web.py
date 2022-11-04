@@ -6,6 +6,7 @@ from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchWindowException as closed_tab
+from doubleauth import get_authy_code
 
 
 def connexion_firefox(profil):
@@ -138,7 +139,7 @@ def button_click(driver):
     return success
 
 
-def login_connect(driver, link, username, password, wait=False, deja_charge=False):
+def login_connect(driver, link, username, password, wait=False, deja_charge=False, doubleauth=False):
     """
     Fonction qui se connecte à un site
     """
@@ -165,7 +166,20 @@ def login_connect(driver, link, username, password, wait=False, deja_charge=Fals
         if not password_login(driver, password):
             return False
 
-    return button_click(driver)
+    if not doubleauth:
+        return button_click(driver)
+    else:
+        if not button_click(driver):
+            return False
+
+        code = get_authy_code(doubleauth)
+        if code is None:
+            return False
+
+        if not user_login(driver, code):
+            return False
+
+        return button_click(driver)
 
 
 def new_page(driver, compte, fenetre):

@@ -75,12 +75,12 @@ def link_login(chaine):
     return link, login
 
 
-def wait_prio_link(chaine):
+def doubleauth_wait_prio_link(chaine):
     """
     Sépare la partie correspondant au temps d'attente, la partie correspondant à la priorité
     et la partie correspondant au lien dans une chaine
     """
-    return chaine[0], chaine[1], chaine[2:]
+    return chaine[0], chaine[1], chaine[2], chaine[3:]
 
 
 def user_mdp(chaine):
@@ -136,8 +136,8 @@ def donnees_valides(data):
                 if type(data[compte]["user"]) != str or type(data[compte]["password"]) != str:
                     return False
 
-            elif len(data[compte].keys()) == 5:
-                cles = ["user", "password", "link", "wait", "prio"]
+            elif len(data[compte].keys()) == 6:
+                cles = ["user", "password", "link", "doubleauth", "wait", "prio"]
                 for cle in cles:
                     if cle not in data[compte].keys():
                         return False
@@ -148,12 +148,14 @@ def donnees_valides(data):
                 if len(data[compte]["user"]) > 99:
                     return False
 
-                if data[compte]["wait"] not in ["0", "1"] or data[compte]["prio"] not in ["0", "1"]:
+                if (data[compte]["wait"] not in ["0", "1"] or
+                        data[compte]["prio"] not in ["0", "1"] or
+                        data[compte]["doubleauth"] not in ["0", "1"]):
                     return False
 
                 if (type(data[compte]["user"]) != str or type(data[compte]["password"]) != str or
                     type(data[compte]["link"]) != str or type(data[compte]["wait"]) != str or
-                        type(data[compte]["prio"]) != str):
+                        type(data[compte]["prio"]) != str or type(data[compte]["doubleauth"]) != str):
                     return False
 
             else:

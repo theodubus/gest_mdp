@@ -569,9 +569,9 @@ class Application:
         link, login = link_login(chaine_clair)
         user, password = user_mdp(login)
         if link != '':
-            wait, prio, link = wait_prio_link(link)
+            doubleauth, wait, prio, link = doubleauth_wait_prio_link(link)
         else:
-            wait, prio, link = '0', '0', ''
+            doubleauth, wait, prio, link = '0', '0', '0', ''
 
         self.generer_f.bind('<Return>', partial(self.create_toplevel, 350, 200, '', 'confirmer',
                                                 'confirmation', 30, 15, compte=compte))
@@ -588,6 +588,7 @@ class Application:
         self.add_input(self.generer_f, 'link', 2, 1, sticky='news', columnspan=3, pady=0, default=link)
         self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', prio)
         self.add_checkbutton(self.generer_f, 'long', 'long', 3, 1, '1', '0', wait)
+        self.add_checkbutton(self.generer_f, 'doubleauth', '2FA', 3, 2, '1', '0', doubleauth, columnspan=2)
 
         self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, show=False, default=password)
         self.generer_f.grid_columnconfigure(0, weight=1)
@@ -656,6 +657,7 @@ class Application:
 
         self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', '0')
         self.add_checkbutton(self.generer_f, 'long', 'long', 3, 1, '1', '0', '0')
+        self.add_checkbutton(self.generer_f, 'doubleauth', '2FA', 3, 2, '1', '0', '0', columnspan=2)
 
         self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, show=False)
         self.generer_f.grid_columnconfigure(0, weight=1)
@@ -1165,7 +1167,7 @@ class Application:
             mdp_l = decrypt(self.donnees[index], self.mdp_maitre)
             url = link_login(mdp_l)[0]
             if url != '':
-                wait, prio, url = wait_prio_link(url)
+                doubleauth, wait, prio, url = doubleauth_wait_prio_link(url)
                 link = domaine(url)
 
                 if link in self.temp.keys():
@@ -1225,7 +1227,7 @@ class Application:
 
                                     wait = False
                                     if l != '':
-                                        wait = wait_prio_link(l)[0]
+                                        wait = doubleauth_wait_prio_link(l)[1]
                                         if wait == '1':
                                             wait = True
                                         else:
@@ -1233,7 +1235,13 @@ class Application:
 
                                     user, password = user_mdp(login)
 
-                                    login_connect(self.driver, link, user, password, wait=wait, deja_charge=True)
+                                    doubleauth = doubleauth_wait_prio_link(l)[0]
+                                    code = False
+                                    if doubleauth == '1':
+                                        code = compte
+
+                                    login_connect(self.driver, link, user, password, wait=wait, deja_charge=True,
+                                                  doubleauth=code)
 
                         except closed_tab:
                             pass
@@ -1260,7 +1268,11 @@ class Application:
         Ouvre une fenêtre pour se connecter à un compte
         Si la fênetre est déjà ouverte, bascule sur celle-ci
         """
-        wait, prio, link = wait_prio_link(link)
+        doubleauth, wait, prio, link = doubleauth_wait_prio_link(link)
+        code = False
+        if doubleauth == '1':
+            code = compte
+
         if wait == "1":
             wait = True
         else:
@@ -1272,7 +1284,7 @@ class Application:
                 # self.driver = connexion_chrome_1(self.preferences['profil'])
                 # self.driver = connexion_chrome_2(self.preferences['profil'])
                 self.driver = connexion_firefox(self.preferences['profil'])
-                login_connect(self.driver, link, user, password, wait=wait, deja_charge=False)
+                login_connect(self.driver, link, user, password, wait=wait, deja_charge=False, doubleauth=code)
                 self.onglets[compte] = self.driver.window_handles[0]
             else:
                 if compte not in self.onglets.keys():
@@ -1281,7 +1293,7 @@ class Application:
                 nouv = new_page(self.driver, compte, self.onglets[compte])
                 new_handles = self.driver.window_handles
                 if nouv:
-                    login_connect(self.driver, link, user, password, wait=wait, deja_charge=False)
+                    login_connect(self.driver, link, user, password, wait=wait, deja_charge=False, doubleauth=code)
                     tab = [t for t in new_handles if t not in previous_handles]
                     if len(tab) != 0:
                         tab = tab[0]
@@ -1294,7 +1306,7 @@ class Application:
                 # self.driver = connexion_chrome_1(self.preferences['profil'])
                 # self.driver = connexion_chrome_2(self.preferences['profil'])
                 self.driver = connexion_firefox(self.preferences['profil'])
-                login_connect(self.driver, link, user, password, wait=wait, deja_charge=False)
+                login_connect(self.driver, link, user, password, wait=wait, deja_charge=False, doubleauth=code)
                 self.onglets[compte] = self.driver.window_handles[0]
                 self.browser_opened = True
             except:
@@ -1445,9 +1457,9 @@ class Application:
                 keys = ['user', 'password']
                 values = [user, password]
                 if link != '':
-                    wait, prio, link = wait_prio_link(link)
-                    keys = ['user', 'password', 'link', 'wait', 'prio']
-                    values = [user, password, link, wait, prio]
+                    doubleauth, wait, prio, link = doubleauth_wait_prio_link(link)
+                    keys = ['user', 'password', 'link', 'doubleauth', 'wait', 'prio']
+                    values = [user, password, link, doubleauth, wait, prio]
 
                 export[compte] = dict(zip(keys, values))
 
@@ -1516,9 +1528,10 @@ class Application:
 
             if 'link' in data[compte].keys():
                 link = data[compte]['link']
+                doubleauth = data[compte]['doubleauth']
                 wait = data[compte]['wait']
                 prio = data[compte]['prio']
-                link = wait + prio + link
+                link = doubleauth + wait + prio + link
 
             # print(f"\n\n\ncompte = {new_compte}\nmdp = {mdp}\nusername = {username}\nlink = {link}")
             mdp_e = f"{mdp}{username}{len(username):02}{link}{len(link):03}"
@@ -1680,8 +1693,10 @@ class Application:
         link = self.stringvar['link'].get()
         wait = self.stringvar['checklong'].get()
         prio = self.stringvar['checkprio'].get()
+        doubleauth = self.stringvar['checkdoubleauth'].get()
+
         if lien_valide(link):
-            link = wait + prio + link
+            link = doubleauth + wait + prio + link
         else:
             link = ''
 
@@ -1718,9 +1733,10 @@ class Application:
         link = self.stringvar['link'].get()
         wait = self.stringvar['checklong'].get()
         prio = self.stringvar['checkprio'].get()
+        doubleauth = self.stringvar['checkdoubleauth'].get()
 
         if lien_valide(link):
-            link = wait + prio + link
+            link = doubleauth + wait + prio + link
         else:
             link = ''
 
