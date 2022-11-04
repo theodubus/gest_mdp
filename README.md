@@ -139,11 +139,18 @@ vous pouvez décocher la case `autoconnection (temp)`.
 
 ### Double authentification
 Si vous avez activé la double authentification pour un compte, l'application
-essayera d'ouvrir Authy, de taper le nom du compte et de récupérer le code.
+essayera d'ouvrir Authy, de taper le nom du compte et de récupérer le code, pour le
+saisir dans votre navigateur par la suite.
 Vous devez donc avoir Authy installé et configuré sur votre ordinateur. De plus,
-le nom du compte voulu doit avoir le même nom que celui dans Authy. Vous pouvez 
+le nom du compte voulu doit être le même nom dans Authy. Vous pouvez 
 modifier la fonction `get_authy_code` dans `double_auth.py` pour utiliser une autre
 application de double authentification (très peu de code est à modifier).
+
+Pour cette fonctionnalité :
+Sous Linux, assurez-vous que le programme `scrot` est installé.
+```bash
+sudo apt-get install scrot
+```
 
 ### Préférences
 Vous pouvez modifier les préférences depuis `Options > Profil > Modifier Préférences`.
@@ -262,5 +269,6 @@ sera jugée la plus sécurisée à ce moment-là
 ├── fonctions.py
 ├── scroll.py
 ├── security.py
+├── double_auth.py
 └── web.py
 ```
