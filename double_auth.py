@@ -1,6 +1,7 @@
 import pyautogui
 import time
 import pyperclip
+import platform
 
 
 def open_app(app_name):
@@ -34,10 +35,14 @@ def get_authy_code(account):
             reponse = pyautogui.confirm(text="L'application semble ne pas charger, continuer d'essayer ?",
                                         title='Erreur', buttons=['Oui', 'Annuler'])
             if reponse == 'Annuler':
-                break
+                pyautogui.hotkey('alt', 'f4')
+                return None
             else:
                 attempts = 0
-        verif = pyautogui.locateCenterOnScreen('images/verif.png')
+        if platform.system() != "Windows":
+            verif = pyautogui.locateCenterOnScreen('images/verif_linux.png')
+        else:
+            verif = pyautogui.locateCenterOnScreen('images/verif_win.png')
         if verif is None:
             time.sleep(0.25)
             attempts += 1
@@ -64,7 +69,10 @@ def get_authy_code(account):
     time.sleep(0.25)
 
     # On se déplace jusqu'au bouton "copier"
-    pyautogui.move(25, 435)
+    if platform.system() != "Windows":
+        pyautogui.move(25, 435)
+    else:
+        pyautogui.move(20, 530)
     time.sleep(0.25)
 
     # On vide le presse-papier
@@ -88,12 +96,3 @@ def get_authy_code(account):
     # l'utilisateur pourrait copier autre chose et donc le code d'authentification serait perdu.
     # Ceci permet également de gérer correctement le cas où le compte n'a pas été trouvé.
     return code
-
-
-
-
-
-get_authy_code('github')
-
-
-

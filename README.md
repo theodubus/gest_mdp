@@ -86,7 +86,7 @@ La case `2FA` permet d'indiquer que ce compte possède une [double authentificat
 Les cases en dessous le champ de mot de passe correspondent aux
 caractères à inclure ou non dans le mot de passe.
 
-La case `no similar` permet d'éviter les caractères similaires (ex : 0 et O).
+La case `🛇 0OIl` permet d'éviter les caractères similaires (ex : 0 et O).
 
 Si vous ne souhaitez pas un mot de passe aléatoire,
 il est possible de le saisir manuellement.
@@ -142,11 +142,12 @@ Si vous avez activé la double authentification pour un compte, l'application
 essayera d'ouvrir Authy, de taper le nom du compte et de récupérer le code, pour le
 saisir dans votre navigateur par la suite.
 Vous devez donc avoir Authy installé et configuré sur votre ordinateur. De plus,
-le nom du compte voulu doit être le même nom dans Authy. Vous pouvez 
+le nom du compte voulu doit être le même nom dans Authy. Vous pouvez
 modifier la fonction `get_authy_code` dans `double_auth.py` pour utiliser une autre
 application de double authentification (très peu de code est à modifier).
 
 Pour cette fonctionnalité :
+
 Sous Linux, assurez-vous que le programme `scrot` est installé.
 ```bash
 sudo apt-get install scrot

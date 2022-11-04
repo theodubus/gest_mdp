@@ -99,10 +99,7 @@ class Application:
         # Pas de mot de passe maître = première connexion
         if current_password() == "":
 
-            if platform.system() != "Windows":
-                self.accueil.config(padx=105, pady=30)
-            else:
-                self.accueil.config(padx=145, pady=30)
+            self.accueil.config(padx=105, pady=30)
 
             # Construction de la fenêtre
             self.build_accueil_premiere()
@@ -112,10 +109,7 @@ class Application:
 
         # Sinon, ouverture avec page de login
         else:
-            if platform.system() != "Windows":
-                self.accueil.config(padx=105, pady=80)
-            else:
-                self.accueil.config(padx=145, pady=80)
+            self.accueil.config(padx=105, pady=80)
 
             # Construction de la fenêtre
             self.build_accueil()
@@ -152,7 +146,10 @@ class Application:
         Ouverture de la partie principale du programme : le menu
             - Accès aux données et à toutes les fonctionnalités du logiciel
         """
-        self.menu = Fenetre(700, 450, 'Menu')
+        if platform.system() != "Windows":
+            self.menu = Fenetre(700, 450, 'Menu')
+        else:
+            self.menu = Fenetre(820, 550, 'Menu')
         self.oeil = PhotoImage(file="images/oeil.png")
         self.crayon = PhotoImage(file="images/crayon.png")
         self.copier = PhotoImage(file="images/copier.png")
@@ -326,10 +323,10 @@ class Application:
         self.autoconnect_thread.start()
 
         if platform.system() != "Windows":
+            largeur = 480
             self.menu.style.theme_use('ubuntu')
-            padx = 105
         else:
-            padx = 145
+            largeur = 580
 
         self.add_input(self.menu, 'recherche', 0, 0, focus=True, sticky='news', pady=(0, 5))
         self.create_button(self.menu, '+', '+', 0, 1, pady=(0, 5),
@@ -366,14 +363,14 @@ class Application:
                                                                     'generer', 'modifier_mdp_user', 60, 30,
                                                                     fc=partial(self.build_modifier_mdp_user)))
         self.menu_deroulant['securite'].add_command(label='Changer de clé de chiffrement',
-                                                    command=partial(self.create_toplevel, 480, 430,
+                                                    command=partial(self.create_toplevel, largeur, 430,
                                                                     'Changer de clé de chiffrement',
                                                                     'generer', 'modifier_mdp_maitre', 60, 30,
                                                                     fc=partial(self.build_modifier_mdp_maitre)))
         self.menu_deroulant['securite'].add_command(label='Supprimer toutes les données',
                                                     command=partial(self.create_toplevel, 600, 450,
                                                                     'Supprimer toutes les données', 'generer',
-                                                                    'tout_supprimer', padx, 35,
+                                                                    'tout_supprimer', 105, 35,
                                                                     fc=partial(self.build_tout_supprimer)))
         self.menu_deroulant['profil'].add_cascade(label="Sécurité", menu=self.menu_deroulant['securite'])
         self.menu_deroulant['profil'].add_command(label='Modifier Préférences',
@@ -436,7 +433,7 @@ class Application:
                              punctuation, '', self.preferences['ponctuation'])
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 5, 0,
                              "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', 'no similar', 6, 0, "on", 'off', self.preferences['no_similar'])
+        self.add_checkbutton(self.generer_f, 'double', '🛇 0OIl', 6, 0, "on", 'off', self.preferences['no_similar'])
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 7, 0,
                           font=('arial', '12'), sticky='w', padx=0)
         self.add_input(self.generer_f, 'taille', 7, 1, sticky='w', width=3,
@@ -535,7 +532,7 @@ class Application:
                              punctuation, '', self.preferences['ponctuation'])
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 6, 0,
                              "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', 'no similar', 7, 0, "on", 'off', self.preferences['no_similar'])
+        self.add_checkbutton(self.generer_f, 'double', '🛇 0OIl', 7, 0, "on", 'off', self.preferences['no_similar'])
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 8, 0,
                           font=('arial', '12'), sticky='w', padx=0)
         self.add_input(self.generer_f, 'taille', 8, 1, sticky='w', width=3,
@@ -607,7 +604,7 @@ class Application:
                              punctuation, '', self.preferences['ponctuation'])
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 9, 0,
                              "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', 'no similar', 10, 0, "on", 'off', self.preferences['no_similar'])
+        self.add_checkbutton(self.generer_f, 'double', '🛇 0OIl', 10, 0, "on", 'off', self.preferences['no_similar'])
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 11, 0,
                           font=('arial', '12'), sticky='w', padx=0)
         self.add_input(self.generer_f, 'taille', 11, 1, sticky='w', width=3,
@@ -675,7 +672,7 @@ class Application:
                              punctuation, '', self.preferences['ponctuation'])
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 9, 0,
                              "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', 'no similar', 10, 0, "on", "off", self.preferences['no_similar'])
+        self.add_checkbutton(self.generer_f, 'double', '🛇 0OIl', 10, 0, "on", "off", self.preferences['no_similar'])
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 11, 0,
                           font=('arial', '10'), sticky='w', padx=0)
         self.add_input(self.generer_f, 'taille', 11, 1, sticky='w',
@@ -1112,6 +1109,9 @@ class Application:
             except:
                 pass
         finally:
+            if platform.system() == "Windows":
+                h += int(h * 0.20)
+
             if type_fenetre != 'generer' and fonction != 'confirmation_sup':
                 sur_fenetre = Toplevel(self.generer_f, width=w, height=h)
             else:
