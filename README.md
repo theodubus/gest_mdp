@@ -86,7 +86,7 @@ La case `2FA` permet d'indiquer que ce compte possède une [double authentificat
 Les cases en dessous le champ de mot de passe correspondent aux
 caractères à inclure ou non dans le mot de passe.
 
-La case `🛇 0OIl` permet d'éviter les caractères similaires (ex : 0 et O).
+La case `no 0OIl` permet d'éviter les caractères similaires (ex : 0 et O).
 
 Si vous ne souhaitez pas un mot de passe aléatoire,
 il est possible de le saisir manuellement.

@@ -433,7 +433,7 @@ class Application:
                              punctuation, '', self.preferences['ponctuation'])
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 5, 0,
                              "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', '🛇 0OIl', 6, 0, "on", 'off', self.preferences['no_similar'])
+        self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 6, 0, "on", 'off', self.preferences['no_similar'])
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 7, 0,
                           font=('arial', '12'), sticky='w', padx=0)
         self.add_input(self.generer_f, 'taille', 7, 1, sticky='w', width=3,
@@ -532,7 +532,7 @@ class Application:
                              punctuation, '', self.preferences['ponctuation'])
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 6, 0,
                              "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', '🛇 0OIl', 7, 0, "on", 'off', self.preferences['no_similar'])
+        self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 7, 0, "on", 'off', self.preferences['no_similar'])
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 8, 0,
                           font=('arial', '12'), sticky='w', padx=0)
         self.add_input(self.generer_f, 'taille', 8, 1, sticky='w', width=3,
@@ -604,7 +604,7 @@ class Application:
                              punctuation, '', self.preferences['ponctuation'])
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 9, 0,
                              "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', '🛇 0OIl', 10, 0, "on", 'off', self.preferences['no_similar'])
+        self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 10, 0, "on", 'off', self.preferences['no_similar'])
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 11, 0,
                           font=('arial', '12'), sticky='w', padx=0)
         self.add_input(self.generer_f, 'taille', 11, 1, sticky='w', width=3,
@@ -672,7 +672,7 @@ class Application:
                              punctuation, '', self.preferences['ponctuation'])
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 9, 0,
                              "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', '🛇 0OIl', 10, 0, "on", "off", self.preferences['no_similar'])
+        self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 10, 0, "on", "off", self.preferences['no_similar'])
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 11, 0,
                           font=('arial', '10'), sticky='w', padx=0)
         self.add_input(self.generer_f, 'taille', 11, 1, sticky='w',
