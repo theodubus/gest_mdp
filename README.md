@@ -10,7 +10,7 @@ Gestionnaire de mots de passe avec connexion automatique
 
 ## ⚙️ - Installation
 ```bash
-git clone https://github.com/4igle/gest_mdp.git
+git clone https://github.com/Th3o-D/gest_mdp.git
 cd gest_mdp
 pip install -r requirements.txt
 ```
