@@ -257,6 +257,8 @@ sera jugée la plus sécurisée à ce moment-là
 │   ├── oeil_a.png
 │   ├── oeil.png
 │   ├── poubelle.png
+│   ├── verif_linux.png
+│   ├── verif_win.png
 │   └── web.png
 ├── additional_resources
 │   ├── gest.bat
@@ -265,11 +267,11 @@ sera jugée la plus sécurisée à ce moment-là
 ├── README.md
 ├── requirements.txt
 ├── main.py
-├── control.py
 ├── gest.py
+├── control.py
+├── double_auth.py
 ├── fonctions.py
 ├── scroll.py
 ├── security.py
-├── double_auth.py
 └── web.py
 ```
