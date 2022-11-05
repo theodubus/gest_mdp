@@ -70,7 +70,7 @@ def get_authy_code(account):
 
     # On se déplace jusqu'au bouton "copier"
     if platform.system() != "Windows":
-        pyautogui.move(25, 435)
+        pyautogui.move(25, 455)
     else:
         pyautogui.move(20, 530)
     time.sleep(0.25)
