@@ -70,23 +70,23 @@ Vous pouvez ensuite stocker des nouveaux mots de passe en cliquant
 sur le bouton `+` ou dans `Options > Données > Nouveau compte`. Seul le nom du compte
 et le mot de passe sont obligatoires.
 
-La case `Lien` correspond au lien vers la page de connexion si vous souhaitez
++ La case `Lien` correspond au lien vers la page de connexion si vous souhaitez
 mettre en place la connexion automatique pour ce compte
 (incluez le lien entier avec https://).
 
-La case `prio` permet de définir une priorité pour la connexion automatique
++ La case `prio` permet de définir une priorité pour la connexion automatique
 (ex : si vous avez plusieurs comptes Amazon ou autre).
 
-La case `long` permet de mettre un délai si un site est particulièrement
++ La case `long` permet de mettre un délai si un site est particulièrement
 long à charger, la connexion automatique peut échouer dans ce cas si
 on ne rajoute pas de délai (ex: openclassrooms).
 
-La case `2FA` permet d'indiquer que ce compte possède une [double authentification](#double-authentification).
++ La case `2FA` permet d'indiquer que ce compte possède une [double authentification](#double-authentification).
 
-Les cases en dessous le champ de mot de passe correspondent aux
++ Les cases en dessous le champ de mot de passe correspondent aux
 caractères à inclure ou non dans le mot de passe.
 
-La case `no 0OIl` permet d'éviter les caractères similaires (ex : 0 et O).
++ La case `no 0OIl` permet d'éviter les caractères similaires (ex : 0 et O).
 
 Si vous ne souhaitez pas un mot de passe aléatoire,
 il est possible de le saisir manuellement.
