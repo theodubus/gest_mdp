@@ -44,7 +44,7 @@ def get_authy_code(account):
         else:
             verif = pyautogui.locateCenterOnScreen('images/verif_win.png')
         if verif is None:
-            time.sleep(0.25)
+            time.sleep(1)
             attempts += 1
 
     time.sleep(0.25)
