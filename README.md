@@ -150,7 +150,7 @@ Pour cette fonctionnalité :
 
 Sous Linux, assurez-vous que le programme `scrot` est installé.
 ```bash
-sudo apt-get install scrot
+sudo apt install scrot
 ```
 
 ### Préférences
