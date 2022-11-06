@@ -32,6 +32,7 @@ dans le fichier `gest_mdp/web.py`.
 
 <details>
 ## <summary><b> 💻 - Accès au logiciel</b></summary><br>
+
 ### Linux
 + <ins>Option 1 :</ins> Lancer directement le programme depuis un terminal :
 `python3 /path/to/gest_mdp/main.py`
@@ -63,6 +64,7 @@ icône. Une image au bon format, `logo.ico` est également disponible dans le do
 
 <details>
 ## <summary><b> 🛠 - Fonctionnalités</b></summary><br>
+
 ### Ajouter un mot de passe
 
 Vous pouvez ensuite stocker des nouveaux mots de passe en cliquant
