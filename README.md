@@ -8,7 +8,12 @@ Gestionnaire de mots de passe avec connexion automatique
 + [Sécurité](#---sécurité)
 + [Structure du code](#%EF%B8%8F---structure-du-code)
 
-## ⚙️ - Installation
+<details>
+## <summary><b> ‍⚙️ - Installation</b></summary><br>
+content
+</details>
+
+## Installation
 ```bash
 git clone https://github.com/Th3o-D/gest_mdp.git
 cd gest_mdp
