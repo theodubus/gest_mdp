@@ -222,9 +222,7 @@ choisir de vérouiller l'application en vous déconnectant depuis `Options > Se 
 
 </details>
 
-<details>
-##
-<summary><b> 🔒 - Sécurité</b></summary><br>
+<details><summary><b> 🔒 - Sécurité</b></summary><br>
 La sécurité des données suit les mêmes principes que beaucoup d'autres logiciels similaires.
 On dérive le mot de passe de l'utilisateur (avec un salt) avec une fonction
 coûtant beaucoup de temps (PBKDF2-HMAC-SHA256 avec 1M d'itérations) pour obtenir une clé de chiffrement, une clé "dérivée".
