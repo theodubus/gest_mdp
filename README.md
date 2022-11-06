@@ -1,13 +1,6 @@
 # gest_mdp
 Gestionnaire de mots de passe avec connexion automatique
 
-## 📑 - Sommaire
-+ [Installation](#%EF%B8%8F---installation)
-+ [Accès au logiciel](#---accès-au-logiciel)
-+ [Fonctionnalités](#---fonctionnalités)
-+ [Sécurité](#---sécurité)
-+ [Structure du code](#%EF%B8%8F---structure-du-code)
-
 <details>
 ## <summary><b> ‍⚙️ - Installation</b></summary><br>
 
@@ -26,7 +19,6 @@ Notez que seuls les navigateurs Chrome et Firefox sont supportés.
 Vous pouvez cependant ajouter vos propres fonctions de connexion
 en les ajoutant dans le fichier `gest_mdp/web.py`.
 
-</details>
 
 ### Utilisation de Chrome
 Par défaut, le navigateur utilisé est Firefox, mais vous pouvez
@@ -36,6 +28,7 @@ et en décommentant les deux lignes appelant `connexion_chrome_1()` ou
 pas, essayez l'autre). Vous devez également renseigner le chemin vers
 le driver dans la fonction `connexion_chrome_1()` ou `connexion_chrome_2()`
 dans le fichier `gest_mdp/web.py`.
+</details>
 
 <details>
 ## <summary><b> 💻 - Accès au logiciel</b></summary><br>
