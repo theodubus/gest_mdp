@@ -2,7 +2,7 @@
 Gestionnaire de mots de passe avec connexion automatique
 
 <details>
-## <summary><b> ‍⚙️ - Installation</b></summary><br>
+<summary><b> ‍⚙️ - Installation</b></summary><br>
 
 ```bash
 git clone https://github.com/Th3o-D/gest_mdp.git
@@ -31,7 +31,7 @@ dans le fichier `gest_mdp/web.py`.
 </details>
 
 <details>
-## <summary><b> 💻 - Accès au logiciel</b></summary><br>
+<summary><b> 💻 - Accès au logiciel</b></summary><br>
 
 ### Linux
 + <ins>Option 1 :</ins> Lancer directement le programme depuis un terminal :
@@ -63,7 +63,7 @@ icône. Une image au bon format, `logo.ico` est également disponible dans le do
 </details>
 
 <details>
-## <summary><b> 🛠 - Fonctionnalités</b></summary><br>
+<summary><b> 🛠 - Fonctionnalités</b></summary><br>
 
 ### Ajouter un mot de passe
 
@@ -247,7 +247,7 @@ sera jugée la plus sécurisée à ce moment-là
 </details>
 
 <details>
-## <summary><b> 🗄️ - Structure du code</b></summary><br>
+<summary><b> 🗄️ - Structure du code</b></summary><br>
 
 ```
 .
