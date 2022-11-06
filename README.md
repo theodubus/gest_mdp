@@ -10,10 +10,7 @@ Gestionnaire de mots de passe avec connexion automatique
 
 <details>
 ## <summary><b> ‍⚙️ - Installation</b></summary><br>
-content
-</details>
 
-## Installation
 ```bash
 git clone https://github.com/Th3o-D/gest_mdp.git
 cd gest_mdp
@@ -29,6 +26,8 @@ Notez que seuls les navigateurs Chrome et Firefox sont supportés.
 Vous pouvez cependant ajouter vos propres fonctions de connexion
 en les ajoutant dans le fichier `gest_mdp/web.py`.
 
+</details>
+
 ### Utilisation de Chrome
 Par défaut, le navigateur utilisé est Firefox, mais vous pouvez
 utiliser Chrome en commentant les deux lignes appelant `connexion_firefox()`
@@ -38,8 +37,8 @@ pas, essayez l'autre). Vous devez également renseigner le chemin vers
 le driver dans la fonction `connexion_chrome_1()` ou `connexion_chrome_2()`
 dans le fichier `gest_mdp/web.py`.
 
-
-## 💻 - Accès au logiciel
+<details>
+## <summary><b> 💻 - Accès au logiciel</b></summary><br>
 ### Linux
 + <ins>Option 1 :</ins> Lancer directement le programme depuis un terminal :
 `python3 /path/to/gest_mdp/main.py`
@@ -67,8 +66,10 @@ soit créer un raccourci vers ce fichier, ce qui vous permettra de définir une
 icône. Une image au bon format, `logo.ico` est également disponible dans le dossier
 `additional_resources/`.
 
+</details>
 
-## 🛠 - Fonctionnalités
+<details>
+## <summary><b> 🛠 - Fonctionnalités</b></summary><br>
 ### Ajouter un mot de passe
 
 Vous pouvez ensuite stocker des nouveaux mots de passe en cliquant
@@ -224,7 +225,10 @@ de vous reconnecter à chaque fois que vous lancerez l'application, mais uniquem
 au premier lancement après un redémarrage de l'ordinateur. Vous tout de même
 choisir de vérouiller l'application en vous déconnectant depuis `Options > Se déconnecter`.
 
-## 🔒 - Sécurité
+</details>
+
+<details>
+## <summary><b> 🔒 - Sécurité</b></summary><br>
 La sécurité des données suit les mêmes principes que beaucoup d'autres logiciels similaires.
 On dérive le mot de passe de l'utilisateur (avec un salt) avec une fonction
 coûtant beaucoup de temps (PBKDF2-HMAC-SHA256 avec 1M d'itérations) pour obtenir une clé de chiffrement, une clé "dérivée".
@@ -246,8 +250,10 @@ si cela devient nécessaire :
 + Augmentation du nombre d'itérations
 + Utilisation d'une fonction de dérivation différente (scrypt, argon2, bcrypt, etc.) en fonction de celle qui
 sera jugée la plus sécurisée à ce moment-là
+<details>
 
-## 🗄️ - Structure du code
+<details>
+## <summary><b> 🗄️ - Structure du code</b></summary><br>
 ```
 .
 ├── .data
@@ -281,7 +287,7 @@ sera jugée la plus sécurisée à ce moment-là
 ├── security.py
 └── web.py
 ```
-
+</details>
 
 <div align="right" style="display: flex">
     <img src="https://visitor-badge.glitch.me/badge?page_id=Th3o-D/gest_mdp&left_color=gray&right_color=blue" height="20"/>
