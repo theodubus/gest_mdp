@@ -96,8 +96,3 @@ def get_authy_code(account):
     # l'utilisateur pourrait copier autre chose et donc le code d'authentification serait perdu.
     # Ceci permet également de gérer correctement le cas où le compte n'a pas été trouvé.
     return code
-
-
-size = pyautogui.size()
-
-pyautogui.moveTo(size[0] / 2, size[1] / 2)
