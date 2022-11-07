@@ -1,6 +1,11 @@
 # gest_mdp
 Gestionnaire de mots de passe avec connexion automatique
 
+<table align="right">
+  <tr><td><a href="README.md"><img src="images/fr-flag.png" height="13"> Français</a></td></tr>
+  <tr><td><a href="README_en.md"><img src="images/us-flag.png" height="13"> English</a></td></tr>
+</table>
+
 <details>
 <summary><b> ‍⚙️ - Installation</b></summary><br>
 
@@ -10,23 +15,23 @@ cd gest_mdp
 pip install -r requirements.txt
 ```
 Si vous voulez également profiter de la fonctionnalité
-de connexion automatique, il faut installer un driver
+de connexion automatique, il faut installer un pilote
 pour votre navigateur. Pour cela, rendez-vous sur
 [la page de selenium](https://selenium-python.readthedocs.io/installation.html#drivers)
-et téléchargez le driver correspondant à votre navigateur.
+et téléchargez le pilote correspondant à votre navigateur.
 
-Notez que seuls les navigateurs Chrome et Firefox sont supportés.
-Vous pouvez cependant ajouter vos propres fonctions de connexion
-en les ajoutant dans le fichier `gest_mdp/web.py`.
+Notez que par défaut, seuls les navigateurs Chrome et Firefox sont supportés.
+Vous pouvez cependant utiliser d'autres navigateurs en ajoutant
+vos propres fonctions de connexion au fichier `gest_mdp/web.py`.
 
 
 ### Utilisation de Chrome
 Par défaut, le navigateur utilisé est Firefox, mais vous pouvez
 utiliser Chrome en commentant les deux lignes appelant `connexion_firefox()`
 et en décommentant les deux lignes appelant `connexion_chrome_1()` ou
-`connexion_chrome_2()` (Si une des deux fonctions de connexion ne fonctionne
+`connexion_chrome_2()` (si une des deux fonctions de connexion ne fonctionne
 pas, essayez l'autre). Vous devez également renseigner le chemin vers
-le driver dans la fonction `connexion_chrome_1()` ou `connexion_chrome_2()`
+le pilote dans la fonction `connexion_chrome_1()` ou `connexion_chrome_2()`
 dans le fichier `gest_mdp/web.py`.
 </details>
 
@@ -67,7 +72,7 @@ icône. Une image au bon format, `logo.ico` est également disponible dans le do
 
 ### Ajouter un mot de passe
 
-Vous pouvez ensuite stocker des nouveaux mots de passe en cliquant
+Vous pouvez stocker des nouveaux mots de passe en cliquant
 sur le bouton `+` ou dans `Options > Données > Nouveau compte`. Seul le nom du compte
 et le mot de passe sont obligatoires.
 
@@ -76,7 +81,7 @@ mettre en place la connexion automatique pour ce compte
 (incluez le lien entier avec https://).
 
 + La case `prio` permet de définir une priorité pour la connexion automatique
-(ex : si vous avez plusieurs comptes Amazon ou autre).
+(ex : si vous avez plusieurs comptes Amazon).
 
 + La case `long` permet de mettre un délai si un site est particulièrement
 long à charger, la connexion automatique peut échouer dans ce cas si
@@ -132,11 +137,11 @@ en forme de globe d'un autre compte, soit ouvrir un nouvel onglet et
 arriver sur la page de connexion, le programme détectera automatiquement
 que vous êtes sur une page de connexion et vous connectera automatiquement.
 
-Notez que cette détéction automatique ne fonctionne que dans le
+Notez que cette détection automatique ne fonctionne que dans le
 dernier onglet ouvert.
 
-Si vous souhaitez désactiver temporairment la connexion automatique,
-vous pouvez décocher la case `autoconnection (temp)`.
+Si vous souhaitez désactiver temporairement la connexion automatique,
+vous pouvez décocher la case `autoconnexion (temp)`.
 
 ### Double authentification
 Si vous avez activé la double authentification pour un compte, l'application
@@ -188,8 +193,8 @@ recherche.
 Toutes vos données sont stockées dans le dossier `.data/` du répertoire
 de l'application. Vous pouvez donc les exporter en copiant ce dossier.
 Dans ce dossier, les fichiers `master_password.txt`, `salt.txt`, `store.txt` et
-`preferences.txt` contiennent respectivement votre clé de chiffrement chifrée, votre salt,
-vos données chiffées et vos préférences.
+`preferences.txt` contiennent respectivement votre clé de chiffrement chiffrée, votre salt,
+vos données chiffrées et vos préférences.
 
 Vous pouvez même synchroniser vos données sur plusieurs appareils,
 pour cela, il faut que vous ayez installé l'application sur tous les
@@ -198,7 +203,7 @@ pouvez synchroniser le dossier `.data/` sur un service de stockage entre
 vos différents appareils.
 
 Vous pouvez également récupérer vos données en clair au format JSON depuis
-`Options > Données > Exporter les données`. Attention, le fichier profuit contiendra
+`Options > Données > Exporter les données`. Attention, le fichier produit contiendra
 toutes vos données non chiffrées.
 
 ### Importer les données
@@ -271,6 +276,7 @@ sera jugée la plus sécurisée à ce moment-là
 │   ├── gest.desktop
 │   └── logo.ico
 ├── README.md
+├── README_fr.md
 ├── LICENSE
 ├── requirements.txt
 ├── main.py
@@ -287,5 +293,5 @@ sera jugée la plus sécurisée à ce moment-là
 <div align="right" style="display: flex">
     <img src="https://visitor-badge.glitch.me/badge?page_id=Th3o-D/gest_mdp&left_color=gray&right_color=blue" height="20"/>
     <a href="https://github.com/Th3o-D" alt="https://github.com/Th3o-D"><img height="20" style="border-radius: 5px" src="https://img.shields.io/static/v1?style=for-the-badge&label=CREE%20PAR&message=Th3o-D&color=1182c2"></a>
-    <a href="LICENSE" alt="license"><img style="border-radius: 5px" height="20" src="https://img.shields.io/static/v1?style=for-the-badge&label=LICENSE&message=GNU+GPL+V3&color=1182c2"></a>
+    <a href="LICENSE" alt="licence"><img style="border-radius: 5px" height="20" src="https://img.shields.io/static/v1?style=for-the-badge&label=LICENSE&message=GNU+GPL+V3&color=1182c2"></a>
 </div>
