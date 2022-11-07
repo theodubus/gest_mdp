@@ -86,7 +86,7 @@ set up the automatic connection for this account (include the whole link with ht
 long to load, the automatic connection can fail in this case if you do not add a
 delay (eg openclassrooms).
 
-+ The checkbox `2FA` indicates that this account has a [two factor authentication](#two-factor-authentication).
++ The checkbox `2FA` indicates that this account has a [two factor authentification](#two-factor-authentification).
 
 + The checkboxes below the password field correspond to the characters
 to include or not in the password.
@@ -146,8 +146,7 @@ to use another double authentication application (very little code is to be modi
 
 ### Preferences
 You can change preferences from `Options > Profil > Modifier Préférences`.
-In addition to specifying your browser's profile folder, you can decide whether
-or not to enable automatic login by default, whether to include certain character
+In addition to specifying your browser's profile folder, you can decide whether to enable automatic login by default, whether to include certain character
 types in generated passwords by default, and more.
 
 ### Change user password
