@@ -7,7 +7,6 @@ if platform.system() == "Windows":
     from pywinauto.keyboard import send_keys
 
 
-
 def open_app(app_name):
     """
     Fonction qui ouvre une application
