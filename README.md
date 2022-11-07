@@ -152,13 +152,6 @@ le nom du compte voulu doit être le même nom dans Authy. Vous pouvez
 modifier la fonction `get_authy_code` dans `double_auth.py` pour utiliser une autre
 application de double authentification (très peu de code est à modifier).
 
-Pour cette fonctionnalité :
-
-Sous Linux, vous pourriez avoir besoin d'installer le programme `scrot`.
-```bash
-sudo apt install scrot
-```
-
 ### Préférences
 Vous pouvez modifier les préférences depuis `Options > Profil > Modifier Préférences`.
 En plus de spécifier le dossier du profil de votre navigateur, vous pouvez
@@ -268,15 +261,13 @@ sera jugée la plus sécurisée à ce moment-là
 │   ├── oeil_a.png
 │   ├── oeil.png
 │   ├── poubelle.png
-│   ├── verif_linux.png
-│   ├── verif_win.png
 │   └── web.png
 ├── additional_resources
 │   ├── gest.bat
 │   ├── gest.desktop
 │   └── logo.ico
 ├── README.md
-├── README_fr.md
+├── README_en.md
 ├── LICENSE
 ├── requirements.txt
 ├── main.py

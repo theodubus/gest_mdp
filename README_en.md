@@ -144,13 +144,6 @@ on your computer. In addition, the name of the desired account must be the same
 name in Authy. You can modify the function `get_authy_code` in `double_auth.py`
 to use another double authentication application (very little code is to be modified).
 
-For this feature :
-
-Under Linux, you might need to install `scrot`.
-```bash
-sudo apt install scrot
-```
-
 ### Preferences
 You can change preferences from `Options > Profil > Modifier Préférences`.
 In addition to specifying your browser's profile folder, you can decide whether
@@ -254,15 +247,13 @@ on which will be deemed most secure at the time
 │   ├── oeil_a.png
 │   ├── oeil.png
 │   ├── poubelle.png
-│   ├── verif_linux.png
-│   ├── verif_win.png
 │   └── web.png
 ├── additional_resources
 │   ├── gest.bat
 │   ├── gest.desktop
 │   └── logo.ico
 ├── README.md
-├── README_fr.md
+├── README_en.md
 ├── LICENSE
 ├── requirements.txt
 ├── main.py

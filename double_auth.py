@@ -23,63 +23,52 @@ def get_authy_code(account):
 
     # On ouvre l'application Authy
     open_app('authy')
-    time.sleep(0.5)
-    verif = None
+    time.sleep(2)
+
+    # On essaye de taper le nom du compte, si on y arrive, l'application est ouverte
+    # Pour ne pas tourner en boucle, on essaye pendant un peu plus de 20 secondes,
+    # après quoi on renvoie None si l'application n'a pas été ouverte.
     attempts = 0
+    test = ''
+    while test != account and attempts < 20:
+        pyperclip.copy('')
+        pyautogui.hotkey('ctrl', 'a')
+        time.sleep(0.25)
+        pyautogui.press('backspace')
+        time.sleep(0.25)
+        pyautogui.write(account)
+        time.sleep(0.25)
+        pyautogui.hotkey('ctrl', 'a')
+        time.sleep(0.25)
+        pyautogui.hotkey('ctrl', 'c')
+        time.sleep(0.25)
+        test = pyperclip.paste()
+        attempts += 1
 
-    # On vérifie que l'app est bien ouverte grâce à la présence d'un bouton distinctif
-    # L'application peut mettre du temps à s'ouvrir,
-    # après un certain nombre d'essais, on demande à l'utilisateur s'il veut continuer.
-    while verif is None:
-        if attempts > 10:
-            reponse = pyautogui.confirm(text="L'application semble ne pas charger, continuer d'essayer ?",
-                                        title='Erreur', buttons=['Oui', 'Annuler'])
-            if reponse == 'Annuler':
-                pyautogui.hotkey('alt', 'f4')
-                return None
-            else:
-                attempts = 0
-        if platform.system() != "Windows":
-            verif = pyautogui.locateCenterOnScreen('images/verif_linux.png')
-        else:
-            verif = pyautogui.locateCenterOnScreen('images/verif_win.png')
-        if verif is None:
-            time.sleep(1)
-            attempts += 1
+    if attempts == 20:
+        return None
 
     time.sleep(0.25)
-
-    # On efface le texte de la barre de recherche (si l'app déjà était ouverte, il y a peut-être du texte)
-    pyautogui.hotkey('ctrl', 'backspace')
+    pyautogui.press('enter')
     time.sleep(0.25)
 
-    # On écrit le nom du compte dans la barre de recherche
-    pyautogui.write(account)
-    time.sleep(0.25)
+    # On se déplace jusqu'au centre du code d'authentification
+    size = pyautogui.size()
 
-    # On ne sait pas où se trouve la souris, ni la position absolue sur l'écran du compte, on se déplace donc
-    # au point de repère vu précédemment.
-    pyautogui.moveTo(verif)
-    time.sleep(0.25)
-
-    # On se déplace jusqu'au compte et on clique dessus
-    pyautogui.move(0, 75)
-    time.sleep(0.25)
-    pyautogui.click()
-    time.sleep(0.25)
-
-    # On se déplace jusqu'au bouton "copier"
-    if platform.system() != "Windows":
-        pyautogui.move(25, 455)
+    # Cas particulier de deux moniteurs qui sont vu par le programme comme un seul
+    if size[0] > 3000 and size[1] <= 1080:
+        pyautogui.moveTo(size[0] / 4, size[1] / 2 - 30)
     else:
-        pyautogui.move(20, 530)
-    time.sleep(0.25)
+        pyautogui.moveTo(size[0] / 2, size[1] / 2 - 30)
+
+    # triple click
+    pyautogui.click(clicks=3, interval=0.25)
 
     # On vide le presse-papier
     pyperclip.copy('')
 
-    # On clique sur le bouton "copier"
-    pyautogui.click()
+    # On copie le code d'authentification
+    pyautogui.hotkey('ctrl', 'c')
 
     # On récupère le code d'authentification
     code = pyperclip.paste()
@@ -87,6 +76,8 @@ def get_authy_code(account):
     # Si le presse-papier est vide, le compte n'existe pas (ou autre erreur)
     if code == '':
         code = None
+    else:
+        code = code.replace(' ', '')
     time.sleep(0.25)
 
     # On ferme l'application
