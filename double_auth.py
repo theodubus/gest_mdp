@@ -26,7 +26,7 @@ def get_authy_code(account):
 
     # On ouvre l'application Authy
     open_app('authy')
-    time.sleep(2)
+    time.sleep(4)
 
     # On essaye de taper le nom du compte, si on y arrive, l'application est ouverte
     # Pour ne pas tourner en boucle, on essaye pendant un peu plus de 20 secondes,
