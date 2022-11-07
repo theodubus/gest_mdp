@@ -85,7 +85,7 @@ def get_authy_code(account):
     if code == '':
         code = None
     else:
-        code = code.replace(' ', '')
+        code = code.replace(' ', '')  # On enlève l'espace central
     time.sleep(0.25)
 
     # On ferme l'application
