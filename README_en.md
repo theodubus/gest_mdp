@@ -2,8 +2,8 @@
 Password manager with automatic connection
 
 <table align="right">
-  <tr><td><a href="README.md"><img src="images/fr-flag.png" height="13"> Français</a></td></tr>
-  <tr><td><a href="README_en.md"><img src="images/us-flag.png" height="13"> English</a></td></tr>
+  <tr><td><a href="README.md"><img src="https://github.com/Th3o-D/Th3o-D/blob/main/images/fr-flag.png" height="13"> Français</a></td></tr>
+  <tr><td><a href="README_en.md"><img src="https://github.com/Th3o-D/Th3o-D/blob/main/images/us-flag.png" height="13"> English</a></td></tr>
 </table>
 
 <details>
