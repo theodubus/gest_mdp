@@ -146,10 +146,7 @@ class Application:
         Ouverture de la partie principale du programme : le menu
             - Accès aux données et à toutes les fonctionnalités du logiciel
         """
-        if platform.system() != "Windows":
-            self.menu = Fenetre(700, 450, 'Menu')
-        else:
-            self.menu = Fenetre(820, 550, 'Menu')
+        self.menu = Fenetre(700, 450, 'Menu')
         self.oeil = PhotoImage(file="images/oeil.png")
         self.crayon = PhotoImage(file="images/crayon.png")
         self.copier = PhotoImage(file="images/copier.png")
@@ -1110,7 +1107,7 @@ class Application:
                 pass
         finally:
             if platform.system() == "Windows":
-                h += int(h * 0.20)
+                h += int(h * 0.05)
 
             if type_fenetre != 'generer' and fonction != 'confirmation_sup':
                 sur_fenetre = Toplevel(self.generer_f, width=w, height=h)

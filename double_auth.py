@@ -3,6 +3,10 @@ import time
 import pyperclip
 import platform
 
+if platform.system() == "Windows":
+    from pywinauto.keyboard import send_keys
+
+
 
 def open_app(app_name):
     """
@@ -49,7 +53,12 @@ def get_authy_code(account):
         return None
 
     time.sleep(0.25)
-    pyautogui.press('enter')
+    if platform.system() != "Windows":
+        pyautogui.press('enter')
+    else:
+        # press enter ne fonctionne pas sur authy sous windows ¯\_(ツ)_/¯
+        send_keys('{ENTER}')
+
     time.sleep(0.25)
 
     # On se déplace jusqu'au centre du code d'authentification
