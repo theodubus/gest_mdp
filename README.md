@@ -154,7 +154,7 @@ application de double authentification (très peu de code est à modifier).
 
 Pour cette fonctionnalité :
 
-Sous Linux, assurez-vous que le programme `scrot` est installé.
+Sous Linux, vous pourriez avoir besoin d'installer le programme `scrot`.
 ```bash
 sudo apt install scrot
 ```

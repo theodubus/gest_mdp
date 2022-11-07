@@ -146,7 +146,7 @@ to use another double authentication application (very little code is to be modi
 
 For this feature :
 
-Under Linux, make sure that the `scrot` program is installed.
+Under Linux, you might need to install `scrot`.
 ```bash
 sudo apt install scrot
 ```
