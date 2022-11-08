@@ -46,7 +46,9 @@ def get_authy_code(account):
         pyautogui.hotkey('ctrl', 'c')
         time.sleep(0.25)
         test = pyperclip.paste()
-        attempts += 1
+        if test != account:
+            attempts += 1
+            time.sleep(1)
 
     if attempts == 20:
         return None
