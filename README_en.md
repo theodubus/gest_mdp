@@ -247,38 +247,34 @@ on which will be deemed most secure at the time
 <details>
 <summary><b> 🗄️ - Code structure</b></summary><br>
 
-```
-.
-├── .data
-│   ├── master_password.txt
-│   ├── preferences.txt
-│   ├── salt.txt
-│   └── store.txt
-├── images
-│   ├── copier.png
-│   ├── crayon.png
-│   ├── logo.png
-│   ├── oeil_a.png
-│   ├── oeil.png
-│   ├── poubelle.png
-│   └── web.png
-├── additional_resources
-│   ├── gest.bat
-│   ├── gest.desktop
-│   └── logo.ico
-├── README.md
-├── README_en.md
-├── LICENSE
-├── requirements.txt
-├── main.py
-├── gest.py
-├── control.py
-├── double_auth.py
-├── fonctions.py
-├── scroll.py
-├── security.py
-└── web.py
-```
+. \
+├── 📄 [LICENSE](./LICENSE) \
+├── 📄 [README.md](./README.md) \
+├── 📄 [README_en.md](./README_en.md) \
+├── 📄 [main.py](./main.py) \
+├── 📄 [gest.py](./gest.py) \
+├── 📄 [control.py](./control.py) \
+├── 📄 [double_auth.py](./double_auth.py) \
+├── 📄 [fonctions.py](./fonctions.py) \
+├── 📄 [requirements.txt](./requirements.txt) \
+├── 📄 [scroll.py](./scroll.py) \
+├── 📄 [security.py](./security.py) \
+├── 📄 [web.py](./web.py) \
+├── 📁 [additional_resources](./additional_resources) \
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [gest.bat](./additional_resources/gest.bat) \
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📄 [gest.desktop](./additional_resources/gest.desktop) \
+├── 📁 [images](./images) \
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [copier.png](./images/copier.png) \
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [crayon.png](./images/crayon.png) \
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [oeil.png](./images/oeil.png) \
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [oeil_a.png](./images/oeil_a.png) \
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [poubelle.png](./images/poubelle.png) \
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📄 [web.png](./images/web.png) \
+└── 📁 [readme_documents](./readme_documents) \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [demo.mp4](./readme_documents/demo.mp4) \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [new.png](./readme_documents/new.png) \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📄 [old.png](./readme_documents/old.png)
+
 </details>
 
 <div align="right" style="display: flex">
