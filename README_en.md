@@ -72,7 +72,7 @@ icon. An image in the right format, `logo.ico` is also available in the folder
 
 ### Add a password
 
-You can store new passwords by clicking on the `+` button
+You can store new passwords by clicking on the `Nouveau` button
 or in `Options > Données > Nouveau compte`. Only the name of the account
 and the password are compulsory.
 
@@ -96,9 +96,8 @@ to include or not in the password.
 If you don't want a random password,
 it is possible to seize it manually.
 
-If you change the password generation settings (change of size,
-change of characters included), do not forget to click on the `Générer` button
-to generate a new password corresponding to your criteria.
+If the generated password is not satisfactory, you can click on the `Générer` button
+to generate a new one.
 
 ### Modify a password
 To modify a password, click the pencil-shaped button next to the account you
@@ -134,7 +133,7 @@ detect that you are on a connection page and will connect you automatically.
 Note that this automatic detection only works in the last opened tab.
 
 If you want to temporarily deactivate the automatic connection, you can uncheck
-the checkbox `autoconnexion (temp)`.
+the checkbox `autoconnexion`.
 
 ### Two factor authentification
 If you have activated the double authentication for an account, the application

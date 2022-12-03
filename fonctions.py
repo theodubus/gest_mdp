@@ -98,12 +98,30 @@ def user_mdp(chaine):
     return user_recup, mdp_recup
 
 
+def lien_valide_len(link):
+    """
+    Vérifie si un lien a un format valide
+    """
+    if link != '':
+        if (link[:7] != 'http://' and link[:8] != 'https://') or len(link) > 996:
+            return False
+        else:
+            domaine = link.split("/")[2]
+            parties_domaines = domaine.split(".")
+            parties_domaines = [partie for partie in parties_domaines if partie != '']
+            if len(parties_domaines) < 2:
+                return False
+            else:
+                return True
+    return False
+
+
 def lien_valide(link):
     """
     Vérifie si un lien a un format valide
     """
     if link != '':
-        if (link[:7] != 'http://' and link[:8] != 'https://') or len(link) > 997:
+        if (link[:7] != 'http://' and link[:8] != 'https://'):
             return False
         else:
             domaine = link.split("/")[2]
@@ -142,7 +160,7 @@ def donnees_valides(data):
                     if cle not in data[compte].keys():
                         return False
 
-                if not lien_valide(data[compte]["link"]):
+                if not lien_valide_len(data[compte]["link"]):
                     return False
 
                 if len(data[compte]["user"]) > 99:

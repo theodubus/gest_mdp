@@ -15,7 +15,8 @@ import platform
 import json
 from copy import copy
 import ttkthemes
-
+from screeninfo import get_monitors
+from customtkinter import *
 
 # Gestionnaire (codé en objet)
 class Application:
@@ -47,6 +48,7 @@ class Application:
         self.visible = dict()
         self.frame = dict()
         self.stringvar = dict()
+        self.slider = dict()
         self.menu_deroulant = dict()
         self.frames_comptes = dict()
         self.checkBouton = dict()
@@ -99,7 +101,7 @@ class Application:
         # Pas de mot de passe maître = première connexion
         if current_password() == "":
 
-            self.accueil.config(padx=105, pady=30)
+            self.accueil.configure(padx=105, pady=30)
 
             # Construction de la fenêtre
             self.build_accueil_premiere()
@@ -109,7 +111,7 @@ class Application:
 
         # Sinon, ouverture avec page de login
         else:
-            self.accueil.config(padx=105, pady=80)
+            self.accueil.configure(padx=105, pady=80)
 
             # Construction de la fenêtre
             self.build_accueil()
@@ -123,6 +125,8 @@ class Application:
         # Ajout d'un raccourci clavier
         self.accueil.bind('<Control-BackSpace>', partial(self.effacer, self.accueil))
         self.accueil.bind('<Control-Delete>', partial(self.effacer_fin, self.accueil))
+        self.accueil.bind('<Control-a>', partial(self.tout_selectionner, self.accueil))
+
 
         self.accueil.protocol("WM_DELETE_WINDOW", partial(self.fermeture, "accueil"))
 
@@ -167,7 +171,7 @@ class Application:
             # Le dictionnaire permet un accès aux données plus simple dans le programme
             self.donnees = donnees_dico(self.donnees_liste)
 
-        self.menu.config(padx=60, pady=40)
+        self.menu.configure(padx=60, pady=40)
 
         # Construction de la fenêtre
         self.build_menu()
@@ -175,6 +179,7 @@ class Application:
         # Ajout de raccourcis clavier
         self.menu.bind('<Control-BackSpace>', partial(self.effacer_update))
         self.menu.bind('<Control-Delete>', partial(self.effacer_fin_update))
+        self.menu.bind('<Control-a>', partial(self.tout_selectionner, self.menu))
         self.menu.bind('<KeyPress>', partial(self.update))
         self.menu.resizable(width=False, height=False)
 
@@ -210,6 +215,7 @@ class Application:
         self.visible = dict()
         self.frame = dict()
         self.stringvar = dict()
+        self.slider = dict()
         self.menu_deroulant = dict()
         self.frames_comptes = dict()
         self.checkBouton = dict()
@@ -244,16 +250,16 @@ class Application:
 
         self.create_label(self.accueil, 'label_accueil', "Entrez votre mot de passe :",
                           0, 0, columnspan=2, pady=(0, 50))
-        self.add_input(self.accueil, 'mdp_accueil', 1, 0, width=43, focus=True, show=False, sticky='news')
+        self.add_input(self.accueil, 'mdp_accueil', 1, 0, width=350, focus=True, show=False, sticky='news', placeholder="Mot de passe")
         self.create_button(self.accueil, 'valider_accueil', 'Valider', 2, 0, columnspan=2,
                            commande=partial(self.valider, 'mdp_accueil', self.accueil), bg='green',
                            fg='white', abg='#009020', afg='white', pady=(50, 0))
         self.create_button(self.accueil, 'voir_accueil', '', 1, 1,
-                           commande=partial(self.voir, 'mdp_accueil'), image=self.oeil_a)
+                           commande=partial(self.voir, 'mdp_accueil'), image=self.oeil_a, bg="#DEDEDE", abg="#ECECEC", height=34)
 
         self.stringvar['erreur'] = StringVar()
-        self.label['mauvais_mdp'] = Label(self.accueil,
-                                          textvariable=self.stringvar['erreur'], fg='red', font=("arial", 20, "bold"))
+        self.label['mauvais_mdp'] = CTkLabel(self.accueil,
+                                          textvariable=self.stringvar['erreur'], text_color='red', text_font=("arial", 20, "bold"))
         self.label['mauvais_mdp'].grid(row=3, column=0, columnspan=2, pady=30)
 
     def build_accueil_premiere(self):
@@ -274,20 +280,20 @@ class Application:
                           columnspan=2, pady=(0, 25), font=("arial", 20, "bold"))
 
         self.create_label(self.accueil, 'label_accueil', "Nouveau mot de passe :", 1, 0, sticky='w', pady=(0, 10))
-        self.add_input(self.accueil, 'mdp_accueil', 2, 0, width=43, focus=True, show=False, sticky='news')
+        self.add_input(self.accueil, 'mdp_accueil', 2, 0, width=350, focus=True, show=False, sticky='news', placeholder="Mot de passe")
 
         self.create_button(self.accueil, 'voir_accueil', '', 2, 1,
-                           commande=partial(self.voir, 'mdp_accueil'), image=self.oeil_a)
+                           commande=partial(self.voir, 'mdp_accueil'), image=self.oeil_a, bg="#DEDEDE", abg="#ECECEC", height=34)
 
         self.create_label(self.accueil, 'label_accueil_conf',
                           "Confirmation mot de passe :", 3, 0, sticky='w', pady=(30, 10))
-        self.add_input(self.accueil, 'mdp_accueil_conf', 4, 0, width=43, focus=False, show=False, sticky='news')
+        self.add_input(self.accueil, 'mdp_accueil_conf', 4, 0, width=350, focus=False, show=False, sticky='news', placeholder="Confirmation mot de passe")
 
         self.create_button(self.accueil, 'voir_accueil', '', 4, 1,
-                           commande=partial(self.voir, 'mdp_accueil_conf'), image=self.oeil_a)
+                           commande=partial(self.voir, 'mdp_accueil_conf'), image=self.oeil_a, bg="#DEDEDE", abg="#ECECEC", height=34)
 
         self.create_button(self.accueil, 'valider_accueil', 'Valider', 5, 0, columnspan=2, fg='white', abg='#009020',
-                           afg='white', commande=partial(self.creer_mdp_maitre), bg='green', pady=(30, 0), height=2)
+                           afg='white', commande=partial(self.creer_mdp_maitre), bg='green', pady=(30, 0))
 
     def build_menu(self):
         """
@@ -325,68 +331,74 @@ class Application:
         else:
             largeur = 580
 
-        self.add_input(self.menu, 'recherche', 0, 0, focus=True, sticky='news', pady=(0, 5))
-        self.create_button(self.menu, '+', '+', 0, 1, pady=(0, 5),
-                           commande=partial(self.create_toplevel, 450, 580, 'Créer', 'generer', 'creer', 60, 25,
-                                            fc=partial(self.build_creer)))
+        self.add_input(self.menu, 'recherche', 0, 0, focus=True, sticky='news', pady=(0, 5), placeholder="Rechercher")
+        self.create_button(self.menu, '+', 'Nouveau', 0, 1, pady=(0, 5),
+                           commande=partial(self.create_toplevel, 450, 600, 'Créer', 'generer', 'creer', 60, 25,
+                                            fc=partial(self.build_creer)), fg="white", bg="default_theme", abg="default_theme", width=75)
 
-        self.add_checkbutton(self.menu, 'auto', 'autoconnexion (temp)',
+        self.add_checkbutton(self.menu, 'auto', 'autoconnexion',
                              1, 0, '1', '0', self.preferences['autoconnexion'])
 
         self.create_frame(self.menu, 'liste_handler', 2, 0, columnspan=2, pady=(5, 25), sticky='news')
         self.create_scrollable_frame(self.frame['liste_handler'], 'liste')
 
-        self.menu_deroulant['options'] = Menu(self.menu)
-        self.menu_deroulant['1'] = Menu(self.menu_deroulant['options'], tearoff=0)
-        self.menu_deroulant['donnees'] = Menu(self.menu_deroulant['1'], tearoff=0)
-        self.menu_deroulant['profil'] = Menu(self.menu_deroulant['1'], tearoff=0)
-        self.menu_deroulant['securite'] = Menu(self.menu_deroulant['profil'], tearoff=0)
+        self.menu_deroulant['options'] = Menu(self.menu, bg="#F1F1F1", tearoff=0, activebackground="#CCCCCC")
+        self.menu_deroulant['1'] = Menu(self.menu_deroulant['options'], tearoff=0, bg="#F1F1F1", activeborderwidth=0, activebackground="#CCCCCC")
+        self.menu_deroulant['donnees'] = Menu(self.menu_deroulant['1'], tearoff=0, bg="#F1F1F1", activeborderwidth=0, activebackground="#CCCCCC")
+        self.menu_deroulant['profil'] = Menu(self.menu_deroulant['1'], tearoff=0, bg="#F1F1F1", activeborderwidth=0, activebackground="#CCCCCC")
+        self.menu_deroulant['securite'] = Menu(self.menu_deroulant['profil'], tearoff=0, bg="#F1F1F1", activeborderwidth=0, activebackground="#CCCCCC")
 
         self.menu_deroulant['1'].add_command(label='Générer',
-                                             command=partial(self.create_toplevel, 450, 380, 'Générer', 'generer',
-                                                             'generer', 60, 40, fc=partial(self.build_generer)))
-        self.menu_deroulant['donnees'].add_command(label='Nouveau compte',
-                                                   command=partial(self.create_toplevel, 450, 580, 'Créer', 'generer',
-                                                                   'creer', 60, 25, fc=partial(self.build_creer)))
+                                             command=partial(self.create_toplevel, 450, 400, 'Générer', 'generer',
+                                                             'generer', 60, 40, fc=partial(self.build_generer)), underline=0, accelerator="Ctrl+G")
+        self.menu.bind_all("<Control-g>", partial(self.create_toplevel, 450, 400, 'Générer', 'generer', 'generer', 60, 40, fc=partial(self.build_generer)))
+        self.menu_deroulant['1'].add_command(label='Nouveau compte',
+                                             command=partial(self.create_toplevel, 450, 600, 'Créer', 'generer',
+                                                             'creer', 60, 25, fc=partial(self.build_creer)), underline=0, accelerator="Ctrl+N")
+        self.menu.bind_all("<Control-n>", partial(self.create_toplevel, 450, 600, 'Créer', 'generer', 'creer', 60, 25, fc=partial(self.build_creer)))
+        self.menu_deroulant['1'].add_separator()
         self.menu_deroulant['donnees'].add_command(label='Importer des données',
-                                                   command=partial(self.importer))
+                                                   command=partial(self.importer), underline=0)
         self.menu_deroulant['donnees'].add_command(label='Exporter les données',
-                                                   command=partial(self.exporter))
+                                                   command=partial(self.exporter), underline=0)
 
-        self.menu_deroulant['1'].add_cascade(label="Données", menu=self.menu_deroulant['donnees'])
+        self.menu_deroulant['1'].add_cascade(label="Données", menu=self.menu_deroulant['donnees'], underline=0)
         self.menu_deroulant['securite'].add_command(label='Modifier le mot de passe utilisateur',
                                                     command=partial(self.create_toplevel, 450, 370,
                                                                     'Modifier le mot de passe utilisateur',
                                                                     'generer', 'modifier_mdp_user', 60, 30,
-                                                                    fc=partial(self.build_modifier_mdp_user)))
+                                                                    fc=partial(self.build_modifier_mdp_user)), underline=0)
         self.menu_deroulant['securite'].add_command(label='Changer de clé de chiffrement',
                                                     command=partial(self.create_toplevel, largeur, 430,
                                                                     'Changer de clé de chiffrement',
                                                                     'generer', 'modifier_mdp_maitre', 60, 30,
-                                                                    fc=partial(self.build_modifier_mdp_maitre)))
+                                                                    fc=partial(self.build_modifier_mdp_maitre)), underline=0)
         self.menu_deroulant['securite'].add_command(label='Supprimer toutes les données',
                                                     command=partial(self.create_toplevel, 600, 450,
                                                                     'Supprimer toutes les données', 'generer',
-                                                                    'tout_supprimer', 105, 35,
-                                                                    fc=partial(self.build_tout_supprimer)))
-        self.menu_deroulant['profil'].add_cascade(label="Sécurité", menu=self.menu_deroulant['securite'])
+                                                                    'tout_supprimer', 145, 35,
+                                                                    fc=partial(self.build_tout_supprimer)), underline=0)
+        self.menu_deroulant['profil'].add_cascade(label="Sécurité", menu=self.menu_deroulant['securite'], underline=0)
         self.menu_deroulant['profil'].add_command(label='Modifier Préférences',
-                                                  command=partial(self.create_toplevel, 410, 430,
+                                                  command=partial(self.create_toplevel, 410, 450,
                                                                   'Modifier Préférences', 'generer', 'preferences', 60,
-                                                                  40, fc=partial(self.build_preferences)))
-        self.menu_deroulant['1'].add_cascade(label="Profil", menu=self.menu_deroulant['profil'])
+                                                                  40, fc=partial(self.build_preferences)), underline=0, accelerator="Ctrl+P")
+        self.menu.bind_all("<Control-p>", partial(self.create_toplevel, 410, 450, 'Modifier Préférences', 'generer', 'preferences', 60, 40, fc=partial(self.build_preferences)))
+        self.menu_deroulant['1'].add_cascade(label="Profil", menu=self.menu_deroulant['profil'], underline=0)
 
         if platform.system() != "Windows":
-            self.menu_deroulant['1'].add_command(label='Se déconnecter', command=partial(self.deconnecter))
+            self.menu_deroulant['1'].add_separator()
+            self.menu_deroulant['1'].add_command(label='Se déconnecter', command=partial(self.deconnecter), underline=0, accelerator="Ctrl+Q")
+            self.menu.bind_all("<Control-q>", partial(self.deconnecter))
 
-        self.menu_deroulant['options'].add_cascade(label="Options", menu=self.menu_deroulant['1'])
-        self.menu.config(menu=self.menu_deroulant['options'])
+        self.menu_deroulant['options'].add_cascade(label="Options", menu=self.menu_deroulant['1'], underline=0)
+        self.menu.configure(menu=self.menu_deroulant['options'])
         self.menu.grid_rowconfigure(1, weight=1)
         self.menu.grid_columnconfigure(0, weight=1)
 
         self.update()
 
-    def deconnecter(self):
+    def deconnecter(self, event=None):
         """
         Méthode qui permet de se déconnecter et d'arrêter la connexion persistante
         """
@@ -416,27 +428,31 @@ class Application:
                           sticky='ew', anchor='center', columnspan=2)
         self.generer_f.grid_columnconfigure(0, weight=1)
         self.create_button(self.generer_f, 'voir', '', 0, 2, image=self.oeil,
-                           width=25, height=25, commande=partial(self.voir_gen))
+                           width=25, commande=partial(self.voir_gen), bg="#DEDEDE", abg="#ECECEC", height=34)
         self.create_button(self.generer_f, 'copier', '', 0, 3, image=self.copier,
-                           width=25, height=25, commande=partial(self.copier_gen))
+                           width=34, height=34, commande=partial(self.copier_gen), bg="#DEDEDE", abg="#ECECEC")
 
         self.add_checkbutton(self.generer_f, 'chiffres', '0-9', 1, 0,
-                             digits, '', self.preferences['chiffres'])
+                             digits, '', self.preferences['chiffres'], commande=partial(self.generer_mdp))
         self.add_checkbutton(self.generer_f, 'lettresmin', 'a-z', 2, 0,
-                             ascii_lowercase, '', self.preferences['lettresmin'])
+                             ascii_lowercase, '', self.preferences['lettresmin'], commande=partial(self.generer_mdp))
         self.add_checkbutton(self.generer_f, 'lettresmaj', 'A-Z', 3, 0,
-                             ascii_uppercase, '', self.preferences['lettresmaj'])
+                             ascii_uppercase, '', self.preferences['lettresmaj'], commande=partial(self.generer_mdp))
         self.add_checkbutton(self.generer_f, 'ponctuation', '!#/', 4, 0,
-                             punctuation, '', self.preferences['ponctuation'])
+                             punctuation, '', self.preferences['ponctuation'], commande=partial(self.generer_mdp))
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 5, 0,
-                             "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 6, 0, "on", 'off', self.preferences['no_similar'])
+                             "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'], commande=partial(self.generer_mdp))
+        self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 6, 0, "on", 'off', self.preferences['no_similar'], commande=partial(self.generer_mdp))
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 7, 0,
                           font=('arial', '12'), sticky='w', padx=0)
-        self.add_input(self.generer_f, 'taille', 7, 1, sticky='w', width=3,
-                       padx=(0, 100), default=self.preferences['taille'], focus=True)
-        self.input['taille'].icursor('end')
-        self.create_button(self.generer_f, 'generer', 'Générer', 8, 0, columnspan=4,
+
+        self.create_slider(self.generer_f, "taille", 8, 0, columnspan=4, default=int(self.preferences['taille']),
+                           debut=10, fin=100, commande=partial(self.generer_mdp), pady=(15, 15))
+        self.add_input(self.generer_f, 'taille', 7, 1, sticky='w',
+                       width=30, padx=(0, 100), exists=True, focus=True)
+
+        self.input['taille'].entry.icursor('end')
+        self.create_button(self.generer_f, 'generer', 'Générer', 9, 0, columnspan=4,
                            bg='#009020', fg='white', abg='#00A030', afg='white', commande=partial(self.generer_mdp))
         self.generer_mdp()
         self.voir_gen()
@@ -514,8 +530,9 @@ class Application:
 
         self.create_label(self.generer_f, 'profil_label', 'Profil : ', 0, 0, sticky='ew',
                           anchor='w', pady=(0, 15), font=("arial", 15, "bold"))
-        self.add_input(self.generer_f, 'profil', 0, 1, sticky='news',
-                       columnspan=3, pady=0, default=self.preferences['profil'])
+        self.add_input(self.generer_f, 'profil', 0, 1, sticky='news', focus=True,
+                       columnspan=3, pady=0, default=self.preferences['profil'], placeholder="Profil navigateur")
+        self.input['profil'].entry.icursor('end')
 
         self.generer_f.grid_columnconfigure(0, weight=1)
 
@@ -532,10 +549,13 @@ class Application:
         self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 7, 0, "on", 'off', self.preferences['no_similar'])
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 8, 0,
                           font=('arial', '12'), sticky='w', padx=0)
-        self.add_input(self.generer_f, 'taille', 8, 1, sticky='w', width=3,
-                       padx=(0, 100), default=self.preferences['taille'], focus=True)
-        self.input['taille'].icursor('end')
-        self.create_button(self.generer_f, 'modifier', 'Modifier', 9, 0, columnspan=4,
+
+        self.create_slider(self.generer_f, "taille", 9, 0, columnspan=4, default=int(self.preferences['taille']),
+                           debut=10, fin=100, pady=(15, 15))
+        self.add_input(self.generer_f, 'taille', 8, 1, sticky='w',
+                       width=30, padx=(0, 100), exists=True)
+
+        self.create_button(self.generer_f, 'modifier', 'Modifier', 10, 0, columnspan=4,
                            bg='#009020', fg='white', abg='#00A030', afg='white',
                            commande=partial(self.modifier_preferences))
 
@@ -575,42 +595,44 @@ class Application:
 
         self.create_label(self.generer_f, 'user_label', 'Utilisateur : ', 1, 0, sticky='ew',
                           anchor='w', pady=(0, 15), font=("arial", 15, "bold"))
-        self.add_input(self.generer_f, 'username', 1, 1, sticky='news', columnspan=3, pady=(0, 15), default=user)
+        self.add_input(self.generer_f, 'username', 1, 1, sticky='news', columnspan=3, pady=(0, 15), default=user, placeholder="Nom d'utilisateur")
 
         self.create_label(self.generer_f, 'link_label', 'Lien : ', 2, 0, sticky='ew',
                           anchor='w', pady=(0, 15), font=("arial", 15, "bold"))
-        self.add_input(self.generer_f, 'link', 2, 1, sticky='news', columnspan=3, pady=0, default=link)
+        self.add_input(self.generer_f, 'link', 2, 1, sticky='news', columnspan=3, pady=(0, 10), default=link, placeholder="Lien de connexion")
         self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', prio)
         self.add_checkbutton(self.generer_f, 'long', 'long', 3, 1, '1', '0', wait)
         self.add_checkbutton(self.generer_f, 'doubleauth', '2FA', 3, 2, '1', '0', doubleauth, columnspan=2)
 
-        self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, show=False, default=password)
+        self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, pady=(10, 10), show=False, default=password, placeholder="Mot de passe")
         self.generer_f.grid_columnconfigure(0, weight=1)
         self.create_button(self.generer_f, 'voir', '', 4, 2, image=self.oeil,
-                           width=25, height=25, commande=partial(self.voir))
+                           width=25, commande=partial(self.voir), bg="#DEDEDE", abg="#ECECEC", height=34)
         self.create_button(self.generer_f, 'copier', '', 4, 3, image=self.copier,
-                           width=25, height=25, commande=partial(self.copier_gen_modif))
+                           width=34, height=34, commande=partial(self.copier_gen_modif), bg="#DEDEDE", abg="#ECECEC")
 
         self.add_checkbutton(self.generer_f, 'chiffres', '0-9', 5, 0,
-                             digits, '', self.preferences['chiffres'])
+                             digits, '', self.preferences['chiffres'], commande=partial(self.generer_mdp_modif))
         self.add_checkbutton(self.generer_f, 'lettresmin', 'a-z', 6, 0,
-                             ascii_lowercase, '', self.preferences['lettresmin'])
+                             ascii_lowercase, '', self.preferences['lettresmin'], commande=partial(self.generer_mdp_modif))
         self.add_checkbutton(self.generer_f, 'lettresmaj', 'A-Z', 7, 0,
-                             ascii_uppercase, '', self.preferences['lettresmaj'])
+                             ascii_uppercase, '', self.preferences['lettresmaj'], commande=partial(self.generer_mdp_modif))
         self.add_checkbutton(self.generer_f, 'ponctuation', '!#/', 8, 0,
-                             punctuation, '', self.preferences['ponctuation'])
+                             punctuation, '', self.preferences['ponctuation'], commande=partial(self.generer_mdp_modif))
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 9, 0,
-                             "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 10, 0, "on", 'off', self.preferences['no_similar'])
+                             "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'], commande=partial(self.generer_mdp_modif))
+        self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 10, 0, "on", 'off', self.preferences['no_similar'], commande=partial(self.generer_mdp_modif))
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 11, 0,
                           font=('arial', '12'), sticky='w', padx=0)
-        self.add_input(self.generer_f, 'taille', 11, 1, sticky='w', width=3,
-                       padx=(0, 100), default=self.preferences['taille'], focus=True)
-        self.input['taille'].icursor('end')
-        self.create_button(self.generer_f, 'generer', 'Générer', 12, 0, columnspan=4,
+        self.create_slider(self.generer_f, "taille", 12, 0, columnspan=4, default=int(self.preferences['taille']),
+                           debut=10, fin=100, commande=partial(self.generer_mdp_modif), pady=(15, 0))
+        self.add_input(self.generer_f, 'taille', 11, 1, sticky='w',
+                       width=30, padx=(0, 100), exists=True, focus=True)
+        self.input['taille'].entry.icursor('end')
+        self.create_button(self.generer_f, 'generer', 'Générer', 13, 0, columnspan=4,
                            bg='#1030EE', fg='white', abg='#2050FF', afg='white',
-                           commande=partial(self.generer_mdp_modif), pady=(15, 0))
-        self.create_button(self.generer_f, 'modifier', 'Modifier', 13, 0, columnspan=4,
+                           commande=partial(self.generer_mdp_modif), pady=(15, 10))
+        self.create_button(self.generer_f, 'modifier', 'Modifier', 14, 0, columnspan=4,
                            bg='#009020', fg='white', abg='#00A030', afg='white',
                            commande=partial(self.create_toplevel, 350, 200, '', 'confirmer',
                                             'confirmation', 30, 15, compte=compte))
@@ -639,51 +661,53 @@ class Application:
 
         self.create_label(self.generer_f, 'compte_mdp', 'Compte : ', 0, 0, sticky='ew',
                           anchor='w', pady=(0, 15), font=("arial", 15, "bold"))
-        self.add_input(self.generer_f, 'nom_compte', 0, 1, sticky='news', columnspan=3, focus=True, pady=(0, 15))
+        self.add_input(self.generer_f, 'nom_compte', 0, 1, sticky='news', columnspan=3, focus=True, pady=(0, 15), placeholder="Nom du compte")
 
         self.create_label(self.generer_f, 'user_label', 'Utilisateur : ', 1, 0, sticky='ew',
                           anchor='w', pady=(0, 15), font=("arial", 15, "bold"))
-        self.add_input(self.generer_f, 'username', 1, 1, sticky='news', columnspan=3, pady=(0, 15))
+        self.add_input(self.generer_f, 'username', 1, 1, sticky='news', columnspan=3, pady=(0, 15), placeholder="Nom d'utilisateur")
 
         self.create_label(self.generer_f, 'link_label', 'Lien : ', 2, 0, sticky='ew',
                           anchor='w', pady=(0, 15), font=("arial", 15, "bold"))
-        self.add_input(self.generer_f, 'link', 2, 1, sticky='news', columnspan=3, pady=0)
+        self.add_input(self.generer_f, 'link', 2, 1, sticky='news', columnspan=3, pady=(0, 10), placeholder="Lien de connexion")
 
         self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', '0')
         self.add_checkbutton(self.generer_f, 'long', 'long', 3, 1, '1', '0', '0')
         self.add_checkbutton(self.generer_f, 'doubleauth', '2FA', 3, 2, '1', '0', '0', columnspan=2)
 
-        self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, show=False)
+        self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, pady=(10, 10), show=False, placeholder="Mot de passe", default="_")
         self.generer_f.grid_columnconfigure(0, weight=1)
         self.create_button(self.generer_f, 'voir', '', 4, 2, image=self.oeil, width=25,
-                           height=25, commande=partial(self.voir))
-        self.create_button(self.generer_f, 'copier', '', 4, 3, image=self.copier, width=25,
-                           height=25, commande=partial(self.copier_gen_modif))
+                            commande=partial(self.voir), bg="#DEDEDE", abg="#ECECEC", height=34)
+        self.create_button(self.generer_f, 'copier', '', 4, 3, image=self.copier, width=34,
+                            height=34, commande=partial(self.copier_gen_modif), bg="#DEDEDE", abg="#ECECEC")
 
-        self.add_checkbutton(self.generer_f, 'chiffres', '0-9', 5, 0, digits, '', self.preferences['chiffres'])
+        self.add_checkbutton(self.generer_f, 'chiffres', '0-9', 5, 0, digits, '', self.preferences['chiffres'], commande=partial(self.generer_mdp_modif))
         self.add_checkbutton(self.generer_f, 'lettresmin', 'a-z', 6, 0,
-                             ascii_lowercase, '', self.preferences['lettresmin'])
+                             ascii_lowercase, '', self.preferences['lettresmin'], commande=partial(self.generer_mdp_modif))
         self.add_checkbutton(self.generer_f, 'lettresmaj', 'A-Z', 7, 0,
-                             ascii_uppercase, '', self.preferences['lettresmaj'])
+                             ascii_uppercase, '', self.preferences['lettresmaj'], commande=partial(self.generer_mdp_modif))
         self.add_checkbutton(self.generer_f, 'ponctuation', '!#/', 8, 0,
-                             punctuation, '', self.preferences['ponctuation'])
+                             punctuation, '', self.preferences['ponctuation'], commande=partial(self.generer_mdp_modif))
         self.add_checkbutton(self.generer_f, 'cara_spe', '£çÉ', 9, 0,
-                             "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'])
-        self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 10, 0, "on", "off", self.preferences['no_similar'])
+                             "àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ¤£µ§°²¨", '', self.preferences['cara_spe'], commande=partial(self.generer_mdp_modif))
+        self.add_checkbutton(self.generer_f, 'double', 'no 0OIl', 10, 0, "on", "off", self.preferences['no_similar'], commande=partial(self.generer_mdp_modif))
         self.create_label(self.generer_f, 'taille', 'Taille (10-100) : ', 11, 0,
                           font=('arial', '10'), sticky='w', padx=0)
+        self.create_slider(self.generer_f, "taille", 12, 0, columnspan=4, default=int(self.preferences['taille']),
+                           debut=10, fin=100, commande=partial(self.generer_mdp_modif), pady=(15, 0))
         self.add_input(self.generer_f, 'taille', 11, 1, sticky='w',
-                       width=3, padx=(0, 100), default=self.preferences['taille'])
-        self.input['taille'].icursor('end')
-        self.create_button(self.generer_f, 'generer', 'Générer', 12, 0, columnspan=4,
+                       width=30, padx=(0, 100), exists=True)
+        self.input['taille'].entry.icursor('end')
+        self.create_button(self.generer_f, 'generer', 'Générer', 13, 0, columnspan=4,
                            bg='#1030EE', fg='white', abg='#2050FF', afg='white',
-                           commande=partial(self.generer_mdp_modif), pady=(15, 0))
-        self.create_button(self.generer_f, 'creer', 'Créer', 13, 0, columnspan=4, bg='#009020',
+                           commande=partial(self.generer_mdp_modif), pady=(15, 10))
+        self.create_button(self.generer_f, 'creer', 'Créer', 14, 0, columnspan=4, bg='#009020',
                            fg='white', abg='#00A030', afg='white', commande=partial(self.creer_mdp))
         self.generer_mdp_modif()
 
     def add_checkbutton(self, fenetre, index, texte, row, column, on, off, default, padx=None, pady=(3, 3),
-                        columnspan=1):
+                        columnspan=1, commande=None):
         """
         Ajout d'une checkbox à la fenêtre
 
@@ -695,8 +719,25 @@ class Application:
         """
         self.stringvar[f'check{index}'] = StringVar()
         self.stringvar[f'check{index}'].set(default)
-        self.checkBouton[index] = Checkbutton(fenetre, text=texte, variable=self.stringvar[f'check{index}'],
-                                              offvalue=off, onvalue=on, font=("arial", 15))
+        self.checkBouton[index] = CTkCheckBox(fenetre, text=texte, variable=self.stringvar[f'check{index}'],
+                                              offvalue=off, onvalue=on, text_font=("arial", 15), command=commande)
+        self.checkBouton[index].grid(row=row, column=column, padx=padx, pady=pady, sticky='w', columnspan=columnspan)
+
+    def add_switch(self, fenetre, index, texte, row, column, on, off, default, padx=None, pady=(3, 3),
+                        columnspan=1, commande=None):
+        """
+        Ajout d'une switch à la fenêtre, fonctionne comme une checkbox
+
+        Permet l'ajout facile, car gère tout :
+            - Création de la variable de contenu de la switch
+            - Création de la switch
+            - Sauvegarde de la switch dans un dictionnaire (permettant de garder la trace des éléments)
+            - Ajout de la switch dans la fenêtre
+        """
+        self.stringvar[f'check{index}'] = StringVar()
+        self.stringvar[f'check{index}'].set(default)
+        self.checkBouton[index] = CTkSwitch(fenetre, text=texte, variable=self.stringvar[f'check{index}'],
+                                              offvalue=off, onvalue=on, text_font=("arial", 15), command=commande)
         self.checkBouton[index].grid(row=row, column=column, padx=padx, pady=pady, sticky='w', columnspan=columnspan)
 
     def add_radiobutton(self, fenetre, index, texte, row, column, value, default=False, padx=None, commande=None,
@@ -717,11 +758,11 @@ class Application:
             self.stringvar[f'radio{index}'].set(value)
 
         if commande is None:
-            self.radioBouton[value] = Radiobutton(fenetre, text=texte, variable=self.stringvar[f'radio{index}'],
-                                                  value=value, font=("arial", 15))
+            self.radioBouton[value] = CTkRadioButton(fenetre, text=texte, variable=self.stringvar[f'radio{index}'],
+                                                  value=value, text_font=("arial", 15))
         else:
-            self.radioBouton[value] = Radiobutton(fenetre, text=texte, variable=self.stringvar[f'radio{index}'],
-                                                  value=value, font=("arial", 15), command=commande)
+            self.radioBouton[value] = CTkRadioButton(fenetre, text=texte, variable=self.stringvar[f'radio{index}'],
+                                                  value=value, text_font=("arial", 15), command=commande)
 
         self.radioBouton[value].grid(row=row, column=column, padx=padx, pady=3, sticky='w', columnspan=columnspan)
 
@@ -756,10 +797,10 @@ class Application:
                 - Bouton connexion (Si lien de connexion défini)
             - L'intéraction se fait avec les fonctions appellées par les boutons
         """
-        self.frame[index] = Frame(fenetre, bg=bg)
+        self.frame[index] = CTkFrame(fenetre, fg_color=bg, corner_radius=10)
         self.frame[index].pack(fill='both', padx=padx, pady=pady)
         self.create_label(self.frame[index], f"compte{index}", f"{index[:15]}", 0, 0, bg='white', padx=(25, 15),
-                          pady=20, width=12, anchor='w', font=("arial", 15, "underline"), rowspan=2)
+                          pady=20, width=12, anchor='w', font=("arial", 15, "underline"), rowspan=2, CTk=False)
 
         mdp_l = decrypt(self.donnees[index], self.mdp_maitre)
         link, login = link_login(mdp_l)
@@ -767,45 +808,45 @@ class Application:
         if user == '':
             user = '(non défini)'
         self.create_label(self.frame[index], f"user_label{index}", user, 0, 2, bg='white', pady=(20, 0),
-                          width=18, sticky='w', padx=(0, 20), anchor='w', user=True)
+                          width=18, sticky='w', padx=(0, 20), anchor='w', user=True, CTk=False)
         self.create_label(self.frame[index], f"points{index}", "", 1, 2, bg='white', pady=(0, 20),
-                          width=18, sticky='w', padx=(0, 20), textvar=True, anchor='w')
+                          width=18, sticky='w', padx=(0, 20), textvar=True, anchor='w', CTk=False)
 
         self.create_button(self.frame[index], f"copier_user{index}", '', 0, 1, sticky='se', image=self.copier,
-                           width=25, height=25, commande=partial(self.copy_user, index), padx=(0, 10), pady=5)
+                           width=34, height=34, commande=partial(self.copy_user, index), padx=(0, 10), pady=5, bg="#E5E5E5", abg="#F5F5F5")
         self.create_button(self.frame[index], f"copier{index}", '', 1, 1, sticky='en', image=self.copier,
-                           width=25, height=25, commande=partial(self.copier_pp, f"points{index}"), padx=(0, 10))
+                           width=34, height=34, commande=partial(self.copier_pp, f"points{index}"), padx=(0, 10), bg="#E5E5E5", abg="#F5F5F5")
 
         if link != '':
-            self.create_button(self.frame[index], f"voir{index}", '', 0, 3, sticky='se', image=self.oeil, width=25,
-                               height=25, commande=partial(self.voir_mdp, f"points{index}"), rowspan=1, padx=5, pady=5)
-            self.create_button(self.frame[index], f"modif{index}", '', 0, 4, sticky='se', image=self.crayon, width=25,
-                               height=25, rowspan=1, padx=0, pady=5,
-                               commande=partial(self.create_toplevel, 450, 580, 'Modifier', 'generer', 'modifier',
-                                                60, 25, fc=partial(self.build_modifier, compte=index)))
+            self.create_button(self.frame[index], f"voir{index}", '', 0, 3, sticky='se', image=self.oeil, width=30,
+                               height=34, commande=partial(self.voir_mdp, f"points{index}"), rowspan=1, padx=5, pady=5, bg="#E5E5E5", abg="#F5F5F5")
+            self.create_button(self.frame[index], f"modif{index}", '', 0, 4, sticky='se', image=self.crayon, width=32,
+                               height=34, rowspan=1, padx=0, pady=5,
+                               commande=partial(self.create_toplevel, 450, 600, 'Modifier', 'generer', 'modifier',
+                                                60, 25, fc=partial(self.build_modifier, compte=index)), bg="#E5E5E5", abg="#F5F5F5")
             self.create_button(self.frame[index], f"supprimer{index}", '', 1, 3, sticky='en', image=self.poubelle,
-                               width=25, height=25, rowspan=1, padx=5,
+                               width=32, height=34, rowspan=1, padx=5,
                                commande=partial(self.create_toplevel, 350, 200, '', 'confirmer',
                                                 'confirmation_sup', 30, 15,
                                                 s='Cette opération\n est définitive.\n\nConfirmer la suppression ?\n',
-                                                compte=index))
+                                                compte=index), bg="#E5E5E5", abg="#F5F5F5")
 
-            self.create_button(self.frame[index], f"web{index}", '', 1, 4, sticky='en', image=self.web, width=25,
-                               height=25, commande=partial(self.ouvrir_fenetre, link, login, index),
-                               rowspan=1, padx=0, bg='white')
+            self.create_button(self.frame[index], f"web{index}", '', 1, 4, sticky='en', image=self.web, width=32,
+                               height=34, commande=partial(self.ouvrir_fenetre, link, login, index),
+                               rowspan=1, padx=0, bg="#E5E5E5", abg="#F5F5F5")
         else:
             self.create_button(self.frame[index], f"voir{index}", '', 0, 3, sticky='e', image=self.oeil, width=25,
-                               height=25, commande=partial(self.voir_mdp, f"points{index}"), rowspan=2, padx=0, pady=0)
-            self.create_button(self.frame[index], f"modif{index}", '', 0, 4, sticky='e', image=self.crayon, width=25,
-                               height=25, rowspan=2, padx=0, pady=0,
-                               commande=partial(self.create_toplevel, 450, 580, 'Modifier', 'generer', 'modifier', 60,
-                                                25, fc=partial(self.build_modifier, compte=index)))
+                               height=34, commande=partial(self.voir_mdp, f"points{index}"), rowspan=2, padx=(0, 5), pady=0, bg="#E5E5E5", abg="#F5F5F5")
+            self.create_button(self.frame[index], f"modif{index}", '', 0, 4, sticky='e', image=self.crayon, width=32,
+                               height=34, rowspan=2, padx=(0, 5), pady=0,
+                               commande=partial(self.create_toplevel, 450, 600, 'Modifier', 'generer', 'modifier', 60,
+                                                25, fc=partial(self.build_modifier, compte=index)), bg="#E5E5E5", abg="#F5F5F5")
             self.create_button(self.frame[index], f"supprimer{index}", '', 0, 5, sticky='e', image=self.poubelle,
-                               width=25, height=25, rowspan=2, padx=0, pady=0,
+                               width=32, height=34, rowspan=2, padx=0, pady=0,
                                commande=partial(self.create_toplevel, 350, 200, '', 'confirmer',
                                                 'confirmation_sup', 30, 15,
                                                 s='Cette opération\n est définitive.\n\nConfirmer la suppression ?\n',
-                                                compte=index))
+                                                compte=index), bg="#E5E5E5", abg="#F5F5F5")
 
     def create_frame(self, fenetre, index, row, column, bg='#BBBBBB', columnspan=1, pady=None, padx=None, sticky=None):
         """
@@ -815,12 +856,12 @@ class Application:
             - Création de la frame
             - Ajout de la frame
         """
-        self.frame[index] = Frame(fenetre, width=200, height=200, bg=bg)
+        self.frame[index] = CTkFrame(fenetre, width=200, height=200, fg_color=bg, corner_radius=10)
         self.frame[index].grid(row=row, column=column, sticky=sticky, columnspan=columnspan, pady=pady, padx=padx)
         self.frame[index].grid_columnconfigure(0, weight=1)
 
     def create_label(self, fenetre, index, texte, ligne, colonne, columnspan=1, rowspan=1, font=("arial", 15), bg=None,
-                     padx=None, pady=None, width=None, sticky=None, textvar=False, anchor=None, user=False, fg=None):
+                     padx=None, pady=None, width=120, sticky=None, textvar=False, anchor=None, user=False, fg=None, CTk=True):
         """
         Ajout d'un label à la fenêtre
 
@@ -841,21 +882,48 @@ class Application:
             self.stringvar[index] = StringVar()
             self.stringvar[index].set('●●●●●●●●●●●●●●')
             self.visible[index] = False
-            self.label[index] = Label(fenetre, textvariable=self.stringvar[index],
-                                      font=font, bg=bg, width=width, anchor=anchor, fg=fg)
+            if CTk:
+                self.label[index] = CTkLabel(fenetre, textvariable=self.stringvar[index],
+                                          text_font=font, bg_color=bg, width=width, anchor=anchor, text_color=fg)
+            else:
+                self.label[index] = Label(fenetre, textvariable=self.stringvar[index],
+                                          font=font, bg=bg, width=width, anchor=anchor, fg=fg)
         elif user:
             self.stringvar[index] = StringVar()
             self.stringvar[index].set(texte)
-            self.label[index] = Label(fenetre, textvariable=self.stringvar[index],
-                                      font=font, bg=bg, width=width, anchor=anchor, fg=fg)
+            if CTk:
+                self.label[index] = CTkLabel(fenetre, textvariable=self.stringvar[index],
+                                            text_font=font, bg_color=bg, width=width, anchor=anchor, text_color=fg)
+            else:
+                self.label[index] = Label(fenetre, textvariable=self.stringvar[index],
+                                          font=font, bg=bg, width=width, anchor=anchor, fg=fg)
         else:
-            self.label[index] = Label(fenetre, text=texte, font=font, bg=bg, width=width, anchor=anchor, fg=fg)
+            if CTk:
+                self.label[index] = CTkLabel(fenetre, text=texte, text_font=font, bg_color=bg, width=width, anchor=anchor, text_color=fg)
+            else:
+                self.label[index] = Label(fenetre, text=texte, font=font, bg=bg, width=width, anchor=anchor, fg=fg)
+
         self.label[index].grid(row=ligne, column=colonne, columnspan=columnspan,
                                rowspan=rowspan, padx=padx, pady=pady, sticky=sticky)
 
+    def create_slider(self, fenetre, index, ligne, colonne, commande=None, columnspan=1, rowspan=1, padx=None, pady=None, default=None, debut=0, fin=1):
+        """
+        Ajout d'un slider à la fenêtre
+        """
+        self.stringvar[index] = IntVar()
+        self.slider[index] = CTkSlider(fenetre, command=commande,
+                                       from_=debut,
+                                       to=fin,
+                                       variable=self.stringvar[index])
+        if default:
+            self.slider[index].set(default)
+
+        self.slider[index].grid(row=ligne, column=colonne, columnspan=columnspan,
+                               rowspan=rowspan, padx=padx, pady=pady)
+
     def create_button(self, fenetre, index, texte, ligne, colonne, columnspan=1, rowspan=1,
-                      commande=None, bg=None, fg=None, abg=None, afg=None,
-                      sticky='ew', height=None, width=None, image=None, pady=None, padx=None):
+                      commande=None, bg="white", fg=None, abg=None, afg=None,
+                      sticky='ew', height=28, width=10, image=None, pady=None, padx=None):
         """
         Ajout d'un bouton à la fenêtre
 
@@ -864,13 +932,13 @@ class Application:
             - Sauvegarde du bouton dans un dictionnaire (permettant de garder la trace des éléments)
             - Ajout du bouton dans la fenêtre
         """
-        self.button[index] = Button(fenetre, text=texte, command=commande, bg=bg, fg=fg, activebackground=abg,
-                                    activeforeground=afg, width=width, height=height, image=image)
+        self.button[index] = CTkButton(fenetre, text=texte, command=commande, fg_color=bg, text_color=fg, hover_color=abg,
+                                    width=width, height=height, image=image)
         self.button[index].grid(row=ligne, column=colonne, columnspan=columnspan,
                                 rowspan=rowspan, sticky=sticky, pady=pady, padx=padx)
 
-    def add_input(self, fenetre, index, ligne, colonne, pady=None, padx=None, width=None,
-                  focus=False, show=True, sticky=None, columnspan=1, default=None, placeholder=''):
+    def add_input(self, fenetre, index, ligne, colonne, pady=None, padx=None, width=10,
+                  focus=False, show=True, sticky=None, columnspan=1, default=None, placeholder='', exists=False):
         """
         Ajout d'un champ de saisie à la fenêtre
 
@@ -882,20 +950,34 @@ class Application:
 
         Certains champs de saisies sont cachés ou non par défaut
         """
-        self.stringvar[index] = StringVar()
+
+        recherche = False
+        if index == "recherche":
+            recherche = True
+
+        if not exists:
+            self.stringvar[index] = StringVar()
         if default is not None:
             self.stringvar[index].set(default)
+
         if placeholder == '':
-            self.input[index] = Entry(fenetre, textvariable=self.stringvar[index], width=width)
+            self.input[index] = CTkEntry(fenetre, textvariable=self.stringvar[index], width=width)
         else:
-            self.input[index] = EntryWithPlaceholder(fenetre, textvariable=self.stringvar[index], width=width,
-                                                     placeholder=placeholder)
+            if show:
+                self.input[index] = CTkEntryWithPlaceholder(fenetre, textvariable=self.stringvar[index], width=width,
+                                                            placeholder=placeholder, recherche=recherche)
+            else:
+                self.input[index] = CTkEntryWithPlaceholder(fenetre, textvariable=self.stringvar[index], width=width,
+                                                            placeholder=placeholder, visible=self.visible, index=index)
+
         if focus:
-            self.input[index].focus_set()
+            self.input[index].focus_force()
         self.input[index].grid(row=ligne, column=colonne, pady=pady, sticky=sticky, columnspan=columnspan, padx=padx)
         if not show:
             self.visible[index] = False
-            self.input[index].config(show="●")
+
+            if placeholder == '' or (default is not None and default != ''):
+                self.input[index].configure(show="●")
 
     def voir_mdp(self, index):
         """
@@ -935,10 +1017,11 @@ class Application:
         """
         if self.visible[index]:
             self.visible[index] = False
-            self.input[index].config(show="●")
+            if not (type(self.input[index]) == CTkEntryWithPlaceholder and self.input[index].entry['fg'] == self.input[index].placeholder_color):
+                self.input[index].configure(show="●")
         else:
             self.visible[index] = True
-            self.input[index].config(show="")
+            self.input[index].configure(show="")
 
     def copier_pp(self, index):
         """
@@ -976,6 +1059,14 @@ class Application:
         créer un bug au niveau du nombre d'arguments, *args permet de gérer ce problème.
         """
         fenetre.focus_get().delete(0, 'insert')
+
+    @staticmethod
+    def tout_selectionner(fenetre, event=None):
+        """
+        Sert à l'implémentation du Contrôle-a (selectionne tout le texte d'un champ)
+        """
+        fenetre.focus_get().select_range(0, 'end')
+        fenetre.focus_get().icursor('end')
 
     def effacer_update(self, *args):
         """
@@ -1017,6 +1108,10 @@ class Application:
             fenetre.update()
             time.sleep(0.1)
 
+            if self.input[index].entry['fg'] == self.input[index].placeholder_color:
+                self.stringvar['erreur'].set('Mot de passe incorrect')
+                return
+
             self.mdp_maitre = get_master_password(self.mdp_user)
             if self.mdp_maitre:
                 fenetre.destroy()
@@ -1040,6 +1135,8 @@ class Application:
 
         """
 
+        self.input["recherche"].update_placeholder()
+
         if reset:
             self.input['recherche'].delete(0, END)
 
@@ -1062,7 +1159,7 @@ class Application:
                 except:
                     pass
 
-        compte = self.stringvar['recherche'].get().lower()
+        compte = self.input['recherche'].get_content().lower()
         keys = sorted(list(self.donnees.keys()), key=str.lower)
         for k in keys:
             if k[:len(compte)].lower() == compte:
@@ -1075,6 +1172,7 @@ class Application:
         if remonter:
             self.frame['liste'].reset()
 
+
     def create_toplevel(self, w, h, title, type_fenetre, fonction, padx, pady, event=None, compte=None,
                         s='Cette opération\n est définitive.\n\nConfirmer ?\n', fc=None):
         """
@@ -1085,16 +1183,6 @@ class Application:
             - La fenêtre est une toplevel, elle est "enfant" de la fenêtre principale
             - Création de la fenêtre
         """
-        if type_fenetre != 'generer' and fonction != 'confirmation_sup':
-            username = self.stringvar['username'].get()
-            link = self.stringvar['link'].get()
-            if len(username) > 99:
-                self.stringvar['username'].set('Nom trop long')
-                return
-            elif len(link) > 999:
-                self.stringvar['username'].set('Lien trop long')
-                return
-
         try:
             self.confirmer_f.destroy()
             if type_fenetre == 'generer':
@@ -1110,23 +1198,27 @@ class Application:
                 h += int(h * 0.05)
 
             if type_fenetre != 'generer' and fonction != 'confirmation_sup':
-                sur_fenetre = Toplevel(self.generer_f, width=w, height=h)
+                sur_fenetre = CTkToplevel(self.generer_f, width=w, height=h, fg_color=("#F1F1F1", "#222325"))
             else:
-                sur_fenetre = Toplevel(self.menu, width=w, height=h)
+                sur_fenetre = CTkToplevel(self.menu, width=w, height=h, fg_color=("#F1F1F1", "#222325"))
 
             sur_fenetre.title(title)
-            largeur_ecran = self.menu.winfo_screenwidth()
-            hauteur_ecran = self.menu.winfo_screenheight()
-            pos_x = largeur_ecran // 2 - w // 2
+
+            central_monitor = len(get_monitors()) // 2
+            largeur_ecran = get_monitors()[central_monitor].width
+            hauteur_ecran = get_monitors()[central_monitor].height
+            cumulated_width = sum([get_monitors()[i].width for i in range(central_monitor)])
+            pos_x = largeur_ecran // 2 - w // 2 + cumulated_width
             pos_y = hauteur_ecran // 2 - h // 2
             geometry = f"{w}x{h}+{pos_x}+{pos_y}"
             sur_fenetre.geometry(geometry)
             sur_fenetre.resizable(height=False, width=False)
-            sur_fenetre.config(padx=padx, pady=pady)
+            sur_fenetre.configure(padx=padx, pady=pady)
 
             if type_fenetre == 'generer':
                 sur_fenetre.bind('<Control-BackSpace>', partial(self.effacer, sur_fenetre))
                 sur_fenetre.bind('<Control-Delete>', partial(self.effacer_fin, sur_fenetre))
+                sur_fenetre.bind('<Control-a>', partial(self.tout_selectionner, sur_fenetre))
 
                 self.generer_f = sur_fenetre
                 try:
@@ -1143,13 +1235,13 @@ class Application:
 
                 if fonction == 'confirmation':
                     self.create_button(self.confirmer_f, 'oui', 'Oui', 1, 0,
-                                       commande=partial(self.confirmation, compte))
-                    self.create_button(self.confirmer_f, 'non', 'Non', 1, 1, commande=self.generer_f.destroy)
+                                       commande=partial(self.confirmation, compte), bg="#DEDEDE", abg="#ECECEC")
+                    self.create_button(self.confirmer_f, 'non', 'Non', 1, 1, commande=self.generer_f.destroy, bg="#DEDEDE", abg="#ECECEC")
                     self.confirmer_f.bind('<Return>', partial(self.confirmation, compte))
                 else:  # fonction == 'confirmation_sup'
                     self.create_button(self.confirmer_f, 'oui', 'Oui', 1, 0,
-                                       commande=partial(self.confirmation_sup, compte))
-                    self.create_button(self.confirmer_f, 'non', 'Non', 1, 1, commande=self.confirmer_f.destroy)
+                                       commande=partial(self.confirmation_sup, compte), bg="#DEDEDE", abg="#ECECEC")
+                    self.create_button(self.confirmer_f, 'non', 'Non', 1, 1, commande=self.confirmer_f.destroy, bg="#DEDEDE", abg="#ECECEC")
                     self.confirmer_f.bind('<Return>', partial(self.confirmation_sup, compte))
 
     def get_links(self):
@@ -1341,7 +1433,7 @@ class Application:
             if self.visible['generer_mdp']:
                 self.stringvar['generer_mdp'].set(self.mdp_gen)
 
-    def generer_mdp_modif(self):
+    def generer_mdp_modif(self, event=None):
         """
         Fonction qui génère un mot de passe aléatoire dans "modifier"
         """
@@ -1352,9 +1444,9 @@ class Application:
                   self.stringvar['checkcara_spe'].get())
         if chaine == '':
             self.mdp_gen = 'Aucune case sélectionnée'
-            self.visible['generer_mdp'] = True
-            self.input['generer_mdp'].config(show='')
             self.stringvar['generer_mdp'].set(self.mdp_gen)
+            self.input['generer_mdp'].convert_placeholder()
+            self.input['generer_mdp'].temp_placeholder = 'Aucune case sélectionnée'
         else:
             try:
                 taille = int(self.stringvar['taille'].get())
@@ -1372,6 +1464,10 @@ class Application:
 
             self.mdp_gen = ''.join([random.choice(chaine) for _ in range(taille)])
             self.stringvar['generer_mdp'].set(self.mdp_gen)
+            self.input['generer_mdp'].convert_real_text()
+
+            if not self.visible['generer_mdp']:
+                self.input['generer_mdp'].configure(show="●")
 
     def modifier_preferences(self, *args):
         """
@@ -1385,6 +1481,9 @@ class Application:
         no_similar = self.stringvar['checkdouble'].get()
         profil = self.stringvar['profil'].get()
         autoconnexion = self.stringvar['checkautoconnexion'].get()
+
+        if self.input["profil"].entry['fg'] == self.input["profil"].placeholder_color:
+            profil = ''
 
         self.preferences['chiffres'] = chiffres
         self.preferences['lettresmin'] = mini
@@ -1573,9 +1672,9 @@ class Application:
                              commande=partial(self.show_entry, compte), columnspan=2)
 
         self.create_button(self.generer_f, 'conflit', 'Valider', 5, 0, padx=(0, 10), pady=(10, 0),
-                           commande=partial(self.verif_conflit, self.generer_f))
+                           commande=partial(self.verif_conflit, self.generer_f), bg="#DEDEDE", abg="#ECECEC")
         self.create_button(self.generer_f, 'annnuler_conflit', 'Annuler', 5, 1, pady=(10, 0),
-                           commande=partial(self.generer_f.destroy))
+                           commande=partial(self.generer_f.destroy), bg="#DEDEDE", abg="#ECECEC")
 
         self.generer_f.bind('<Return>', partial(self.verif_conflit, self.generer_f))
 
@@ -1668,9 +1767,9 @@ class Application:
                 self.input['nouveau_nom'].grid(row=4, column=0, sticky='news', pady=(10, 10), columnspan=2)
             else:
                 self.add_input(self.generer_f, 'nouveau_nom', 4, 0, sticky='news', focus=True, pady=(10, 10), padx=10,
-                               placeholder='Nouveau nom', columnspan=2)
-                self.stringvar['nouveau_nom'].set(f"{compte} ({i})")
-                self.input['nouveau_nom'].convert_real_text()
+                               placeholder='Nouveau nom', columnspan=2, default=f"{compte} ({i})")
+
+                self.input['nouveau_nom'].entry.icursor("end")
         except:
             try:
                 self.add_input(self.generer_f, 'nouveau_nom', 4, 0, sticky='news', focus=True, pady=(10, 10), padx=10,
@@ -1685,12 +1784,13 @@ class Application:
         Fonction qui récupère les données après validation de création,
         vérifie la validité de ces données et les enregistre
         """
-        mdp = self.stringvar['generer_mdp'].get()
+        mdp = self.input['generer_mdp'].get_content()
         username = self.stringvar['username'].get()
         link = self.stringvar['link'].get()
         wait = self.stringvar['checklong'].get()
         prio = self.stringvar['checkprio'].get()
         doubleauth = self.stringvar['checkdoubleauth'].get()
+
 
         if lien_valide(link):
             link = doubleauth + wait + prio + link
@@ -1699,10 +1799,23 @@ class Application:
 
         mdp_e = f"{mdp}{username}{len(username):02}{link}{len(link):03}"
         compte = self.stringvar['nom_compte'].get().strip()
+
+        if self.input["nom_compte"].entry['fg'] == self.input["nom_compte"].placeholder_color:
+            compte = ''
+        if self.input["username"].entry['fg'] == self.input["username"].placeholder_color:
+            username = ''
+
         if compte == '':
             self.stringvar['nom_compte'].set('Veuillez saisir un compte')
+            self.input['nom_compte'].temp_placeholder = "Veuillez saisir un compte"
         elif len(username) > 99:
             self.stringvar['username'].set('Nom trop long')
+            self.input['username'].convert_placeholder()
+            self.input['username'].temp_placeholder = "Nom trop long"
+        elif len(link) > 999:
+            self.stringvar['link'].set('Lien trop long')
+            self.input['link'].convert_placeholder()
+            self.input['link'].temp_placeholder = "Lien trop long"
         else:
             mdp_e_chiffre = encrypt(mdp_e, self.mdp_maitre)
             compte_e_chiffre = encrypt(compte, self.mdp_maitre)
@@ -1725,7 +1838,7 @@ class Application:
         Fonction qui récupère les données après validation de modification,
         vérifie la validité de ces données et les enregistre
         """
-        mdp = self.stringvar['generer_mdp'].get()
+        mdp = self.input['generer_mdp'].get_content()
         username = self.stringvar['username'].get()
         link = self.stringvar['link'].get()
         wait = self.stringvar['checklong'].get()
@@ -1737,8 +1850,17 @@ class Application:
         else:
             link = ''
 
+        if self.input["username"].entry['fg'] == self.input["username"].placeholder_color:
+            username = ''
+
         if len(username) > 99:
             self.stringvar['username'].set('Nom trop long')
+            self.input['username'].convert_placeholder()
+            self.input['username'].temp_placeholder = "Nom trop long"
+        elif len(link) > 999:
+            self.stringvar['link'].set('Lien trop long')
+            self.input['link'].convert_placeholder()
+            self.input['link'].temp_placeholder = "Lien trop long"
         else:
             mdp_e = f"{mdp}{username}{len(username):02}{link}{len(link):03}"
             mdp_e_chiffre = encrypt(mdp_e, self.mdp_maitre)
@@ -1797,26 +1919,26 @@ class Application:
         """
         self.generer_f.grid_columnconfigure(0, weight=1)
         self.create_label(self.generer_f, 'ancien_mdp', 'Ancien mot de passe :', 0, 0, sticky='ew', anchor='w')
-        self.add_input(self.generer_f, 'ancien_mdp', 1, 0, sticky='news', focus=True, show=False)
+        self.add_input(self.generer_f, 'ancien_mdp', 1, 0, sticky='news', focus=True, show=False, placeholder="Ancien mot de passe")
         self.create_button(self.generer_f, 'voir_a', '', 1, 1, image=self.oeil,
-                           width=25, height=25, commande=partial(self.voir, 'ancien_mdp'))
+                           width=25, commande=partial(self.voir, 'ancien_mdp'), bg="#DEDEDE", abg="#ECECEC", height=34)
 
         self.create_label(self.generer_f, 'nouv_mdp', 'Nouveau mot de passe :', 2, 0,
                           sticky='ew', anchor='w', pady=(20, 0))
-        self.add_input(self.generer_f, 'nouv_mdp', 3, 0, sticky='news', show=False)
+        self.add_input(self.generer_f, 'nouv_mdp', 3, 0, sticky='news', show=False, placeholder="Nouveau mot de passe")
         self.create_button(self.generer_f, 'voir_n', '', 3, 1, image=self.oeil,
-                           width=25, height=25, commande=partial(self.voir, 'nouv_mdp'))
+                           width=25, commande=partial(self.voir, 'nouv_mdp'), bg="#DEDEDE", abg="#ECECEC", height=34)
 
         self.create_label(self.generer_f, 'nouv_mdp_c', 'Confirmation mot de passe :', 4, 0,
                           sticky='ew', anchor='w', pady=(20, 0))
-        self.add_input(self.generer_f, 'nouv_mdp_c', 5, 0, sticky='news', show=False)
+        self.add_input(self.generer_f, 'nouv_mdp_c', 5, 0, sticky='news', show=False, placeholder="Confirmation nouveau mot de passe")
         self.create_button(self.generer_f, 'voir_c', '', 5, 1, image=self.oeil,
-                           width=25, height=25, commande=partial(self.voir, 'nouv_mdp_c'))
+                           width=25, commande=partial(self.voir, 'nouv_mdp_c'), bg="#DEDEDE", abg="#ECECEC", height=34)
 
         self.create_button(self.generer_f, 'confirmer', 'Confirmer', 6, 0, columnspan=2,
-                           commande=partial(self.changer_mdp_user), pady=(15, 10))
+                           commande=partial(self.changer_mdp_user), pady=(15, 10), bg="#DEDEDE", abg="#ECECEC")
         self.create_button(self.generer_f, 'annuler', 'Annuler', 7, 0, columnspan=2,
-                           commande=partial(self.generer_f.destroy))
+                           commande=partial(self.generer_f.destroy), bg="#DEDEDE", abg="#ECECEC")
 
     def build_modifier_mdp_maitre(self):
         """
@@ -1841,33 +1963,38 @@ class Application:
                           font=("arial", 20, "bold"))
 
         self.create_label(self.generer_f, 'mdp_user', 'Mot de passe :', 1, 0, sticky='ew', anchor='w')
-        self.add_input(self.generer_f, 'mdp_user', 2, 0, sticky='news', focus=True, show=False)
+        self.add_input(self.generer_f, 'mdp_user', 2, 0, sticky='news', focus=True, show=False, placeholder="Mot de passe")
         self.create_button(self.generer_f, 'voir_a', '', 2, 1, image=self.oeil,
-                           width=25, height=25, commande=partial(self.voir, 'mdp_user'))
+                           width=25, commande=partial(self.voir, 'mdp_user'), bg="#DEDEDE", abg="#ECECEC", height=34)
 
         self.create_button(self.generer_f, 'confirmer', 'Confirmer', 3, 0, columnspan=2,
-                           commande=partial(self.changer_mdp_maitre), pady=(15, 10))
+                           commande=partial(self.changer_mdp_maitre), pady=(15, 10), bg="#DEDEDE", abg="#ECECEC")
         self.create_button(self.generer_f, 'annuler', 'Annuler', 4, 0, columnspan=2,
-                           commande=partial(self.generer_f.destroy))
+                           commande=partial(self.generer_f.destroy), bg="#DEDEDE", abg="#ECECEC")
 
     def changer_mdp_user(self):
         """
         Fonction qui change le mot de passe de l'utilisateur
         """
         if self.stringvar['nouv_mdp'].get() != self.stringvar['nouv_mdp_c'].get():
-            self.visible['nouv_mdp_c'] = True
             self.stringvar['nouv_mdp'].set('')
+            self.input['nouv_mdp'].put_placeholder()
             self.stringvar['nouv_mdp_c'].set('Confirmation non identique')
-            self.input['nouv_mdp_c'].config(show='')
-        elif len(self.stringvar['nouv_mdp'].get()) < 10:
-            self.visible['nouv_mdp'] = True
+            self.input['nouv_mdp_c'].convert_placeholder()
+            self.input['nouv_mdp_c'].temp_placeholder = "Confirmation non identique"
+            self.input['nouv_mdp_c'].configure(show='')
+        elif len(self.stringvar['nouv_mdp'].get()) < 10 or self.input["nouv_mdp"].entry['fg'] == self.input["nouv_mdp"].placeholder_color:
             self.stringvar['nouv_mdp'].set('10 caractères minimum')
+            self.input['nouv_mdp'].convert_placeholder()
+            self.input['nouv_mdp'].temp_placeholder = "10 caractères minimum"
             self.stringvar['nouv_mdp_c'].set('')
-            self.input['nouv_mdp'].config(show='')
-        elif not get_master_password(self.stringvar['ancien_mdp'].get()):
-            self.visible['ancien_mdp'] = True
+            self.input['nouv_mdp_c'].put_placeholder()
+            self.input['nouv_mdp'].configure(show='')
+        elif not get_master_password(self.stringvar['ancien_mdp'].get()) or self.input["ancien_mdp"].entry['fg'] == self.input["ancien_mdp"].placeholder_color:
             self.stringvar['ancien_mdp'].set('Mot de passe incorrect')
-            self.input['ancien_mdp'].config(show='')
+            self.input['ancien_mdp'].convert_placeholder()
+            self.input['ancien_mdp'].temp_placeholder = "Mot de passe incorrect"
+            self.input['ancien_mdp'].configure(show='')
         else:
             new = self.stringvar['nouv_mdp'].get()
             old = self.stringvar['ancien_mdp'].get()
@@ -1880,10 +2007,11 @@ class Application:
         Fonction qui change le mot de passe maitre et réecrit les données
         dans le fichier et dans les listes, dictionnaires
         """
-        if not get_master_password(self.stringvar['mdp_user'].get()):
-            self.visible['mdp_user'] = True
+        if self.input["mdp_user"].entry['fg'] == self.input["mdp_user"].placeholder_color or not get_master_password(self.stringvar['mdp_user'].get()):
             self.stringvar['mdp_user'].set('Mot de passe incorrect')
-            self.input['mdp_user'].config(show='')
+            self.input['mdp_user'].convert_placeholder()
+            self.input['mdp_user'].temp_placeholder = "Mot de passe incorrect"
+            self.input['mdp_user'].configure(show='')
         else:
             donnees_mdp = self.donnees
             mdp_user = self.stringvar['mdp_user'].get()
@@ -1905,16 +2033,20 @@ class Application:
         """
         Fonction qui initialise un mot de passe maitre
         """
-        if self.stringvar['mdp_accueil'].get() != self.stringvar['mdp_accueil_conf'].get():
-            self.visible['mdp_accueil'] = True
-            self.stringvar['mdp_accueil_conf'].set('')
-            self.stringvar['mdp_accueil'].set('Confirmation non identique')
-            self.input['mdp_accueil'].config(show='')
-        elif len(self.stringvar['mdp_accueil'].get()) < 10:
-            self.visible['mdp_accueil'] = True
+        if len(self.stringvar['mdp_accueil'].get()) < 10 or self.input["mdp_accueil"].entry['fg'] == self.input["mdp_accueil"].placeholder_color:
             self.stringvar['mdp_accueil'].set('10 caractères minimum')
+            self.input['mdp_accueil'].convert_placeholder()
+            self.input['mdp_accueil'].temp_placeholder = "10 caractères minimum"
             self.stringvar['mdp_accueil_conf'].set('')
-            self.input['mdp_accueil'].config(show='')
+            self.input["mdp_accueil_conf"].put_placeholder()
+            self.input['mdp_accueil'].configure(show='')
+        elif self.stringvar['mdp_accueil'].get() != self.stringvar['mdp_accueil_conf'].get():
+            self.stringvar['mdp_accueil_conf'].set('')
+            self.input['mdp_accueil_conf'].put_placeholder()
+            self.stringvar['mdp_accueil'].set('Confirmation non identique')
+            self.input['mdp_accueil'].convert_placeholder()
+            self.input['mdp_accueil'].temp_placeholder = "Confirmation non identique"
+            self.input['mdp_accueil'].configure(show='')
         else:
             self.mdp_user = self.stringvar['mdp_accueil'].get()
             self.mdp_maitre = create_master_password(self.mdp_user)
@@ -1928,31 +2060,31 @@ class Application:
                           columnspan=2, pady=(0, 25), font=("arial", 20, "bold"))
 
         self.create_label(self.generer_f, 'mdp_l', "Mot de passe :", 1, 0, sticky='w', pady=(0, 10))
-        self.add_input(self.generer_f, 'mdp', 2, 0, width=43, focus=True, show=False, sticky='news')
-        self.create_button(self.generer_f, 'voir_mdp', '', 2, 1, commande=partial(self.voir, 'mdp'), image=self.oeil)
+        self.add_input(self.generer_f, 'mdp', 2, 0, width=265, focus=True, show=False, sticky='news', placeholder="Mot de passe")
+        self.create_button(self.generer_f, 'voir_mdp', '', 2, 1, commande=partial(self.voir, 'mdp'), image=self.oeil, bg="#DEDEDE", abg="#ECECEC", height=34)
 
         self.create_label(self.generer_f, 'confirmer_l', 'Tapez "CONFIRMER" :', 3, 0, sticky='w', pady=(30, 10))
         self.add_input(self.generer_f, 'confirmer', 4, 0, columnspan=2, sticky='news')
-        self.input['confirmer'].config(font=('arial', 20))
-        self.create_label(self.generer_f, 'eq', '', 4, 2, width=0)
-        self.label['eq'].config(height=2)
+        self.input['confirmer'].configure(font=('arial', 20))
 
         self.create_button(self.generer_f, 'valider_supp', 'Confirmer', 5, 0, columnspan=2,
                            commande=partial(self.tout_supprimer_exe), bg='green', fg='white',
-                           abg='#009020', afg='white', pady=(30, 0), height=2)
+                           abg='#009020', afg='white', pady=(30, 0))
 
     def tout_supprimer_exe(self):
         """
         Fonction qui vérifie si le mot de passe et les validations sont corrects et supprime toutes les données
         """
         if not self.stringvar['confirmer'].get() == 'CONFIRMER':
-            self.visible['mdp'] = True
             self.stringvar['mdp'].set('Confirmation incorrecte')
-            self.input['mdp'].config(show='')
-        elif not get_master_password(self.stringvar['mdp'].get()):
-            self.visible['mdp'] = True
+            self.input['mdp'].convert_placeholder()
+            self.input['mdp'].temp_placeholder = "Confirmation incorrecte"
+            self.input['mdp'].configure(show='')
+        elif not get_master_password(self.stringvar['mdp'].get()) or self.input["mdp"].entry['fg'] == self.input["mdp"].placeholder_color:
             self.stringvar['mdp'].set('Mot de passe incorrect')
-            self.input['mdp'].config(show='')
+            self.input['mdp'].convert_placeholder()
+            self.input['mdp'].temp_placeholder = "Mot de passe incorrect"
+            self.input['mdp'].configure(show='')
         else:
             with open(".data/salt.txt", "w"):
                 pass
@@ -1965,53 +2097,109 @@ class Application:
             self.menu.destroy()
 
 
-class Fenetre(Tk):
-    def __init__(self, la=100, h=100, texte=""):
+class Fenetre(CTk):
+    def __init__(self, la=100, h=100, texte="", fg_color=("#F1F1F1", "#222325")):
 
-        Tk.__init__(self)
+        super().__init__(fg_color=fg_color)
 
         self.title(texte)
 
         self.style = ttkthemes.ThemedStyle()
 
-        largeur_ecran = self.winfo_screenwidth()
-        hauteur_ecran = self.winfo_screenheight()
-        pos_x = largeur_ecran // 2 - la // 2
+        central_monitor = len(get_monitors()) // 2
+
+        # largeur_ecran = self.winfo_screenwidth()
+        largeur_ecran = get_monitors()[central_monitor].width
+        # hauteur_ecran = self.winfo_screenheight()
+        hauteur_ecran = get_monitors()[central_monitor].height
+
+        cumulated_width = sum([get_monitors()[i].width for i in range(central_monitor)])
+
+        pos_x = largeur_ecran // 2 - la // 2 + cumulated_width
         pos_y = hauteur_ecran // 2 - h // 2
         geometry = f"{la}x{h}+{pos_x}+{pos_y}"
         self.geometry(geometry)
 
 
-class EntryWithPlaceholder(Entry):
-    def __init__(self, master, textvariable, width=None, placeholder="PLACEHOLDER", color='grey'):
-        super().__init__(master, textvariable=textvariable, width=width)
+class CTkEntryWithPlaceholder(CTkEntry):
+    def __init__(self, master, textvariable, width=None, placeholder="PLACEHOLDER", color='gray', visible=None, index=None, recherche=False):
+
+        if textvariable.get():
+            text_color="gray10"
+        else:
+            text_color=color
+
+        super().__init__(master, textvariable=textvariable, width=width, text_color=text_color)
 
         self.placeholder = placeholder
+        self.temp_placeholder = None
         self.placeholder_color = color
-        self.default_fg_color = self['fg']
+        self.default_fg_color = "gray10"
+
+        self.visible = visible
+        self.index = index
 
         self.bind("<FocusIn>", self.refocus_launcher)
         self.bind("<Button-1>", self.refocus_launcher)
-        self.bind("<Key>", self.update)
 
-        self.put_placeholder()
+        self.bind('<Delete>', partial(self.shortcuts_manager))
+        self.bind('<Control-a>', partial(self.shortcuts_manager))
+
+
+
+        if not recherche:
+            self.bind("<Key>", self.update)
+
+        if not self.get():
+            self.put_placeholder()
+
+    def shortcuts_manager(self, event=None):
+        if self.entry['fg'] == self.default_fg_color:
+            return
+        return "break"
 
     def convert_real_text(self):
-        self['fg'] = self.default_fg_color
-        self.icursor('end')
+        self.entry['fg'] = self.default_fg_color
+        self.entry.icursor('end')
+
+    def convert_placeholder(self):
+        self.entry['fg'] = self.placeholder_color
+        self.entry.icursor(0)
+
+        if self.visible is not None:
+            self.configure(show="")
 
     def put_placeholder(self):
-        self.insert(0, self.placeholder)
-        self.icursor(0)
-        self['fg'] = self.placeholder_color
+        self.entry.insert(0, self.placeholder)
+        self.entry.icursor(0)
+        self.entry['fg'] = self.placeholder_color
+
+        if self.visible is not None:
+            self.configure(show="")
 
     def foc_in(self, *args):
         try:
-            if self['fg'] == self.placeholder_color and self.get() != self.placeholder:
-                self.delete('1', 'end')
-                self['fg'] = self.default_fg_color
+            if self.entry['fg'] == self.placeholder_color and self.get() != self.placeholder and self.get() != self.temp_placeholder:
+                if self.placeholder == self.get()[-len(self.placeholder):]:
+                    placeholder = self.placeholder
+                else:
+                    placeholder = self.temp_placeholder
+                difference = len(self.get()) - len(placeholder)
+                self.delete(difference, 'end')
+                self.entry['fg'] = self.default_fg_color
+
+                if self.visible is not None:
+                    if self.visible[self.index]:
+                        self.configure(show="")
+                    else:
+                        self.configure(show="●")
+
         except TclError:
             pass
+
+        except TypeError:
+            self.delete('0', 'end')
+            self.put_placeholder()
 
     def foc_out(self, *args):
         try:
@@ -2024,11 +2212,17 @@ class EntryWithPlaceholder(Entry):
         threading.Thread(target=self.refocus).start()
 
     def refocus(self, *args):
-        time.sleep(0.001)
-        if self['fg'] == self.placeholder_color and self.get() == self.placeholder:
+        time.sleep(0.01)
+        if self.entry['fg'] == self.placeholder_color and (self.get() == self.placeholder or (self.temp_placeholder is not None and self.get() == self.temp_placeholder)):
+            placeholder = self.get()
+
             self.delete('0', 'end')
-            self.insert(0, self.placeholder)
-            self.icursor(0)
+            if placeholder == self.placeholder:
+                self.insert(0, self.placeholder)
+            else:
+                self.insert(0, self.temp_placeholder)
+
+            self.entry.icursor(0)
 
     def update(self, *args):
         threading.Thread(target=self.update_placeholder).start()
@@ -2039,7 +2233,13 @@ class EntryWithPlaceholder(Entry):
             self.foc_in()
             self.foc_out()
 
-            if self['fg'] == self.placeholder_color:
-                self.icursor(0)
+            if self.entry['fg'] == self.placeholder_color:
+                self.entry.icursor(0)
         except TclError:
             pass
+
+    def get_content(self):
+        if self.entry['fg'] == self.placeholder_color:
+            return ""
+        else:
+            return self.get()

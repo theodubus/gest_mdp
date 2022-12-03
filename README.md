@@ -7,6 +7,20 @@ Gestionnaire de mots de passe avec connexion automatique
 </table>
 
 <details>
+<summary><b> 🆕 - Nouveautés</b></summary><br>
+
++ Nombreuses corrections de bugs et amélioration de la stabilité.
++ Nombreuses améliorations de l'interface graphique.
++ Changement de l'interface graphique, passage de Tkinter à [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter) :
+
+#### Tkinter (old) :<br>
+<img src="readme_images/old.png" width="240" height="160"><br>
+#### CustomTkinter (new) :<br>
+<img src="readme_images/new.png" width="240" height="160">
+
+</details>
+
+<details>
 <summary><b> ‍⚙️ - Installation</b></summary><br>
 
 ```bash
@@ -73,7 +87,7 @@ icône. Une image au bon format, `logo.ico` est également disponible dans le do
 ### Ajouter un mot de passe
 
 Vous pouvez stocker des nouveaux mots de passe en cliquant
-sur le bouton `+` ou dans `Options > Données > Nouveau compte`. Seul le nom du compte
+sur le bouton `Nouveau` ou dans `Options > Données > Nouveau compte`. Seul le nom du compte
 et le mot de passe sont obligatoires.
 
 + La case `Lien` correspond au lien vers la page de connexion si vous souhaitez
@@ -97,10 +111,8 @@ caractères à inclure ou non dans le mot de passe.
 Si vous ne souhaitez pas un mot de passe aléatoire,
 il est possible de le saisir manuellement.
 
-Si vous modifiez les paramètres de génération de mot de passe
-(changement de taille, changement des caractères inclus), n'oubliez
-pas de cliquer sur le bouton `Générer` pour générer un nouveau mot de
-passe correspondant à vos critères.
+Si vous le mot de passe généré ne vous convient pas,
+vous pouvez cliquer sur le bouton `Générer` pour en générer un nouveau.
 
 ### Modifier un mot de passe
 Pour modifier un mot de passe, cliquez sur le bouton en forme de crayon
@@ -141,7 +153,7 @@ Notez que cette détection automatique ne fonctionne que dans le
 dernier onglet ouvert.
 
 Si vous souhaitez désactiver temporairement la connexion automatique,
-vous pouvez décocher la case `autoconnexion (temp)`.
+vous pouvez décocher la case `autoconnexion`.
 
 ### Double authentification
 Si vous avez activé la double authentification pour un compte, l'application
