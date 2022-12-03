@@ -11,11 +11,13 @@ Gestionnaire de mots de passe avec connexion automatique
 
 + Nombreuses corrections de bugs et amélioration de la stabilité.
 + Nombreuses améliorations de l'interface graphique.
++ Ajouts de raccourcis claviers.
++ Génération automatique de mots de passe lors de changement de paramètres de génération.
 + Changement de l'interface graphique, passage de Tkinter à [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter) :
 
-#### Tkinter (old) :<br>
+#### Tkinter (avant) :<br>
 <img src="readme_images/old.png" width="240" height="160"><br>
-#### CustomTkinter (new) :<br>
+#### CustomTkinter (après) :<br>
 <img src="readme_images/new.png" width="240" height="160">
 
 </details>

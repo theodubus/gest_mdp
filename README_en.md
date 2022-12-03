@@ -7,6 +7,22 @@ Password manager with automatic connection
 </table>
 
 <details>
+<summary><b> 🆕 - New features</b></summary><br>
+
++ Many bug fixes and stability improvements.
++ Many GUI improvements.
++ Added keyboard shortcuts.
++ Automatic generation of passwords when changing generation parameters.
++ Changed GUI from Tkinter to [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter):
+#### Tkinter (before) :<br>
+<img src="readme_images/old.png" width="240" height="160"><br>
+#### CustomTkinter (after) :<br>
+<img src="readme_images/new.png" width="240" height="160">
+
+</details>
+
+
+<details>
 <summary><b> ‍⚙️ - Installation</b></summary><br>
 
 ```bash
