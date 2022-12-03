@@ -15,9 +15,9 @@ Password manager with automatic connection
 + Automatic generation of passwords when changing generation parameters.
 + Changed GUI from Tkinter to [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter):
 #### Tkinter (before) :<br>
-<img src="readme_images/old.png" width="240" height="160"><br>
+<img src="readme_documents/old.png" width="240" height="160"><br>
 #### CustomTkinter (after) :<br>
-<img src="readme_images/new.png" width="240" height="160">
+<img src="readme_documents/new.png" width="240" height="160">
 
 </details>
 

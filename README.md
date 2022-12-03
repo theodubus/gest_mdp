@@ -16,9 +16,9 @@ Gestionnaire de mots de passe avec connexion automatique
 + Changement de l'interface graphique, passage de Tkinter à [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter) :
 
 #### Tkinter (avant) :<br>
-<img src="readme_images/old.png" width="240" height="160"><br>
+<img src="readme_documents/old.png" width="240" height="160"><br>
 #### CustomTkinter (après) :<br>
-<img src="readme_images/new.png" width="240" height="160">
+<img src="readme_documents/new.png" width="240" height="160">
 
 </details>
 
