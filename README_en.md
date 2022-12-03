@@ -222,6 +222,7 @@ logging out from `Options > Se déconnecter`.
 </details>
 
 <details><summary><b> 🔒 - Security</b></summary><br>
+
 Data security follows the same principles as many other similar software. We derive
 the user's password (with a salt) with a time-consuming function
 (PBKDF2-HMAC-SHA256 with 1M iterations) to obtain an encryption key, a "derived" key.
