@@ -74,13 +74,17 @@ class VerticalScrolledFrame(ttk.Frame):
         vscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL)
         vscrollbar.pack(fill=tk.Y, side=tk.RIGHT, expand=tk.FALSE)
         canvas = tk.Canvas(self, bd=0, highlightthickness=0,
-                           yscrollcommand=vscrollbar.set)
+                           yscrollcommand=vscrollbar.set, bg="#F8F6F4")
         canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=tk.TRUE)
         vscrollbar.config(command=canvas.yview)
 
         # reset the view
         canvas.xview_moveto(0)
         canvas.yview_moveto(0)
+
+        # style used by default for all ttk.Frames
+        s = ttk.Style()
+        s.configure('TFrame', background="#F8F6F4")
 
         # create a frame inside the canvas which will be scrolled with it
         self.interior = interior = ttk.Frame(canvas)
