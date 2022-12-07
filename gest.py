@@ -805,11 +805,13 @@ class Application:
         mdp_l = decrypt(self.donnees[index], self.mdp_maitre)
         link, login = link_login(mdp_l)
         user = user_mdp(login)[0]
+        user_color = None
         if user == '':
             user = '(non défini)'
-        self.create_label(self.frame[index], f"user_label{index}", user, 0, 2, bg='white', pady=(20, 0),
-                          width=18, sticky='w', padx=(0, 20), anchor='w', user=True, CTk=False)
-        self.create_label(self.frame[index], f"points{index}", "", 1, 2, bg='white', pady=(0, 20),
+            user_color = '#A0A0A0'
+        self.create_label(self.frame[index], f"user_label{index}", user, 0, 2, bg='white', pady=(0, 0),
+                          width=18, sticky='w', padx=(0, 20), anchor='w', user=True, CTk=False, fg=user_color)
+        self.create_label(self.frame[index], f"points{index}", "", 1, 2, bg='white', pady=(0, 10),
                           width=18, sticky='w', padx=(0, 20), textvar=True, anchor='w', CTk=False)
 
         self.create_button(self.frame[index], f"copier_user{index}", '', 0, 1, sticky='se', image=self.copier,
