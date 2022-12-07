@@ -805,8 +805,14 @@ class Application:
         """
         self.frame[index] = CTkFrame(fenetre, fg_color=bg, corner_radius=10)
         self.frame[index].pack(fill='both', padx=padx, pady=pady)
-        self.create_label(self.frame[index], f"compte{index}", f"{index[:15]}", 0, 0, bg='white', padx=(25, 15),
-                          pady=20, width=12, anchor='w', font=("arial", 15, "underline"), rowspan=2, CTk=False)
+
+        # self.create_label(self.frame[index], f"compte{index}", f"{index[:15]}", 0, 0, bg='white', padx=(25, 15),
+        #                   pady=20, width=12, anchor='w', font=("arial", 15, "underline"), rowspan=2, CTk=False)
+
+        self.create_button(self.frame[index], f"compte{index}", f"{index}", 0, 0, rowspan=2, bg="white", abg="#F5F5F5",
+                           font=("arial", 15, "underline"), sticky='ew', width=150, pady=20, padx=(25, 15),
+                           commande=partial(self.create_toplevel, 450, 600, 'Modifier', 'generer', 'modifier',
+                                           60, 25, fc=partial(self.build_modifier, compte=index)), couper=True)
 
         mdp_l = decrypt(self.donnees[index], self.mdp_maitre)
         link, login = link_login(mdp_l)
@@ -939,8 +945,8 @@ class Application:
                                rowspan=rowspan, padx=padx, pady=pady)
 
     def create_button(self, fenetre, index, texte, ligne, colonne, columnspan=1, rowspan=1,
-                      commande=None, bg="white", fg=None, abg=None, afg=None,
-                      sticky='ew', height=28, width=10, image=None, pady=None, padx=None, disabled=False):
+                      commande=None, bg="white", fg=None, abg=None, afg=None, font='default',
+                      sticky='ew', height=28, width=10, image=None, pady=None, padx=None, disabled=False, couper=False):
         """
         Ajout d'un bouton à la fenêtre
 
@@ -953,8 +959,12 @@ class Application:
             image = disabled
             bg = "#F0F0F0"
 
+        if couper:
+            while largeur_texte(texte, 15) > 3.8:
+                texte = texte[:-1]
+
         self.button[index] = CTkButton(fenetre, text=texte, command=commande, fg_color=bg, text_color=fg, hover_color=abg,
-                                    width=width, height=height, image=image)
+                                    width=width, height=height, image=image, text_font=font)
         self.button[index].grid(row=ligne, column=colonne, columnspan=columnspan,
                                 rowspan=rowspan, sticky=sticky, pady=pady, padx=padx)
         if disabled:

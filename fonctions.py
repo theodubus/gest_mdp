@@ -1,5 +1,22 @@
 from security import *
+from fontTools.ttLib import TTFont
 
+
+def largeur_texte(texte, taille):
+    font = TTFont('images/arial.ttf')
+    cmap = font['cmap']
+    t = cmap.getcmap(3, 1).cmap
+    s = font.getGlyphSet()
+    units_per_em = font['head'].unitsPerEm
+
+    total = 0
+    for c in texte:
+        if ord(c) in t and t[ord(c)] in s:
+            total += s[t[ord(c)]].width
+        else:
+            total += s['.notdef'].width
+    total = total*float(taille)/units_per_em
+    return total*2.54/72
 
 def donnees_dico(liste):
     """
