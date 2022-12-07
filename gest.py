@@ -65,10 +65,13 @@ class Application:
 
         # Définition des logos
         self.oeil = None
+        self.oeil_disabled = None
         self.crayon = None
         self.copier = None
+        self.copier_disabled = None
         self.poubelle = None
         self.web = None
+        self.web_disabled = None
         self.oeil_a = None
         self.logo = None
 
@@ -152,10 +155,13 @@ class Application:
         """
         self.menu = Fenetre(700, 450, 'Menu')
         self.oeil = PhotoImage(file="images/oeil.png")
+        self.oeil_disabled = PhotoImage(file="images/oeil_disabled.png")
         self.crayon = PhotoImage(file="images/crayon.png")
         self.copier = PhotoImage(file="images/copier.png")
+        self.copier_disabled = PhotoImage(file="images/copier_disabled.png")
         self.poubelle = PhotoImage(file="images/poubelle.png")
         self.web = PhotoImage(file="images/web.png")
+        self.web_disabled = PhotoImage(file="images/web_disabled.png")
         self.logo = PhotoImage(file="images/logo.png")
         self.menu.iconphoto(True, self.logo)
 
@@ -804,51 +810,60 @@ class Application:
 
         mdp_l = decrypt(self.donnees[index], self.mdp_maitre)
         link, login = link_login(mdp_l)
-        user = user_mdp(login)[0]
+        user, mdp = user_mdp(login)
         user_color = None
         if user == '':
             user = '(non défini)'
             user_color = '#A0A0A0'
+        password_color = None
+        if mdp == '':
+            mdp = False
+            password_color = '#A0A0A0'
+
         self.create_label(self.frame[index], f"user_label{index}", user, 0, 2, bg='white', pady=(0, 0),
                           width=18, sticky='w', padx=(0, 20), anchor='w', user=True, CTk=False, fg=user_color)
+
         self.create_label(self.frame[index], f"points{index}", "", 1, 2, bg='white', pady=(0, 10),
-                          width=18, sticky='w', padx=(0, 20), textvar=True, anchor='w', CTk=False)
+                          width=18, sticky='w', padx=(0, 20), textvar=True, anchor='w', CTk=False, fg=password_color)
+        if not mdp:
+            self.voir_mdp(f"points{index}")
+            self.stringvar[f"points{index}"].set('(non défini)')
 
+        disabled = False
+        if user_color is not None:
+            disabled = self.copier_disabled
         self.create_button(self.frame[index], f"copier_user{index}", '', 0, 1, sticky='se', image=self.copier,
-                           width=34, height=34, commande=partial(self.copy_user, index), padx=(0, 10), pady=5, bg="#E5E5E5", abg="#F5F5F5")
+                           width=34, height=34, commande=partial(self.copy_user, index), padx=(0, 10), pady=5, bg="#E5E5E5", abg="#F5F5F5", disabled= disabled)
+
+        disabled = False
+        if not mdp:
+            disabled = self.copier_disabled
         self.create_button(self.frame[index], f"copier{index}", '', 1, 1, sticky='en', image=self.copier,
-                           width=34, height=34, commande=partial(self.copier_pp, f"points{index}"), padx=(0, 10), bg="#E5E5E5", abg="#F5F5F5")
+                           width=34, height=34, commande=partial(self.copier_pp, f"points{index}"), padx=(0, 10), bg="#E5E5E5", abg="#F5F5F5", disabled=disabled)
 
+        disabled = False
+        if not mdp:
+            disabled = self.oeil_disabled
+        self.create_button(self.frame[index], f"modif{index}", '', 0, 3, sticky='se', image=self.crayon, width=32,
+                           height=34, rowspan=1, padx=5, pady=5,
+                           commande=partial(self.create_toplevel, 450, 600, 'Modifier', 'generer', 'modifier',
+                                            60, 25, fc=partial(self.build_modifier, compte=index)), bg="#E5E5E5", abg="#F5F5F5")
+        self.create_button(self.frame[index], f"supprimer{index}", '', 0, 4, sticky='en', image=self.poubelle,
+                           width=32, height=34, rowspan=1, padx=0, pady=5,
+                           commande=partial(self.create_toplevel, 350, 200, '', 'confirmer', 'confirmation_sup', 30, 15,
+                                            s='Cette opération\n est définitive.\n\nConfirmer la suppression ?\n',
+                                            compte=index), bg="#E5E5E5", abg="#F5F5F5")
+        self.create_button(self.frame[index], f"voir{index}", '', 1, 3, sticky='se', image=self.oeil, width=30,
+                           height=34, commande=partial(self.voir_mdp, f"points{index}"), rowspan=1, padx=5, pady=(0, 5), bg="#E5E5E5", abg="#F5F5F5", disabled=disabled)
+        disabled = False
         if link != '':
-            self.create_button(self.frame[index], f"voir{index}", '', 0, 3, sticky='se', image=self.oeil, width=30,
-                               height=34, commande=partial(self.voir_mdp, f"points{index}"), rowspan=1, padx=5, pady=5, bg="#E5E5E5", abg="#F5F5F5")
-            self.create_button(self.frame[index], f"modif{index}", '', 0, 4, sticky='se', image=self.crayon, width=32,
-                               height=34, rowspan=1, padx=0, pady=5,
-                               commande=partial(self.create_toplevel, 450, 600, 'Modifier', 'generer', 'modifier',
-                                                60, 25, fc=partial(self.build_modifier, compte=index)), bg="#E5E5E5", abg="#F5F5F5")
-            self.create_button(self.frame[index], f"supprimer{index}", '', 1, 3, sticky='en', image=self.poubelle,
-                               width=32, height=34, rowspan=1, padx=5,
-                               commande=partial(self.create_toplevel, 350, 200, '', 'confirmer',
-                                                'confirmation_sup', 30, 15,
-                                                s='Cette opération\n est définitive.\n\nConfirmer la suppression ?\n',
-                                                compte=index), bg="#E5E5E5", abg="#F5F5F5")
-
             self.create_button(self.frame[index], f"web{index}", '', 1, 4, sticky='en', image=self.web, width=32,
                                height=34, commande=partial(self.ouvrir_fenetre, link, login, index),
                                rowspan=1, padx=0, bg="#E5E5E5", abg="#F5F5F5")
         else:
-            self.create_button(self.frame[index], f"voir{index}", '', 0, 3, sticky='e', image=self.oeil, width=25,
-                               height=34, commande=partial(self.voir_mdp, f"points{index}"), rowspan=2, padx=(0, 5), pady=0, bg="#E5E5E5", abg="#F5F5F5")
-            self.create_button(self.frame[index], f"modif{index}", '', 0, 4, sticky='e', image=self.crayon, width=32,
-                               height=34, rowspan=2, padx=(0, 5), pady=0,
-                               commande=partial(self.create_toplevel, 450, 600, 'Modifier', 'generer', 'modifier', 60,
-                                                25, fc=partial(self.build_modifier, compte=index)), bg="#E5E5E5", abg="#F5F5F5")
-            self.create_button(self.frame[index], f"supprimer{index}", '', 0, 5, sticky='e', image=self.poubelle,
-                               width=32, height=34, rowspan=2, padx=0, pady=0,
-                               commande=partial(self.create_toplevel, 350, 200, '', 'confirmer',
-                                                'confirmation_sup', 30, 15,
-                                                s='Cette opération\n est définitive.\n\nConfirmer la suppression ?\n',
-                                                compte=index), bg="#E5E5E5", abg="#F5F5F5")
+            self.create_button(self.frame[index], f"web{index}", '', 1, 4, sticky='en', image=self.web, width=32,
+                               height=34, rowspan=1, padx=0, bg="#E5E5E5", abg="#F5F5F5", disabled=self.web_disabled)
+
 
     def create_frame(self, fenetre, index, row, column, bg='#BBBBBB', columnspan=1, pady=None, padx=None, sticky=None):
         """
@@ -925,7 +940,7 @@ class Application:
 
     def create_button(self, fenetre, index, texte, ligne, colonne, columnspan=1, rowspan=1,
                       commande=None, bg="white", fg=None, abg=None, afg=None,
-                      sticky='ew', height=28, width=10, image=None, pady=None, padx=None):
+                      sticky='ew', height=28, width=10, image=None, pady=None, padx=None, disabled=False):
         """
         Ajout d'un bouton à la fenêtre
 
@@ -934,10 +949,17 @@ class Application:
             - Sauvegarde du bouton dans un dictionnaire (permettant de garder la trace des éléments)
             - Ajout du bouton dans la fenêtre
         """
+        if disabled:
+            image = disabled
+            bg = "#F0F0F0"
+
         self.button[index] = CTkButton(fenetre, text=texte, command=commande, fg_color=bg, text_color=fg, hover_color=abg,
                                     width=width, height=height, image=image)
         self.button[index].grid(row=ligne, column=colonne, columnspan=columnspan,
                                 rowspan=rowspan, sticky=sticky, pady=pady, padx=padx)
+        if disabled:
+            self.button[index].configure(state="disabled")
+
 
     def add_input(self, fenetre, index, ligne, colonne, pady=None, padx=None, width=10,
                   focus=False, show=True, sticky=None, columnspan=1, default=None, placeholder='', exists=False):
