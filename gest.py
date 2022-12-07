@@ -1275,14 +1275,14 @@ class Application:
                 self.create_label(self.confirmer_f, 'choix', s, 0, 0, columnspan=2, anchor='center')
 
                 if fonction == 'confirmation':
-                    self.create_button(self.confirmer_f, 'oui', 'Oui', 1, 0,
-                                       commande=partial(self.confirmation, compte), bg="#DEDEDE", abg="#ECECEC")
-                    self.create_button(self.confirmer_f, 'non', 'Non', 1, 1, commande=self.generer_f.destroy, bg="#DEDEDE", abg="#ECECEC")
+                    self.create_button(self.confirmer_f, 'oui', 'Modifier', 1, 0,
+                                       commande=partial(self.confirmation, compte), bg="#DEDEDE", abg="#ECECEC", padx=(0, 2))
+                    self.create_button(self.confirmer_f, 'non', 'Annuler', 1, 1, commande=self.generer_f.destroy, bg="#DEDEDE", abg="#ECECEC", padx=(2, 0))
                     self.confirmer_f.bind('<Return>', partial(self.confirmation, compte))
                 else:  # fonction == 'confirmation_sup'
-                    self.create_button(self.confirmer_f, 'oui', 'Oui', 1, 0,
-                                       commande=partial(self.confirmation_sup, compte), bg="#DEDEDE", abg="#ECECEC")
-                    self.create_button(self.confirmer_f, 'non', 'Non', 1, 1, commande=self.confirmer_f.destroy, bg="#DEDEDE", abg="#ECECEC")
+                    self.create_button(self.confirmer_f, 'oui', 'Supprimer', 1, 0,
+                                       commande=partial(self.confirmation_sup, compte), bg="#DEDEDE", abg="#ECECEC", padx=(0, 2))
+                    self.create_button(self.confirmer_f, 'non', 'Annuler', 1, 1, commande=self.confirmer_f.destroy, bg="#DEDEDE", abg="#ECECEC", padx=(2, 0))
                     self.confirmer_f.bind('<Return>', partial(self.confirmation_sup, compte))
 
     def get_links(self):
