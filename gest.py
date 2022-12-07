@@ -1035,8 +1035,15 @@ class Application:
     def copy_user(self, index):
         """
         Copie un login dans le presse-papier
+
+        On copie le login depuis le dictionnaire des données et plus depuis le label :
+        pyperclip.copy(self.stringvar[f"user_label{index}"].get()) fonctionnait mais copiait le texte
+        affiché par défaut lorsque le nom d'utilisateur n'était pas défini.
         """
-        pyperclip.copy(self.stringvar[f"user_label{index}"].get())
+        mdp_l = decrypt(self.donnees[index], self.mdp_maitre)
+        login = link_login(mdp_l)[1]
+        login = user_mdp(login)[0]
+        pyperclip.copy(login)
 
     def copier_gen(self):
         """
@@ -1797,7 +1804,6 @@ class Application:
         else:
             link = ''
 
-        mdp_e = f"{mdp}{username}{len(username):02}{link}{len(link):03}"
         compte = self.stringvar['nom_compte'].get().strip()
 
         if self.input["nom_compte"].entry['fg'] == self.input["nom_compte"].placeholder_color:
@@ -1817,6 +1823,7 @@ class Application:
             self.input['link'].convert_placeholder()
             self.input['link'].temp_placeholder = "Lien trop long"
         else:
+            mdp_e = f"{mdp}{username}{len(username):02}{link}{len(link):03}"
             mdp_e_chiffre = encrypt(mdp_e, self.mdp_maitre)
             compte_e_chiffre = encrypt(compte, self.mdp_maitre)
             if compte not in self.donnees.keys():  # ecriture directe à la fin du fichier
