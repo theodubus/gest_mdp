@@ -3,6 +3,9 @@ from fontTools.ttLib import TTFont
 
 
 def largeur_texte(texte, taille):
+    """
+    Renvoie la largeur d'un texte en cm en fonction de la taille de la police
+    """
     font = TTFont('images/arial.ttf')
     cmap = font['cmap']
     t = cmap.getcmap(3, 1).cmap

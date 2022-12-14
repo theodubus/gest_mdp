@@ -2,10 +2,16 @@ import pyautogui
 import time
 import pyperclip
 import platform
+import psutil
 
 if platform.system() == "Windows":
     from pywinauto.keyboard import send_keys
 
+def is_open(app_name):
+    """
+    Fonction qui vérifie si une application est ouverte
+    """
+    return app_name in (i.name() for i in psutil.process_iter())
 
 def open_app(app_name):
     """
@@ -26,11 +32,11 @@ def get_authy_code(account):
 
     # On ouvre l'application Authy
     open_app('authy')
-    time.sleep(4)
 
-    # On essaye de taper le nom du compte, si on y arrive, l'application est ouverte
-    # Pour ne pas tourner en boucle, on essaye pendant un peu plus de 20 secondes,
-    # après quoi on renvoie None si l'application n'a pas été ouverte.
+    wait = 0
+    while not is_open('authy') and wait < 15:
+        time.sleep(2)
+
     attempts = 0
     test = ''
     while test != account and attempts < 20:
