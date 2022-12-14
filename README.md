@@ -103,7 +103,7 @@ mettre en place la connexion automatique pour ce compte
 long à charger, la connexion automatique peut échouer dans ce cas si
 on ne rajoute pas de délai (ex: openclassrooms).
 
-+ La case `2FA` permet d'indiquer que ce compte possède une [double authentification](#double-authentification).
++ La case `2FA` permet d'indiquer que ce compte possède une double authentification.
 
 + Les cases en dessous le champ de mot de passe correspondent aux
 caractères à inclure ou non dans le mot de passe.
@@ -247,7 +247,7 @@ mais cela aurait pour conséquence de devoir déchiffrer et rechiffrer toutes le
 à chaque fois que l'utilisateur change son mot de passe. Pour éviter cela, on utilise comme clé
 de chiffrement une clé aléatoire générée par le module `cryptography` et on la chiffre avec la clé "dérivée".
 
-Les fonctions liées à la sécurité sont implémentées dans le fichier `security.py`.
+Les fonctions liées à la sécurité sont implémentées dans le fichier [security.py](./security.py).
 
 La puissance des ordinateurs est amenée à augmenter dans les années à venir,
 la fonction de dérivation du mot de passe pourrait donc devoir être modifiée.
