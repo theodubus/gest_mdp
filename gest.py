@@ -544,16 +544,6 @@ class Application:
         self.generer_f.grid_columnconfigure(0, weight=2)
         self.generer_f.grid_columnconfigure(1, weight=1)
 
-        # self.create_label(self.generer_f, 'compte_mdp', 'Compte : ', 0, 0, sticky='ew',
-        #                   anchor='w', pady=(20, 15), font=("arial", 22, "bold"), padx=(50, 0))
-        # self.add_input(self.generer_f, 'nom_compte', 0, 1, sticky='ew', columnspan=3, focus=True, pady=(20, 15), placeholder="Nom du compte", padx=(0, 50))
-        #
-        # self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', '0', pady=(0, 10), padx=(50, 0), font=('arial', 20))
-        # self.add_checkbutton(self.generer_f, 'long', 'long', 3, 1, '1', '0', '0', font=('arial', 20))
-        # self.add_checkbutton(self.generer_f, 'doubleauth', '2FA', 3, 2, '1', '0', '0', columnspan=2, font=('arial', 20))
-        #
-        # self.generer_f.grid_columnconfigure(0, weight=1)
-
         self.add_checkbutton(self.generer_f, 'autoconnexion', 'auto', 1, 0, "1", '0', self.preferences['autoconnexion'], font=('arial', 20), padx=(50, 0))
         self.add_checkbutton(self.generer_f, 'chiffres', '0-9', 2, 0, digits, '', self.preferences['chiffres'], font=('arial', 20), padx=(50, 0))
         self.add_checkbutton(self.generer_f, 'lettresmin', 'a-z', 3, 0,
