@@ -33,9 +33,13 @@ def get_authy_code(account):
     # On ouvre l'application Authy
     open_app('authy')
 
-    wait = 0
-    while not is_open('authy') and wait < 15:
+    attempts = 0
+    while not is_open('authy') and attempts < 15:
         time.sleep(2)
+        attempts += 1
+        
+    if attempts == 15:
+        return None
 
     attempts = 0
     test = ''
