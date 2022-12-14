@@ -598,8 +598,10 @@ class Application:
         self.generer_f.bind('<Return>', partial(self.create_toplevel, 350, 200, '', 'confirmer',
                                                 'confirmation', 30, 15, compte=compte))
 
-        self.create_label(self.generer_f, 'compte_mdp', compte, 0, 0, sticky='ew',
-                          anchor='center', columnspan=4, pady=(20, 15), font=("arial", 22, "bold", 'underline'))
+        self.create_label(self.generer_f, 'compte_mdp', 'Compte : ', 0, 0, sticky='ew',
+                          anchor='w', pady=(20, 15), font=("arial", 22, "bold"), padx=(50, 0))
+        self.add_input(self.generer_f, 'nom_compte', 0, 1, sticky='ew', columnspan=3, focus=True, pady=(20, 15), placeholder="Nom du compte", padx=(0, 50), default=compte)
+        self.input['nom_compte']._entry.icursor('end')
 
         self.create_label(self.generer_f, 'user_label', 'Utilisateur : ', 1, 0, sticky='ew',
                           anchor='w', pady=(0, 15), font=("arial", 22, "bold"), padx=(50, 0))
@@ -635,8 +637,7 @@ class Application:
         self.create_slider(self.generer_f, "taille", 12, 0, columnspan=4, default=int(self.preferences['taille']),
                            debut=10, fin=100, commande=partial(self.generer_mdp_modif), pady=(0, 0), width=350)
         self.add_input(self.generer_f, 'taille', 11, 1, sticky='w',
-                       width=30, padx=(0, 100), exists=True, focus=True)
-        self.input['taille']._entry.icursor('end')
+                       width=30, padx=(0, 100), exists=True)
         self.create_button(self.generer_f, 'generer', 'Générer', 13, 0, columnspan=4,
                            bg='#1030EE', fg='white', abg='#2050FF', afg='white',
                            commande=partial(self.generer_mdp_modif), pady=(15, 10), padx=(50, 50))
@@ -1058,7 +1059,7 @@ class Application:
         """
         if self.visible[index]:
             self.visible[index] = False
-            if not (type(self.input[index]) == CTkEntryWithPlaceholder and self.input[index]._entry['fg'] == self.input[index].placeholder_color):
+            if not (type(self.input[index]) == CTkEntryWithPlaceholder and self.input[index].get_content() == ""):
                 self.input[index].configure(show="●")
         else:
             self.visible[index] = True
@@ -1156,7 +1157,7 @@ class Application:
             fenetre.update()
             time.sleep(0.1)
 
-            if self.input[index]._entry['fg'] == self.input[index].placeholder_color:
+            if self.input[index].get_content() == "":
                 self.stringvar['erreur'].set('Mot de passe incorrect')
                 return
 
@@ -1244,6 +1245,10 @@ class Application:
         finally:
             if platform.system() == "Windows":
                 h += int(h * 0.05)
+
+            if type_fenetre != 'generer' and fonction == 'confirmation':
+                if not self.verif_confirmation(compte):
+                    return
 
             if type_fenetre != 'generer' and fonction != 'confirmation_sup':
                 sur_fenetre = CTkToplevel(self.generer_f, width=w, height=h, fg_color=("#F1F1F1", "#222325"))
@@ -1527,11 +1532,8 @@ class Application:
         ponct = self.stringvar['checkponctuation'].get()
         cara = self.stringvar['checkcara_spe'].get()
         no_similar = self.stringvar['checkdouble'].get()
-        profil = self.stringvar['profil'].get()
         autoconnexion = self.stringvar['checkautoconnexion'].get()
-
-        if self.input["profil"]._entry['fg'] == self.input["profil"].placeholder_color:
-            profil = ''
+        profil = self.input["profil"].get_content()
 
         self.preferences['chiffres'] = chiffres
         self.preferences['lettresmin'] = mini
@@ -1846,10 +1848,8 @@ class Application:
 
         compte = self.stringvar['nom_compte'].get().strip()
 
-        if self.input["nom_compte"]._entry['fg'] == self.input["nom_compte"].placeholder_color:
-            compte = ''
-        if self.input["username"]._entry['fg'] == self.input["username"].placeholder_color:
-            username = ''
+        compte = self.input["nom_compte"].get_content()
+        username = self.input["username"].get_content()
 
         if compte == '':
             self.stringvar['nom_compte'].set('Veuillez saisir un compte')
@@ -1886,7 +1886,6 @@ class Application:
         vérifie la validité de ces données et les enregistre
         """
         mdp = self.input['generer_mdp'].get_content()
-        username = self.stringvar['username'].get()
         link = self.stringvar['link'].get()
         wait = self.stringvar['checklong'].get()
         prio = self.stringvar['checkprio'].get()
@@ -1897,21 +1896,30 @@ class Application:
         else:
             link = ''
 
-        if self.input["username"]._entry['fg'] == self.input["username"].placeholder_color:
-            username = ''
+        username = self.input["username"].get_content()
+        new_compte = self.input["nom_compte"].get_content().strip()
 
-        if len(username) > 99:
-            self.stringvar['username'].set('Nom trop long')
-            self.input['username'].convert_placeholder()
-            self.input['username'].temp_placeholder = "Nom trop long"
-        elif len(link) > 999:
-            self.stringvar['link'].set('Lien trop long')
-            self.input['link'].convert_placeholder()
-            self.input['link'].temp_placeholder = "Lien trop long"
-        else:
+        mdp_e = f"{mdp}{username}{len(username):02}{link}{len(link):03}"
+        mdp_e_chiffre = encrypt(mdp_e, self.mdp_maitre)
+
+        if new_compte != compte:
+            # on supprime l'ancien compte
+            self.confirmation_sup(compte, new_links=False)
+
+            # on ajoute le nouveau compte
             mdp_e = f"{mdp}{username}{len(username):02}{link}{len(link):03}"
             mdp_e_chiffre = encrypt(mdp_e, self.mdp_maitre)
-
+            compte_e_chiffre = encrypt(new_compte, self.mdp_maitre)
+            with open(self.f, "a") as fichier:
+                fichier.write(f"{compte_e_chiffre}\n")
+                fichier.write(f"{mdp_e_chiffre}\n")
+                self.donnees[new_compte] = mdp_e_chiffre
+                self.donnees_liste.append(f"{new_compte}\n")
+                self.donnees_liste.append(f'{mdp_e_chiffre}\n')
+                self.generer_f.destroy()
+                self.update(delete=True, account=compte, remonter=False)
+                threading.Thread(target=self.get_links).start()
+        else:
             with open(self.f, "r") as fichier:
                 donnees_s = fichier.readlines()
                 index = index_liste(self.donnees_liste, f"{compte}\n")
@@ -1933,7 +1941,46 @@ class Application:
             self.update(delete=True, account=compte, remonter=False)
             threading.Thread(target=self.get_links).start()
 
-    def confirmation_sup(self, compte, *args):
+    def verif_confirmation(self, compte, *args):
+        """
+        Fonction qui vérifie la validité des données après validation de modification
+        """
+        link = self.stringvar['link'].get()
+        wait = self.stringvar['checklong'].get()
+        prio = self.stringvar['checkprio'].get()
+        doubleauth = self.stringvar['checkdoubleauth'].get()
+
+        if lien_valide(link):
+            link = doubleauth + wait + prio + link
+        else:
+            link = ''
+
+        username = self.input["username"].get_content()
+        new_compte = self.input["nom_compte"].get_content().strip()
+
+        if new_compte == '':
+            self.stringvar['nom_compte'].set('Veuillez saisir un compte')
+            self.input['nom_compte'].temp_placeholder = "Veuillez saisir un compte"
+            return False
+        elif new_compte in self.donnees.keys() and new_compte != compte:
+            self.stringvar['nom_compte'].set('Ce compte existe déjà')
+            self.input['nom_compte'].convert_placeholder()
+            self.input['nom_compte'].temp_placeholder = "Ce compte existe déjà"
+            return False
+        elif len(username) > 99:
+            self.stringvar['username'].set('Nom trop long')
+            self.input['username'].convert_placeholder()
+            self.input['username'].temp_placeholder = "Nom trop long"
+            return False
+        elif len(link) > 999:
+            self.stringvar['link'].set('Lien trop long')
+            self.input['link'].convert_placeholder()
+            self.input['link'].temp_placeholder = "Lien trop long"
+            return False
+        else:
+            return True
+
+    def confirmation_sup(self, compte, new_links=True, *args):
         """
         Fonction qui supprime les données après validation de suppression
         """
@@ -1948,8 +1995,9 @@ class Application:
         self.donnees.pop(compte)
         self.frame[compte].destroy()
         self.confirmer_f.destroy()
-        self.update(remonter=False)
-        threading.Thread(target=self.get_links).start()
+        if new_links:
+            self.update(remonter=False)
+            threading.Thread(target=self.get_links).start()
 
     def build_modifier_mdp_user(self):
         """
@@ -2030,14 +2078,14 @@ class Application:
             self.input['nouv_mdp_c'].convert_placeholder()
             self.input['nouv_mdp_c'].temp_placeholder = "Confirmation non identique"
             self.input['nouv_mdp_c'].configure(show='')
-        elif len(self.stringvar['nouv_mdp'].get()) < 10 or self.input["nouv_mdp"]._entry['fg'] == self.input["nouv_mdp"].placeholder_color:
+        elif len(self.stringvar['nouv_mdp'].get()) < 10 or self.input["nouv_mdp"].get_content() == "":
             self.stringvar['nouv_mdp'].set('10 caractères minimum')
             self.input['nouv_mdp'].convert_placeholder()
             self.input['nouv_mdp'].temp_placeholder = "10 caractères minimum"
             self.stringvar['nouv_mdp_c'].set('')
             self.input['nouv_mdp_c'].put_placeholder()
             self.input['nouv_mdp'].configure(show='')
-        elif not get_master_password(self.stringvar['ancien_mdp'].get()) or self.input["ancien_mdp"]._entry['fg'] == self.input["ancien_mdp"].placeholder_color:
+        elif not get_master_password(self.stringvar['ancien_mdp'].get()) or self.input["ancien_mdp"].get_content() == "":
             self.stringvar['ancien_mdp'].set('Mot de passe incorrect')
             self.input['ancien_mdp'].convert_placeholder()
             self.input['ancien_mdp'].temp_placeholder = "Mot de passe incorrect"
@@ -2054,7 +2102,7 @@ class Application:
         Fonction qui change le mot de passe maitre et réecrit les données
         dans le fichier et dans les listes, dictionnaires
         """
-        if self.input["mdp_user"]._entry['fg'] == self.input["mdp_user"].placeholder_color or not get_master_password(self.stringvar['mdp_user'].get()):
+        if self.input["mdp_user"].get_content() == "" or not get_master_password(self.stringvar['mdp_user'].get()):
             self.stringvar['mdp_user'].set('Mot de passe incorrect')
             self.input['mdp_user'].convert_placeholder()
             self.input['mdp_user'].temp_placeholder = "Mot de passe incorrect"
@@ -2080,7 +2128,7 @@ class Application:
         """
         Fonction qui initialise un mot de passe maitre
         """
-        if len(self.stringvar['mdp_accueil'].get()) < 10 or self.input["mdp_accueil"]._entry['fg'] == self.input["mdp_accueil"].placeholder_color:
+        if len(self.stringvar['mdp_accueil'].get()) < 10 or self.input["mdp_accueil"].get_content() == "":
             self.stringvar['mdp_accueil'].set('10 caractères minimum')
             self.input['mdp_accueil'].convert_placeholder()
             self.input['mdp_accueil'].temp_placeholder = "10 caractères minimum"
@@ -2131,7 +2179,7 @@ class Application:
             self.input['mdp'].convert_placeholder()
             self.input['mdp'].temp_placeholder = "Confirmation incorrecte"
             self.input['mdp'].configure(show='')
-        elif not get_master_password(self.stringvar['mdp'].get()) or self.input["mdp"]._entry['fg'] == self.input["mdp"].placeholder_color:
+        elif not get_master_password(self.stringvar['mdp'].get()) or self.input["mdp"].get_content() == "":
             self.stringvar['mdp'].set('Mot de passe incorrect')
             self.input['mdp'].convert_placeholder()
             self.input['mdp'].temp_placeholder = "Mot de passe incorrect"
