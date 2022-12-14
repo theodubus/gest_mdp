@@ -37,7 +37,7 @@ def get_authy_code(account):
     while not is_open('authy') and attempts < 15:
         time.sleep(2)
         attempts += 1
-        
+
     if attempts == 15:
         return None
 
