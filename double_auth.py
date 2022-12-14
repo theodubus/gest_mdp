@@ -3,9 +3,15 @@ import time
 import pyperclip
 import platform
 import psutil
+from shutil import which
 
 if platform.system() == "Windows":
     from pywinauto.keyboard import send_keys
+
+def app_installed(name):
+    """Vérifie si une application est installée"""
+    return which(name) is not None
+
 
 def is_open(app_name):
     """
@@ -29,6 +35,8 @@ def get_authy_code(account):
     """
     Fonction qui récupère le code d'authentification d'un compte
     """
+    if not app_installed("authy"):
+        return None
 
     # On ouvre l'application Authy
     open_app('authy')
