@@ -23,11 +23,11 @@ problèmes présents auparavant avec Selenium, tels que :
 + l'impossibilité d'ouvrir plusieurs instances du navigateur
 + des problèmes de saisie de caractères accentués
 + le refus de certains sites de fonctionner en raison de la détection d'un navigateur en mode robot
-+ la gestion manuelle des sites qui mettent du temps à charger avec l'option "wait"
++ la gestion manuelle des sites qui mettent du temps à charger avec l'option "long"
 + la boucle infinie en cas de mauvais mot de passe qui faisait le logiciel tenter de se connecter indéfiniment
 
 Avec cette amélioration, tous ces problèmes sont désormais du passé. L'option
-"wait" étant devenue inutile, elle a été supprimée et remplacée par l'option
+"long" étant devenue inutile, elle a été supprimée et remplacée par l'option
 "submit". Cette option vous permet de décider site par site si vous voulez
 que l'extension soumette automatiquement le formulaire de connexion ou
 si cette dernière doit se contenter de remplir les champs.

@@ -23,11 +23,11 @@ were present before with Selenium, such as:
 + the inability to open multiple instances of the browser
 + issues with entering accented characters
 + certain sites refusing to work due to detection of a browser in robot mode
-+ manual management of sites that take a long time to load with the "wait" option
++ manual management of sites that take a long time to load with the "long" option
 + infinite loop in case of incorrect password, causing the software to try to connect indefinitely.
 
 With this improvement, all these problems are now a thing of the
-past. The "wait" option has become unnecessary and has been removed
+past. The "long" option has become unnecessary and has been removed
 and replaced with the "submit" option. This option allows you
 to decide on a per-site basis whether you want the extension to
 automatically submit the login form or just fill in the fields.
@@ -202,7 +202,7 @@ You can change your password from `Options > Profil > Sécurité > Modifier le m
 
 ### Change encryption key
 You can encrypt your data with a new encryption key from `Options > Profil > Sécurité > Changer de clé de chiffrement`.
-This operation can be time consuming as it requires all data to be rewritten
+This operation can be time-consuming as it requires all data to be rewritten
 (decryption with old encryption key, encryption with new key).
 Expect a wait of a few seconds for a hundred accounts.
 
