@@ -15,7 +15,7 @@ def get_window_titles():
 
 
 if platform.system() == "Windows":
-    from pywinauto.keyboard import send_keys, Application
+    from pywinauto.keyboard import send_keys
 
 def app_installed(name):
     """Vérifie si une application est installée"""
@@ -25,16 +25,25 @@ def is_open(app_name):
     """
     Fonction qui vérifie si une application est ouverte
     """
-    if not app_name in (i.name() for i in psutil.process_iter()):
-        return False
+    ok = False
+    apps = (i.name().lower() for i in psutil.process_iter())
+    for app in apps:
+        if app_name in app:
+            ok = True
+            break
+
+    if not ok:
+        return False    
 
     try:
         if platform.system() != "Windows":
             if "authy" in get_window_titles():
                 return True
         else:
-            Application(backend="uia").connect(title_re=".*Authy.*")
-        return True
+            for window in pyautogui.getAllTitles():
+                if app_name in window.lower():
+                    return True
+        return False
     except Exception as e:
         return False
 
@@ -54,8 +63,13 @@ def get_authy_code(account):
     """
     Fonction qui récupère le code d'authentification d'un compte
     """
-    if not app_installed("authy"):
-        return None
+
+    if platform.system() != "Windows":
+        if not app_installed("authy"):
+            return None
+    else:
+        if not app_installed("Authy Desktop.exe"):
+            return None
 
     # On ouvre l'application Authy
     open_app('authy')
