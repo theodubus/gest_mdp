@@ -84,6 +84,22 @@ feature, you can ignore this operation. Please note that I
 only tested `wmctrl` on Gnome, it may not work on other desktop
 environments.
 
+
+#### Additional Operations for Windows
+If you plan to use the 2FA feature, and you are using Authy,
+you will need to add Authy to "PATH", which is an environment
+variable that the system uses to find the location of executables.
+Authy is not added to "PATH" by default on Windows
+during installation and the program needs to know if the Authy app
+is installed before attempting to retrieve the code.
+
+To add Authy to "PATH", you can use this command:
+```bash
+setx PATH "%PATH%;C:\path\to\authy\folder"
+```
+
+Replacing `C:\path\to\authy\folder` with the path to the Authy folder.
+
 </details>
 
 <details>

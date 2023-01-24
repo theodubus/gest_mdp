@@ -84,6 +84,20 @@ vous pouvez ignorer cette opération. Notez que je n'ai testé `wmctrl` que
 sous Gnome, il est possible que cela ne fonctionne pas
 sous d'autres environnements de bureau.
 
+#### Opérations supplémentaires pour Windows
+Si vous comptez utiliser la fonctionnalité de récupération des codes de double authentification
+et que vous utilisez Authy, vous allez devoir ajouter authy à "PATH", qui est une variable
+d'environnement qu'utilise le système pour trouver les exécutables. Authy n'est pas ajouté à "PATH"
+par défaut sous windows lors de sin installation et le programme a besoin de savoir
+si l'application Authy est installée avant de tenter de récupérer le code. 
+
+Pour ajouter authy à "PATH", vous pouvez utiliser cette commande :
+```bash
+setx PATH "%PATH%;C:\chemin\vers\dossier\authy"
+```
+
+En remplaçant `C:\chemin\vers\dossier\authy` par le chemin vers le dossier de Authy.
+
 
 </details>
 
