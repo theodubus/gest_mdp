@@ -9,6 +9,33 @@ Gestionnaire de mots de passe avec connexion automatique
 <details>
 <summary><b> 🆕 - Nouveautés</b></summary><br>
 
+### Dernière mise à jour 🔥
+
+Nouvelle de technique pour faire de l'autocomplétion : le logiciel
+utilise maintenant une extension pour faire de l'autocomplétion. 
+Cette extension communique avec un serveur local géré par l'application.
+L'extension détecte les pages de connexion et remplit automatiquement.
+Le serveur lui, communique les informations de connexion à l'extension.
+Cette nouvelle technique a pour avantage de résoudre de nombreux
+problèmes présents auparavant avec Selenium, tels que :
++ l'obligation de lancer le navigateur dans un mode spécial depuis le logiciel
++ l'autocomplétion qui ne fonctionnait que dans le dernier onglet ouvert
++ l'impossibilité d'ouvrir plusieurs instances du navigateur
++ des problèmes de saisie de caractères accentués
++ le refus de certains sites de fonctionner en raison de la détection d'un navigateur en mode robot
++ la gestion manuelle des sites qui mettent du temps à charger avec l'option "wait"
++ la boucle infinie en cas de mauvais mot de passe qui faisait le logiciel tenter de se connecter indéfiniment
+
+Avec cette amélioration, tous ces problèmes sont désormais du passé. L'option
+"wait" étant devenue inutile, elle a été supprimée et remplacée par l'option
+"submit". Cette option vous permet de décider site par site si vous voulez
+que l'extension soumette automatiquement le formulaire de connexion ou
+si cette dernière doit se contenter de remplir les champs.
+
+L'extension est disponible sur le [store firefox](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/).
+
+### Autres mises à jour 🎉
+
 + Nombreuses corrections de bugs et amélioration de la stabilité.
 + Nombreuses améliorations de l'interface graphique.
 + Ajouts de raccourcis claviers.
@@ -31,24 +58,33 @@ cd gest_mdp
 pip install -r requirements.txt
 ```
 Si vous voulez également profiter de la fonctionnalité
-de connexion automatique, il faut installer un pilote
-pour votre navigateur. Pour cela, rendez-vous sur
-[la page de selenium](https://selenium-python.readthedocs.io/installation.html#drivers)
-et téléchargez le pilote correspondant à votre navigateur.
+de connexion automatique, il faut installer une extension pour
+votre navigateur. Pour cela, rendez-vous sur le 
+[store firefox](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/).
 
-Notez que par défaut, seuls les navigateurs Chrome et Firefox sont supportés.
-Vous pouvez cependant utiliser d'autres navigateurs en ajoutant
-vos propres fonctions de connexion au fichier `gest_mdp/web.py`.
+Cette extension n'est pour le moment disponible que pour Firefox, 
+faites-moi savoir si vous voulez que je la rende disponible pour
+Chrome ou tout autre navigateur.
+
+#### Opérations supplémentaires pour Linux
+```bash
+sudo apt install python3-tk
+sudo apt install xclip
+sudo apt install wmctrl
+```
+
+Ces opérations peuvent être nécessaires sous linux. La première ligne
+sert à installer `Tkinter` dans le cas ou l'installation avec pip échoue.
+La deuxième ligne sert à installer `xclip`, qui est utilisé pour pouvoir
+copier des mots de passe dans le presse-papier. La dernière ligne sert
+à installer `wmctrl`, qui est utilisé pour pouvoir voir le nom des fenêtres ouvertes.
+Cette fonctionnalité est utilisée pour la récupération des codes de double authentification,
+elle vérifie si authy est bien ouvert. Si vous ne comptez pas utiliser cette fonctionnalité,
+vous pouvez ignorer cette opération. Notez que je n'ai testé `wmctrl` que
+sous Gnome, il est possible que cela ne fonctionne pas
+sous d'autres environnements de bureau.
 
 
-### Utilisation de Chrome
-Par défaut, le navigateur utilisé est Firefox, mais vous pouvez
-utiliser Chrome en commentant les deux lignes appelant `connexion_firefox()`
-et en décommentant les deux lignes appelant `connexion_chrome_1()` ou
-`connexion_chrome_2()` (si une des deux fonctions de connexion ne fonctionne
-pas, essayez l'autre). Vous devez également renseigner le chemin vers
-le pilote dans la fonction `connexion_chrome_1()` ou `connexion_chrome_2()`
-dans le fichier `gest_mdp/web.py`.
 </details>
 
 <details>
@@ -99,9 +135,8 @@ mettre en place la connexion automatique pour ce compte
 + La case `prio` permet de définir une priorité pour la connexion automatique
 (ex : si vous avez plusieurs comptes Amazon).
 
-+ La case `long` permet de mettre un délai si un site est particulièrement
-long à charger, la connexion automatique peut échouer dans ce cas si
-on ne rajoute pas de délai (ex: openclassrooms).
++ La case `submit` permet de préciser si vous voulez que le formulaire de connexion
+soit soumis automatiquement ou si le logiciel doit seulement remplir les champs.
 
 + La case `2FA` permet d'indiquer que ce compte possède une double authentification.
 
@@ -131,31 +166,15 @@ Si vous souhaitez générer un mot de passe sans l'enregistrer, allez dans
 les mêmes que pour l'ajout d'un mot de passe.
 
 ### Connexion automatique
-N'oubliez pas de spécifier le dossier du profil de votre navigateur
-depuis `Options > Profil > Modifier Préférences` si vous souhaitez utiliser
-votre profil habituel pour la connexion automatique.
+N'oubliez pas d'installer l'[extension](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/)
+si vous souhaitez utiliser la connexion automatique.
 
-Trouver le dossier du profil de votre navigateur (dans la barre d'adresse) :
-- Firefox : `about:support`
-- Chrome : `chrome://version/`
+Vous pouvez ouvrir un site internet en cliquant sur le bouton en forme de globe
+à côté du compte que vous souhaitez ouvrir. La connexion automatique fonctionnera
+uniquement pour les sites pour lesquels vous avez spécifié un lien de connexion.
 
-Pour utiliser la connexion automatique, lancer un navigateur contrôlé
-par selenium, cliquez sur le bouton en forme de globe d'un compte
-pour lequel vous avez spécifié un lien de connexion. Si vous avez
-spécifié votre profil, veillez à ce que le navigateur soit fermé avant
-de lancer la connexion automatique, la connexion automatique ne supporte
-pas plusieurs navigateurs avec le même profil.
-
-Pour ouvrir un autre site internet, vous pouvez cliquer soit sur le bouton
-en forme de globe d'un autre compte, soit ouvrir un nouvel onglet et
-arriver sur la page de connexion, le programme détectera automatiquement
-que vous êtes sur une page de connexion et vous connectera automatiquement.
-
-Notez que cette détection automatique ne fonctionne que dans le
-dernier onglet ouvert.
-
-Si vous souhaitez désactiver temporairement la connexion automatique,
-vous pouvez décocher la case `autoconnexion`.
+Vous pouvez désactiver temporairement la connexion automatique en décochant la case 
+`autoconnexion`. Cela aura pour effet d'éteindre le serveur local géré par l'application.
 
 ### Double authentification
 Si vous avez activé la double authentification pour un compte, l'application
@@ -168,8 +187,7 @@ application de double authentification (très peu de code est à modifier).
 
 ### Préférences
 Vous pouvez modifier les préférences depuis `Options > Profil > Modifier Préférences`.
-En plus de spécifier le dossier du profil de votre navigateur, vous pouvez
-décider d'activer ou non par défaut la connexion automatique, d'inclure
+Depuis cette page, vous pouvez décider d'activer ou non par défaut la connexion automatique, d'inclure
 par défaut certains types de caractères dans les mots de passe générés, etc.
 
 ### Modifier le mot de passe utilisateur
@@ -274,7 +292,7 @@ sera jugée la plus sécurisée à ce moment-là
 ├── 📄 [requirements.txt](./requirements.txt) \
 ├── 📄 [scroll.py](./scroll.py) \
 ├── 📄 [security.py](./security.py) \
-├── 📄 [web.py](./web.py) \
+├── 📄 [server.py](./server.py) \
 ├── 📁 [.data](./.data) \
 │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [master_password.txt](./.data/master_password.txt) \
 │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [preferences.txt](./.data/preferences.txt) \

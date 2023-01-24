@@ -9,6 +9,34 @@ Password manager with automatic connection
 <details>
 <summary><b> 🆕 - New features</b></summary><br>
 
+### Last update 🔥
+
+New technique for autocompletion: the software now uses an
+extension for autocompletion. This extension communicates with a
+local server managed by the application. The extension detects
+login pages and automatically fills in the fields. The server,
+in turn, communicates login information to the extension. This
+new technique has the advantage of solving many problems that
+were present before with Selenium, such as:
++ the need to launch the browser in a special mode from the software
++ autocompletion that only worked in the last opened tab
++ the inability to open multiple instances of the browser
++ issues with entering accented characters
++ certain sites refusing to work due to detection of a browser in robot mode
++ manual management of sites that take a long time to load with the "wait" option
++ infinite loop in case of incorrect password, causing the software to try to connect indefinitely.
+
+With this improvement, all these problems are now a thing of the
+past. The "wait" option has become unnecessary and has been removed
+and replaced with the "submit" option. This option allows you
+to decide on a per-site basis whether you want the extension to
+automatically submit the login form or just fill in the fields.
+
+
+The extension is available on the [Firefox store](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/).
+
+### Other updates 🎉
+
 + Many bug fixes and stability improvements.
 + Many GUI improvements.
 + Added keyboard shortcuts.
@@ -30,25 +58,32 @@ git clone https://github.com/Th3o-D/gest_mdp.git
 cd gest_mdp
 pip install -r requirements.txt
 ```
-If you also want to take advantage of the functionality
-automatic connection, you must install a driver
-for your browser. For this, go to
-[selenium's page] (https://selenium-python.readthedocs.io/installation.html#drivers)
-and download the driver corresponding to your browser.
+If you also want to take advantage of the autocompletion feature,
+you need to install an extension for your browser.
+To do this, go to the [Firefox store](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/).
 
-Note that by default, only Chrome and Firefox browsers are supported.
-However, you can use other browsers by adding
-your own connection functions to the `gest_mdp/web.py` file.
+This extension is currently only available for Firefox, please
+let me know if you would like me to make it available for
+Chrome or any other browser.
 
+#### Additional Operations for Linux
+```bash
+sudo apt install python3-tk
+sudo apt install xclip
+sudo apt install wmctrl
+```
 
-### Utilisation de Chrome
-By default, the browser used is Firefox, but you can
-use Chrome by commenting on the two lines calling `connexion_firefox()`
-and decommeting the two lines calling `connexion_chrome_1()` or
-`connexion_chrome_2()` (if one of the two connection functions does not work,
-try the other). You must also enter the path to
-the driver in the function `connexion_chrome_1()` or `connexion_chrome_2()`
-in the `gest_mdp/web.py` file.
+These operations may be necessary on Linux. The first line is to
+install `Tkinter` in case the installation with pip fails.
+The second line is to install `xclip`, which is used to copy
+passwords to the clipboard. The last line is to install `wmctrl`,
+which is used to view the names of open windows.
+This feature is used for the retrieval of two-factor authentication
+codes, it checks if Authy is open. If you do not plan to use this
+feature, you can ignore this operation. Please note that I
+only tested `wmctrl` on Gnome, it may not work on other desktop
+environments.
+
 </details>
 
 <details>
@@ -96,11 +131,10 @@ and the password are compulsory.
 set up the automatic connection for this account (include the whole link with https://).
 
 + The checkbox `prio` allows you to define a priority for automatic connection
-(eg if you have several Amazon accounts).
+(e.g. if you have several Amazon accounts).
 
-+ The checkbox `long` makes it possible to put a delay if a site is particularly
-long to load, the automatic connection can fail in this case if you do not add a
-delay (eg openclassrooms).
++ The checkbox `submit` allows you to decide whether you want the extension to
+automatically submit the login form or just fill in the fields.
 
 + The checkbox `2FA` indicates that this account has a two factor authentification.
 
@@ -128,28 +162,27 @@ If you want to generate a password without saving it, go to
 the same as for the addition of a password.
 
 ### Automatic connection
-Do not forget to specify the profile folder of your browser from
-`Options > Profil > Modifier Préférences` if you want to use your usual
-profile for automatic connection.
+Don't forget to install the [extension](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/)
+if you want to use autocompletion.
 
-Find the profile folder of your browser (in the address bar):
-- Firefox : `about:support`
-- Chrome : `chrome://version/`
+You can open a website by clicking on the globe
+shaped button next to the account you want to open. Automatic
+login will only work for websites for which you have specified a
+login link.
 
-To use the automatic connection, launch a selenium controlled browser, click on
-the globe button on an account for which you have specified a connection link.
-If you have specified your profile, make sure that the browser is closed before
-starting the automatic connection, the automatic connection does not support
-several browsers with the same profile.
+You can temporarily disable automatic login by
+unchecking the `autoconnexion` box. This will turn off the local
+server managed by the application.
 
-To open another website, you can click either on the globe button on another account,
-or open a new tab and arrive on the connection page, the program will automatically
-detect that you are on a connection page and will connect you automatically.
+N'oubliez pas d'installer [l'extension](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/)
+si vous souhaitez utiliser la connexion automatique.
 
-Note that this automatic detection only works in the last opened tab.
+Vous pouvez ouvrir un site internet en cliquant sur le bouton en forme de globe
+à côté du compte que vous souhaitez ouvrir. La connexion automatique fonctionnera
+uniquement pour les sites pour lesquels vous avez spécifié un lien de connexion.
 
-If you want to temporarily deactivate the automatic connection, you can uncheck
-the checkbox `autoconnexion`.
+Vous pouvez désactiver temporairement la connexion automatique en décochant la case 
+`autoconnexion`. Cela aura pour effet d'éteindre le serveur local géré par l'application.
 
 ### Two factor authentification
 If you have activated the double authentication for an account, the application
@@ -260,7 +293,7 @@ on which will be deemed most secure at the time
 ├── 📄 [requirements.txt](./requirements.txt) \
 ├── 📄 [scroll.py](./scroll.py) \
 ├── 📄 [security.py](./security.py) \
-├── 📄 [web.py](./web.py) \
+├── 📄 [server.py](./server.py) \
 ├── 📁 [.data](./.data) \
 │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [master_password.txt](./.data/master_password.txt) \
 │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 [preferences.txt](./.data/preferences.txt) \

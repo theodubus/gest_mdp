@@ -9,8 +9,8 @@ import random
 import pyperclip
 import os
 import scroll
-from web import *
 import threading
+from time import sleep
 import platform
 import json
 from copy import copy
@@ -18,6 +18,8 @@ import ttkthemes
 from screeninfo import get_monitors
 from customtkinter import *
 from PIL import Image
+from server import *
+import webbrowser
 
 # Gestionnaire (codé en objet)
 class Application:
@@ -27,19 +29,15 @@ class Application:
         """
 
         # web
-        self.onglets = dict()
+        self.server = None
         self.login_urls = dict()
         self.login_links = []
-        self.handles = []
-        self.driver = None
-        self.browser_opened = False
-        self.decompte = 0
         self.temp = dict()
 
         # preferences
         keys = ['chiffres', 'lettresmin', 'lettresmaj', 'ponctuation', 'cara_spe', 'no_similar',
-                'taille', 'profil_linux', 'profil_windows', 'autoconnexion']
-        elements = ['1', '1', '1', '0', '0', '1', '25', '', '', '1']
+                'taille', 'autoconnexion']
+        elements = ['1', '1', '1', '0', '0', '1', '25', '1']
         self.preferences = {k: v for k, v in zip(keys, elements)}
 
         # Tkinter
@@ -84,7 +82,8 @@ class Application:
         self.donnees_liste = list()
         self.stop = False
         self.deconnexion = False
-        self.autoconnect_thread = None
+        self.daemon_server_thread = None
+        self.server_thread = None
 
     def first_run(self):
         """
@@ -230,14 +229,10 @@ class Application:
         self.generer_f = None
         self.confirmer_f = None
         self.appui_valider = False
-        self.onglets = dict()
         self.login_urls = dict()
         self.login_links = []
-        self.handles = []
-        self.driver = None
-        self.browser_opened = False
-        self.decompte = 0
         self.temp = dict()
+        self.delete_server()
 
     def build_accueil(self):
         """
@@ -329,8 +324,8 @@ class Application:
 
         threading.Thread(target=self.update_preferences).start()
         threading.Thread(target=self.get_links).start()
-        self.autoconnect_thread = threading.Thread(target=self.autoconnect)
-        self.autoconnect_thread.start()
+        self.daemon_server_thread = threading.Thread(target=self.autoconnect)
+        self.daemon_server_thread.start()
 
         if platform.system() != "Windows":
             largeur = 480
@@ -343,8 +338,8 @@ class Application:
                            commande=partial(self.create_toplevel, 450, 600, 'Créer', 'generer', 'creer', 60, 25,
                                             fc=partial(self.build_creer)), fg="white", bg=None, abg=None, width=75)
 
-        self.add_checkbutton(self.menu, 'auto', 'autoconnexion',
-                             1, 0, '1', '0', self.preferences['autoconnexion'], font=("arial", 20))
+        self.add_checkbutton(self.menu, 'auto', 'autoconnexion', 1, 0, '1', '0', self.preferences['autoconnexion'],
+                             font=("arial", 20))
 
         self.create_frame(self.menu, 'liste_handler', 2, 0, columnspan=2, pady=(5, 25), sticky='news')
         self.create_scrollable_frame(self.frame['liste_handler'], 'liste')
@@ -412,7 +407,8 @@ class Application:
         self.menu.destroy()
         self.deconnexion = True
         self.stop = True
-        self.autoconnect_thread.join()
+        self.delete_server()
+        self.daemon_server_thread.join()
         threading.Thread(target=os.system, args=("python3 main.py shutdown",)).start()
 
     def build_generer(self):
@@ -470,16 +466,11 @@ class Application:
         """
         with open(".data/preferences.txt", 'r') as f:
             elements = f.read().splitlines()
-            if len(elements) != 10:
-                elements = ['1', '1', '1', '0', '0', '1', '25', '', '', '1']
+            if len(elements) != 8:
+                elements = ['1', '1', '1', '0', '0', '1', '25', '1']
         keys = ['chiffres', 'lettresmin', 'lettresmaj', 'ponctuation', 'cara_spe',
-                'no_similar', 'taille', 'profil_linux', 'profil_windows', 'autoconnexion']
+                'no_similar', 'taille', 'autoconnexion']
         self.preferences = {k: v for k, v in zip(keys, elements)}
-
-        if platform.system() != "Windows":
-            self.preferences['profil'] = self.preferences['profil_linux']
-        else:
-            self.preferences['profil'] = self.preferences['profil_windows']
 
         try:
             self.preferences['taille'] = int(self.preferences['taille'])
@@ -535,14 +526,11 @@ class Application:
 
         self.update_preferences()
 
-        self.create_label(self.generer_f, 'profil_label', 'Profil : ', 0, 0, sticky='ew',
-                          anchor='w', pady=(25, 15), font=("arial", 25, "bold"), padx=(50, 0))
-        self.add_input(self.generer_f, 'profil', 0, 1, sticky='ew', focus=True,
-                       columnspan=2, pady=(25, 15), default=self.preferences['profil'], placeholder="Profil navigateur", padx=(0, 50))
-        self.input['profil']._entry.icursor('end')
-
         self.generer_f.grid_columnconfigure(0, weight=2)
         self.generer_f.grid_columnconfigure(1, weight=1)
+
+        # label au centre
+        self.create_label(self.generer_f, 'Préférences', 'Préférences', 0, 0, font=('arial', 30, "bold"), pady=(20, 20), columnspan=2, sticky='nsew')
 
         self.add_checkbutton(self.generer_f, 'autoconnexion', 'auto', 1, 0, "1", '0', self.preferences['autoconnexion'], font=('arial', 20), padx=(50, 0))
         self.add_checkbutton(self.generer_f, 'chiffres', '0-9', 2, 0, digits, '', self.preferences['chiffres'], font=('arial', 20), padx=(50, 0))
@@ -611,7 +599,7 @@ class Application:
                           anchor='w', pady=(0, 15), font=("arial", 22, "bold"), padx=(50, 0))
         self.add_input(self.generer_f, 'link', 2, 1, sticky='news', columnspan=3, pady=(0, 10), default=link, placeholder="Lien de connexion", padx=(0, 50))
         self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', prio, pady=(0, 10), padx=(50, 0), font=("arial", 20))
-        self.add_checkbutton(self.generer_f, 'long', 'long', 3, 1, '1', '0', wait, font=("arial", 20))
+        self.add_checkbutton(self.generer_f, 'long', 'submit', 3, 1, '1', '0', wait, font=("arial", 20))
         self.add_checkbutton(self.generer_f, 'doubleauth', '2FA', 3, 2, '1', '0', doubleauth, columnspan=2, font=("arial", 20))
 
         self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, pady=(10, 10), show=False, default=password, placeholder="Mot de passe", padx=(50, 0))
@@ -868,7 +856,7 @@ class Application:
         disabled = False
         if link != '':
             self.create_button(self.frame[index], f"web{index}", '', 1, 4, sticky='en', image=self.web, width=32,
-                               height=34, commande=partial(self.ouvrir_fenetre, link, login, index),
+                               height=34, commande=partial(self.ouvrir_fenetre, link, index),
                                rowspan=1, padx=0, pady=(0, 12), bg="#E5E5E5", abg="#F5F5F5")
         else:
             self.create_button(self.frame[index], f"web{index}", '', 1, 4, sticky='en', image=self.web, width=32,
@@ -1323,136 +1311,73 @@ class Application:
         for index in self.temp.keys():
             self.login_urls[index] = self.temp[index][0]
 
+        if self.server is not None:
+            self.server.update_domaines(self.login_urls, self.login_links)
+
+    def create_server(self):
+        if self.server is None:
+            self.server = Server(self.login_urls, self.login_links, self.mdp_maitre, self.donnees)
+        # print("Server created")
+
+    def delete_server(self):
+        if self.server is not None and not self.server.is_stopped():
+            self.server.stop_server()
+            self.server = None
+        # print("Server deleted")
+
+    def update_server_state(self):
+        if not self.server is None:
+            if self.stringvar["checkauto"].get() == '1' and self.server.is_stopped() and self.server_thread is None:
+                # print("Server thread started")
+                self.server_thread = threading.Thread(target=self.server.start_server)
+                self.server_thread.start()
+            elif self.stringvar["checkauto"].get() == '0' and not self.server.is_stopped() and not self.server_thread is None:
+                self.server.stop_server()
+                sleep(5)
+                self.server_thread.join()
+                # print("Server thread stopped")
+                self.server_thread = None
+
+            # print(f"server : {self.server is not None}")
+            # print(f"checkauto : {self.stringvar['checkauto'].get()}, server stopped : {self.server.is_stopped()}, server thread : {self.server_thread is not None}")
+
     def autoconnect(self):
         """
         Connexion automatique :
         - Bascule sur le nouvel onglet que vient de créer l'utilisateur s'il le fait
         - Regarde s'il est sur une page de connexion et si oui, essaye de se connecter
         """
+        self.create_server()
         self.stop = False
+
+        while not "checkauto" in self.stringvar.keys():
+            sleep(1)
+
+        self.update_server_state()
+
         while threading.main_thread().is_alive() and not self.stop:
-            try:
-                if self.stringvar['checkauto'].get() == '1':
-                    if self.browser_opened is True:
+            sleep(5)
+            self.update_server_state()
 
-                        try:
-                            if self.driver is not None:
+        self.delete_server()
 
-                                tab = [t for t in self.driver.window_handles if t not in self.handles]
-                                if len(tab) != 0:
-                                    if len(tab) == 1:
-                                        cur_handles = self.driver.window_handles
-                                        time.sleep(3)
-                                        if cur_handles == self.driver.window_handles:
-                                            # print("new")
-                                            self.driver.switch_to.window(tab[0])
-                                            self.decompte = 20
-                                    self.handles = self.driver.window_handles
+        if self.server_thread is not None:
+            sleep(5)
+            self.server_thread.join()
 
-                        except Exception as e:
-                            # print(e)
-                            self.browser_opened = False
-                            self.driver.quit()
-                            self.driver = None
+        # print("Autoconnect stopped")
 
-                        try:
-                            if self.driver is not None:
-                                url_l = self.driver.current_url
-                                url = domaine(url_l)
-                                if url in self.login_urls.keys():
-                                    # print("conn page")
-                                    link = url
-                                    compte = self.login_urls[link]
-                                    chaine_clair = decrypt(self.donnees[compte], self.mdp_maitre)
+        self.server_thread = None
 
-                                    l, login = link_login(chaine_clair)
-
-                                    wait = False
-                                    if l != '':
-                                        wait = doubleauth_wait_prio_link(l)[1]
-                                        if wait == '1':
-                                            wait = True
-                                        else:
-                                            wait = False
-
-                                    user, password = user_mdp(login)
-
-                                    doubleauth = doubleauth_wait_prio_link(l)[0]
-                                    code = False
-                                    if doubleauth == '1':
-                                        code = compte
-
-                                    login_connect(self.driver, link, user, password, wait=wait, deja_charge=True,
-                                                  doubleauth=code)
-
-                        except closed_tab:
-                            pass
-
-                        except IndexError:
-                            pass
-
-                        except Exception as e:
-                            # print(e)
-                            self.browser_opened = False
-                            self.driver.quit()
-                            self.driver = None
-            except: #KeyError
-                pass
-
-            if self.decompte > 0:
-                time.sleep(1.5)
-                self.decompte -= 1
-            else:
-                time.sleep(4)
-
-    def ouvrir_fenetre(self, link, login, compte):
+    def ouvrir_fenetre(self, link, compte):
         """
         Ouvre une fenêtre pour se connecter à un compte
         Si la fênetre est déjà ouverte, bascule sur celle-ci
         """
-        doubleauth, wait, prio, link = doubleauth_wait_prio_link(link)
-        code = False
-        if doubleauth == '1':
-            code = compte
 
-        if wait == "1":
-            wait = True
-        else:
-            wait = False
-        user, password = user_mdp(login)
-        try:
-            if not self.browser_opened:
-                self.browser_opened = True
-                # self.driver = connexion_chrome_1(self.preferences['profil'])
-                # self.driver = connexion_chrome_2(self.preferences['profil'])
-                self.driver = connexion_firefox(self.preferences['profil'])
-                login_connect(self.driver, link, user, password, wait=wait, deja_charge=False, doubleauth=code)
-                self.onglets[compte] = self.driver.window_handles[0]
-            else:
-                if compte not in self.onglets.keys():
-                    self.onglets[compte] = False
-                previous_handles = self.driver.window_handles
-                nouv = new_page(self.driver, compte, self.onglets[compte])
-                new_handles = self.driver.window_handles
-                if nouv:
-                    login_connect(self.driver, link, user, password, wait=wait, deja_charge=False, doubleauth=code)
-                    tab = [t for t in new_handles if t not in previous_handles]
-                    if len(tab) != 0:
-                        tab = tab[0]
-                        self.onglets[compte] = tab
-        except:
-            try:
-                self.browser_opened = False
-                self.onglets = dict()
-                self.driver.quit()
-                # self.driver = connexion_chrome_1(self.preferences['profil'])
-                # self.driver = connexion_chrome_2(self.preferences['profil'])
-                self.driver = connexion_firefox(self.preferences['profil'])
-                login_connect(self.driver, link, user, password, wait=wait, deja_charge=False, doubleauth=code)
-                self.onglets[compte] = self.driver.window_handles[0]
-                self.browser_opened = True
-            except:
-                pass
+
+        doubleauth, wait, prio, link = doubleauth_wait_prio_link(link)
+        webbrowser.open(link)
 
     def generer_mdp(self, *args):
         """
@@ -1541,12 +1466,6 @@ class Application:
         self.preferences['ponctuation'] = ponct
         self.preferences['cara_spe'] = cara
         self.preferences['no_similar'] = no_similar
-        self.preferences['profil'] = profil
-
-        if platform.system() != "Windows":
-            self.preferences['profil_linux'] = profil
-        else:
-            self.preferences['profil_windows'] = profil
 
         self.preferences['autoconnexion'] = autoconnexion
         self.stringvar['checkauto'].set(autoconnexion)
@@ -1579,8 +1498,6 @@ class Application:
             f.write(elems[0] + '\n' + elems[1] + '\n' + elems[2] + '\n' + elems[3] + '\n' + elems[4] + '\n' +
                     no_similar + '\n' +
                     taille + '\n' +
-                    self.preferences['profil_linux'] + '\n' +
-                    self.preferences['profil_windows'] + '\n' +
                     autoconnexion)
 
         self.generer_f.destroy()
@@ -1685,6 +1602,8 @@ class Application:
             self.copie_donnees[new_compte] = mdp_e_chiffre
 
         self.donnees = self.copie_donnees
+        if self.server is not None:
+            self.server.update_donnees(self.donnees)
         self.donnees_liste, liste_chiffree = donnees_dico_liste(self.donnees, self.mdp_maitre)
 
         with open(self.f, 'w') as f:
@@ -1871,6 +1790,8 @@ class Application:
                     fichier.write(f"{compte_e_chiffre}\n")
                     fichier.write(f"{mdp_e_chiffre}\n")
                     self.donnees[compte] = mdp_e_chiffre
+                    if self.server is not None:
+                        self.server.update_donnees(self.donnees)
                     self.donnees_liste.append(f"{compte}\n")
                     self.donnees_liste.append(f'{mdp_e_chiffre}\n')
                     self.generer_f.destroy()
@@ -1914,6 +1835,8 @@ class Application:
                 fichier.write(f"{compte_e_chiffre}\n")
                 fichier.write(f"{mdp_e_chiffre}\n")
                 self.donnees[new_compte] = mdp_e_chiffre
+                if self.server is not None:
+                    self.server.update_donnees(self.donnees)
                 self.donnees_liste.append(f"{new_compte}\n")
                 self.donnees_liste.append(f'{mdp_e_chiffre}\n')
                 self.generer_f.destroy()
@@ -1929,6 +1852,8 @@ class Application:
             with open(self.f, "w") as fichier:
                 fichier.write(donnees_s)
             self.donnees[compte] = mdp_e_chiffre
+            if self.server is not None:
+                self.server.update_donnees(self.donnees)
             self.generer_f.destroy()
             if self.visible[f"points{compte}"]:
                 mdp_l = decrypt(self.donnees[compte], self.mdp_maitre)
@@ -1993,6 +1918,8 @@ class Application:
         with open(self.f, "w") as fichier:
             fichier.write(donnees_s)
         self.donnees.pop(compte)
+        if self.server is not None:
+            self.server.update_donnees(self.donnees)
         self.frame[compte].destroy()
         self.confirmer_f.destroy()
         if new_links:
@@ -2119,8 +2046,12 @@ class Application:
                     mdp_e_chiffre = encrypt(mdp_clear, nouv_mdp_maitre)
                     f.write(f"{mdp_e_chiffre}\n")
             self.mdp_maitre = nouv_mdp_maitre
+            if self.server is not None:
+                self.server.update_password(self.mdp_maitre)
             self.donnees_liste = donnees_liste(self.mdp_maitre)
             self.donnees = donnees_dico(self.donnees_liste)
+            if self.server is not None:
+                self.server.update_data(self.donnees)
             self.generer_f.destroy()
             threading.Thread(target=self.get_links).start()
 

@@ -4,20 +4,39 @@ import pyperclip
 import platform
 import psutil
 from shutil import which
+import subprocess
+
+def get_window_titles():
+    wmctrl = subprocess.Popen(['wmctrl', '-lx'], stdout=subprocess.PIPE)
+    awk = subprocess.Popen(['awk', "{print $3}"], stdin=wmctrl.stdout, stdout=subprocess.PIPE)
+    stdout, _ = awk.communicate()
+    windows = stdout.decode().strip().split('\n')
+    return windows
+
 
 if platform.system() == "Windows":
-    from pywinauto.keyboard import send_keys
+    from pywinauto.keyboard import send_keys, Application
 
 def app_installed(name):
     """Vérifie si une application est installée"""
     return which(name) is not None
 
-
 def is_open(app_name):
     """
     Fonction qui vérifie si une application est ouverte
     """
-    return app_name in (i.name() for i in psutil.process_iter())
+    if not app_name in (i.name() for i in psutil.process_iter()):
+        return False
+
+    try:
+        if platform.system() != "Windows":
+            if "authy" in get_window_titles():
+                return True
+        else:
+            Application(backend="uia").connect(title_re=".*Authy.*")
+        return True
+    except Exception as e:
+        return False
 
 def open_app(app_name):
     """
@@ -25,7 +44,7 @@ def open_app(app_name):
     """
     time.sleep(0.5)
     pyautogui.press('win')
-    time.sleep(0.5)
+    time.sleep(1)
     pyautogui.write(app_name)
     time.sleep(0.5)
     pyautogui.press('enter')
@@ -52,6 +71,8 @@ def get_authy_code(account):
     attempts = 0
     test = ''
     while test != account and attempts < 20:
+        if not is_open('authy'):
+            return None
         pyperclip.copy('')
         pyautogui.hotkey('ctrl', 'a')
         time.sleep(0.25)
