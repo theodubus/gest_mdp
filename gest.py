@@ -1350,8 +1350,14 @@ class Application:
         self.create_server()
         self.stop = False
 
-        while not "checkauto" in self.stringvar.keys():
-            sleep(1)
+        ok = False
+        while not ok:
+            try:
+                if self.stringvar["checkauto"].get() == '1' or self.stringvar["checkauto"].get() == '0':
+                    ok = True
+            except:
+                pass
+        
 
         self.update_server_state()
 
