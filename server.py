@@ -85,6 +85,12 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(credentials).encode())
             elif self.path[1:] in domains and data_type == "double_auth":
                 code = get_authy_code(self.domaines[self.path[1:]])
+                if code is None:
+                    self.send_response(401)
+                    self.send_header('Content-type', 'text/plain')
+                    self.end_headers()
+                    self.wfile.write(b'Error getting code')
+                    return
                 self.send_response(200)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
