@@ -21,6 +21,8 @@ from PIL import Image
 from server import *
 import webbrowser
 
+set_appearance_mode("Light")
+
 # Gestionnaire (codé en objet)
 class Application:
     def __init__(self):
