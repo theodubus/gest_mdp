@@ -1466,7 +1466,6 @@ class Application:
         cara = self.stringvar['checkcara_spe'].get()
         no_similar = self.stringvar['checkdouble'].get()
         autoconnexion = self.stringvar['checkautoconnexion'].get()
-        profil = self.input["profil"].get_content()
 
         self.preferences['chiffres'] = chiffres
         self.preferences['lettresmin'] = mini
