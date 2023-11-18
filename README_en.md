@@ -262,12 +262,6 @@ the option of applying the same choice for all the other accounts that follow.
 If during the import you open another window of the application, press `Annuler`
 or close the dialog box, the import in its entirety will be cancelled.
 
-### Persistent connection
-Under Linux, the connection to the software will be persistent, you will not need
-to reconnect each time you launch the application, but only at the first launch
-after a restart of the computer. You can still choose to lock the application by
-logging out from `Options > Se déconnecter`.
-
 </details>
 
 <details><summary><b> 🔒 - Security</b></summary><br>

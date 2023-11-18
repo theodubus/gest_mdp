@@ -83,7 +83,6 @@ class Application:
         self.copie_donnees = dict()
         self.donnees_liste = list()
         self.stop = False
-        self.deconnexion = False
         self.daemon_server_thread = None
         self.server_thread = None
 
@@ -142,11 +141,7 @@ class Application:
         # Revérification du mot de passe une fois la fenêtre fermée (car fermée soit par
         # la croix, soit par une authentification correcte)
         if not self.mdp_maitre or not get_master_password(self.mdp_user):
-            if platform.system() == "Windows":
-                exit()
-            else:
-                return
-
+            exit()
 
         self.run()
 
@@ -210,7 +205,6 @@ class Application:
         self.menu = None
         self.accueil = None
         self.stop = True
-        self.deconnexion = False
         self.oeil_a = None
         self.oeil = None
         self.crayon = None
@@ -390,28 +384,12 @@ class Application:
         self.menu.bind_all("<Control-p>", partial(self.create_toplevel, 410, 450, 'Modifier Préférences', 'generer', 'preferences', 60, 40, fc=partial(self.build_preferences)))
         self.menu_deroulant['1'].add_cascade(label="Profil", menu=self.menu_deroulant['profil'], underline=0)
 
-        if platform.system() != "Windows":
-            self.menu_deroulant['1'].add_separator()
-            self.menu_deroulant['1'].add_command(label='Se déconnecter', command=partial(self.deconnecter), underline=0, accelerator="Ctrl+Q")
-            self.menu.bind_all("<Control-q>", partial(self.deconnecter))
-
         self.menu_deroulant['options'].add_cascade(label="Options", menu=self.menu_deroulant['1'], underline=0)
         self.menu.configure(menu=self.menu_deroulant['options'])
         self.menu.grid_rowconfigure(1, weight=1)
         self.menu.grid_columnconfigure(0, weight=1)
 
         self.update()
-
-    def deconnecter(self, event=None):
-        """
-        Méthode qui permet de se déconnecter et d'arrêter la connexion persistante
-        """
-        self.menu.destroy()
-        self.deconnexion = True
-        self.stop = True
-        self.delete_server()
-        self.daemon_server_thread.join()
-        threading.Thread(target=os.system, args=("python3 main.py shutdown",)).start()
 
     def build_generer(self):
         """

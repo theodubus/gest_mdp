@@ -258,12 +258,6 @@ pour tous les autres comptes qui suivent. Si durant l'import vous ouvrez une
 autre fenêtre de l'application, appuyer sur `Annuler` ou alors fermez la
 boîte de dialogue, l'importation dans son entièreté sera annulée.
 
-### Connexion persistante
-Sous Linux, la connexion au logiciel sera persistante, vous n'aurez pas besoin
-de vous reconnecter à chaque fois que vous lancerez l'application, mais uniquement
-au premier lancement après un redémarrage de l'ordinateur. Vous tout de même
-choisir de vérouiller l'application en vous déconnectant depuis `Options > Se déconnecter`.
-
 </details>
 
 <details><summary><b> 🔒 - Sécurité</b></summary><br>
