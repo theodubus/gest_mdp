@@ -4,7 +4,6 @@ from security import *
 import threading
 from fonctions import *
 import time
-from double_auth import get_authy_code
 
 class AutoDeleteList(list):
     def __init__(self, delete_time=5):
@@ -70,13 +69,10 @@ class RequestHandler(BaseHTTPRequestHandler):
                 compte = self.domaines[self.path[1:]]
                 chaine_clair = decrypt(self.donnees[compte], self.mdp_maitre)
                 l, login = link_login(chaine_clair)
-                doubleauth, wait, prio, url = doubleauth_wait_prio_link(l)
+                wait, prio, url = wait_prio_link(l)
                 user, password = user_mdp(login)
 
                 credentials = [user, password, wait]
-
-                if doubleauth == '1':
-                    credentials.append(True)
 
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
@@ -84,17 +80,11 @@ class RequestHandler(BaseHTTPRequestHandler):
                 # print(f"credentials: {credentials}")
                 self.wfile.write(json.dumps(credentials).encode())
             elif self.path[1:] in domains and data_type == "double_auth":
-                code = get_authy_code(self.domaines[self.path[1:]])
-                if code is None:
-                    self.send_response(401)
-                    self.send_header('Content-type', 'text/plain')
-                    self.end_headers()
-                    self.wfile.write(b'Error getting code')
-                    return
-                self.send_response(200)
+                self.send_response(401)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(code.encode())
+                self.wfile.write(b'2FA has been removed as Authy discontinued its desktop app')
+                return
             else:
                 self.send_response(401)
                 self.send_header('Content-type', 'text/plain')

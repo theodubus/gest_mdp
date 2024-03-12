@@ -70,35 +70,12 @@ Chrome or any other browser.
 ```bash
 sudo apt install python3-tk
 sudo apt install xclip
-sudo apt install wmctrl
 ```
 
 These operations may be necessary on Linux. The first line is to
 install `Tkinter` in case the installation with pip fails.
 The second line is to install `xclip`, which is used to copy
-passwords to the clipboard. The last line is to install `wmctrl`,
-which is used to view the names of open windows.
-This feature is used for the retrieval of two-factor authentication
-codes, it checks if Authy is open. If you do not plan to use this
-feature, you can ignore this operation. Please note that I
-only tested `wmctrl` on Gnome, it may not work on other desktop
-environments.
-
-
-#### Additional Operations for Windows
-If you plan to use the 2FA feature, and you are using Authy,
-you will need to add Authy to "PATH", which is an environment
-variable that the system uses to find the location of executables.
-Authy is not added to "PATH" by default on Windows
-during installation and the program needs to know if the Authy app
-is installed before attempting to retrieve the code.
-
-To add Authy to "PATH", you can use this command:
-```bash
-setx PATH "%PATH%;C:\path\to\authy\folder"
-```
-
-Replacing `C:\path\to\authy\folder` with the path to the Authy folder.
+passwords to the clipboard.
 
 </details>
 
@@ -152,8 +129,6 @@ set up the automatic connection for this account (include the whole link with ht
 + The checkbox `submit` allows you to decide whether you want the extension to
 automatically submit the login form or just fill in the fields.
 
-+ The checkbox `2FA` indicates that this account has a two factor authentification.
-
 + The checkboxes below the password field correspond to the characters
 to include or not in the password.
 
@@ -199,14 +174,6 @@ uniquement pour les sites pour lesquels vous avez spécifié un lien de connexio
 
 Vous pouvez désactiver temporairement la connexion automatique en décochant la case 
 `autoconnexion`. Cela aura pour effet d'éteindre le serveur local géré par l'application.
-
-### Two factor authentification
-If you have activated the double authentication for an account, the application
-will try to open Authy, type the account name and recover the code, to enter it
-in your browser thereafter. You must therefore have Authy installed and configured
-on your computer. In addition, the name of the desired account must be the same
-name in Authy. You can modify the function `get_authy_code` in `double_auth.py`
-to use another double authentication application (very little code is to be modified).
 
 ### Preferences
 You can change preferences from `Options > Profil > Modifier Préférences`.
@@ -298,7 +265,6 @@ on which will be deemed most secure at the time
 ├── 📄 [main.py](./main.py) \
 ├── 📄 [gest.py](./gest.py) \
 ├── 📄 [control.py](./control.py) \
-├── 📄 [double_auth.py](./double_auth.py) \
 ├── 📄 [fonctions.py](./fonctions.py) \
 ├── 📄 [requirements.txt](./requirements.txt) \
 ├── 📄 [scroll.py](./scroll.py) \

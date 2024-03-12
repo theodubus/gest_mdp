@@ -559,9 +559,9 @@ class Application:
         link, login = link_login(chaine_clair)
         user, password = user_mdp(login)
         if link != '':
-            doubleauth, wait, prio, link = doubleauth_wait_prio_link(link)
+            wait, prio, link = wait_prio_link(link)
         else:
-            doubleauth, wait, prio, link = '0', '0', '0', ''
+            wait, prio, link = '0', '0', ''
 
         self.generer_f.bind('<Return>', partial(self.create_toplevel, 350, 200, '', 'confirmer',
                                                 'confirmation', 30, 15, compte=compte))
@@ -580,7 +580,6 @@ class Application:
         self.add_input(self.generer_f, 'link', 2, 1, sticky='news', columnspan=3, pady=(0, 10), default=link, placeholder="Lien de connexion", padx=(0, 50))
         self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', prio, pady=(0, 10), padx=(50, 0), font=("arial", 20))
         self.add_checkbutton(self.generer_f, 'long', 'submit', 3, 1, '1', '0', wait, font=("arial", 20))
-        self.add_checkbutton(self.generer_f, 'doubleauth', '2FA', 3, 2, '1', '0', doubleauth, columnspan=2, font=("arial", 20))
 
         self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, pady=(10, 10), show=False, default=password, placeholder="Mot de passe", padx=(50, 0))
         self.generer_f.grid_columnconfigure(0, weight=1)
@@ -650,7 +649,6 @@ class Application:
 
         self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', '0', pady=(0, 10), padx=(50, 0), font=('arial', 20))
         self.add_checkbutton(self.generer_f, 'long', 'long', 3, 1, '1', '0', '0', font=('arial', 20))
-        self.add_checkbutton(self.generer_f, 'doubleauth', '2FA', 3, 2, '1', '0', '0', columnspan=2, font=('arial', 20))
 
         self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, pady=(10, 10), show=False, placeholder="Mot de passe", default="_", padx=(50, 0))
         self.generer_f.grid_columnconfigure(0, weight=1)
@@ -1277,7 +1275,7 @@ class Application:
             mdp_l = decrypt(self.donnees[index], self.mdp_maitre)
             url = link_login(mdp_l)[0]
             if url != '':
-                doubleauth, wait, prio, url = doubleauth_wait_prio_link(url)
+                wait, prio, url = wait_prio_link(url)
                 link = domaine(url)
 
                 if link in self.temp.keys():
@@ -1362,7 +1360,7 @@ class Application:
         """
 
 
-        doubleauth, wait, prio, link = doubleauth_wait_prio_link(link)
+        wait, prio, link = wait_prio_link(link)
         webbrowser.open(link)
 
     def generer_mdp(self, *args):
@@ -1505,9 +1503,9 @@ class Application:
                 keys = ['user', 'password']
                 values = [user, password]
                 if link != '':
-                    doubleauth, wait, prio, link = doubleauth_wait_prio_link(link)
-                    keys = ['user', 'password', 'link', 'doubleauth', 'wait', 'prio']
-                    values = [user, password, link, doubleauth, wait, prio]
+                    wait, prio, link = wait_prio_link(link)
+                    keys = ['user', 'password', 'link', 'wait', 'prio']
+                    values = [user, password, link, wait, prio]
 
                 export[compte] = dict(zip(keys, values))
 
@@ -1546,6 +1544,7 @@ class Application:
             self.stringvar['radiochoix'].set('ignorer')
 
         for compte in data.keys():
+            print("ok")
             new_compte = compte
 
             if compte in self.copie_donnees.keys():
@@ -1576,10 +1575,9 @@ class Application:
 
             if 'link' in data[compte].keys():
                 link = data[compte]['link']
-                doubleauth = data[compte]['doubleauth']
                 wait = data[compte]['wait']
                 prio = data[compte]['prio']
-                link = doubleauth + wait + prio + link
+                link = wait + prio + link
 
             # print(f"\n\n\ncompte = {new_compte}\nmdp = {mdp}\nusername = {username}\nlink = {link}")
             mdp_e = f"{mdp}{username}{len(username):02}{link}{len(link):03}"
@@ -1742,11 +1740,9 @@ class Application:
         link = self.stringvar['link'].get()
         wait = self.stringvar['checklong'].get()
         prio = self.stringvar['checkprio'].get()
-        doubleauth = self.stringvar['checkdoubleauth'].get()
-
 
         if lien_valide(link):
-            link = doubleauth + wait + prio + link
+            link = wait + prio + link
         else:
             link = ''
 
@@ -1795,10 +1791,9 @@ class Application:
         link = self.stringvar['link'].get()
         wait = self.stringvar['checklong'].get()
         prio = self.stringvar['checkprio'].get()
-        doubleauth = self.stringvar['checkdoubleauth'].get()
 
         if lien_valide(link):
-            link = doubleauth + wait + prio + link
+            link = wait + prio + link
         else:
             link = ''
 
@@ -1858,10 +1853,9 @@ class Application:
         link = self.stringvar['link'].get()
         wait = self.stringvar['checklong'].get()
         prio = self.stringvar['checkprio'].get()
-        doubleauth = self.stringvar['checkdoubleauth'].get()
 
         if lien_valide(link):
-            link = doubleauth + wait + prio + link
+            link = wait + prio + link
         else:
             link = ''
 

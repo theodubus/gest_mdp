@@ -70,34 +70,12 @@ Chrome ou tout autre navigateur.
 ```bash
 sudo apt install python3-tk
 sudo apt install xclip
-sudo apt install wmctrl
 ```
 
 Ces opérations peuvent être nécessaires sous linux. La première ligne
 sert à installer `Tkinter` dans le cas ou l'installation avec pip échoue.
 La deuxième ligne sert à installer `xclip`, qui est utilisé pour pouvoir
-copier des mots de passe dans le presse-papier. La dernière ligne sert
-à installer `wmctrl`, qui est utilisé pour pouvoir voir le nom des fenêtres ouvertes.
-Cette fonctionnalité est utilisée pour la récupération des codes de double authentification,
-elle vérifie si authy est bien ouvert. Si vous ne comptez pas utiliser cette fonctionnalité,
-vous pouvez ignorer cette opération. Notez que je n'ai testé `wmctrl` que
-sous Gnome, il est possible que cela ne fonctionne pas
-sous d'autres environnements de bureau.
-
-#### Opérations supplémentaires pour Windows
-Si vous comptez utiliser la fonctionnalité de récupération des codes de double authentification
-et que vous utilisez Authy, vous allez devoir ajouter authy à "PATH", qui est une variable
-d'environnement qu'utilise le système pour trouver les exécutables. Authy n'est pas ajouté à "PATH"
-par défaut sous windows lors de sin installation et le programme a besoin de savoir
-si l'application Authy est installée avant de tenter de récupérer le code. 
-
-Pour ajouter authy à "PATH", vous pouvez utiliser cette commande :
-```bash
-setx PATH "%PATH%;C:\chemin\vers\dossier\authy"
-```
-
-En remplaçant `C:\chemin\vers\dossier\authy` par le chemin vers le dossier de Authy.
-
+copier des mots de passe dans le presse-papier.
 
 </details>
 
@@ -152,8 +130,6 @@ mettre en place la connexion automatique pour ce compte
 + La case `submit` permet de préciser si vous voulez que le formulaire de connexion
 soit soumis automatiquement ou si le logiciel doit seulement remplir les champs.
 
-+ La case `2FA` permet d'indiquer que ce compte possède une double authentification.
-
 + Les cases en dessous le champ de mot de passe correspondent aux
 caractères à inclure ou non dans le mot de passe.
 
@@ -189,15 +165,6 @@ uniquement pour les sites pour lesquels vous avez spécifié un lien de connexio
 
 Vous pouvez désactiver temporairement la connexion automatique en décochant la case 
 `autoconnexion`. Cela aura pour effet d'éteindre le serveur local géré par l'application.
-
-### Double authentification
-Si vous avez activé la double authentification pour un compte, l'application
-essayera d'ouvrir Authy, de taper le nom du compte et de récupérer le code, pour le
-saisir dans votre navigateur par la suite.
-Vous devez donc avoir Authy installé et configuré sur votre ordinateur. De plus,
-le nom du compte voulu doit être le même nom dans Authy. Vous pouvez
-modifier la fonction `get_authy_code` dans `double_auth.py` pour utiliser une autre
-application de double authentification (très peu de code est à modifier).
 
 ### Préférences
 Vous pouvez modifier les préférences depuis `Options > Profil > Modifier Préférences`.
@@ -295,7 +262,6 @@ sera jugée la plus sécurisée à ce moment-là
 ├── 📄 [main.py](./main.py) \
 ├── 📄 [gest.py](./gest.py) \
 ├── 📄 [control.py](./control.py) \
-├── 📄 [double_auth.py](./double_auth.py) \
 ├── 📄 [fonctions.py](./fonctions.py) \
 ├── 📄 [requirements.txt](./requirements.txt) \
 ├── 📄 [scroll.py](./scroll.py) \
