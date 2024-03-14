@@ -183,7 +183,7 @@ class Application:
         self.menu.bind('<Control-BackSpace>', partial(self.effacer_update))
         self.menu.bind('<Control-Delete>', partial(self.effacer_fin_update))
         self.menu.bind('<Control-a>', partial(self.tout_selectionner, self.menu))
-        self.menu.bind('<KeyPress>', partial(self.update))
+        self.menu.bind('<KeyPress>', partial(self.call_update))
         self.menu.resizable(width=False, height=False)
 
         self.menu.protocol("WM_DELETE_WINDOW", partial(self.fermeture, "menu"))
@@ -1133,7 +1133,14 @@ class Application:
             else:
                 self.stringvar['erreur'].set('Mot de passe incorrect')
 
-    def update(self, delete=False, account='', remonter=True, delete_all=False, reset=False, *args):
+    def call_update(self, event):
+        """
+        N'appelle update que si la touche pressée est affichable
+        """
+        if (event.char.isprintable() or event.char in ['\x08', '\x7f']) and len(event.char) == 1:
+            self.update()
+
+    def update(self, delete=False, account='', remonter=True, delete_all=False, reset=False):
         """
         Met à jour les comptes affichés dans le menu :
             - supprime les frames des comptes supprimés
