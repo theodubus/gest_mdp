@@ -7,7 +7,7 @@ cryptography==42.0.4
 customtkinter==5.0.3
 darkdetect==0.7.1
 exceptiongroup==1.0.4
-fonttools==4.38.0
+fonttools==4.43.0
 h11==0.14.0
 idna==3.4
 MouseInfo==0.1.3
