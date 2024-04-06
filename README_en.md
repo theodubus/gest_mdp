@@ -3,7 +3,7 @@ Password manager with automatic connection
 
 <table align="right">
   <tr><td><a href="README.md"><img src="https://github.com/theodubus/th3o-d/blob/main/images/fr-flag.png" height="13"> Français</a></td></tr>
-  <tr><td><a href="README_en.md"><img src="https://github.com/theodubus/theo-d/blob/main/images/us-flag.png" height="13"> English</a></td></tr>
+  <tr><td><a href="README_en.md"><img src="https://github.com/theodubus/th3o-d/blob/main/images/us-flag.png" height="13"> English</a></td></tr>
 </table>
 
 <details>
