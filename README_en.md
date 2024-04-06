@@ -2,8 +2,8 @@
 Password manager with automatic connection
 
 <table align="right">
-  <tr><td><a href="README.md"><img src="https://github.com/Th3o-D/Th3o-D/blob/main/images/fr-flag.png" height="13"> Français</a></td></tr>
-  <tr><td><a href="README_en.md"><img src="https://github.com/Th3o-D/Th3o-D/blob/main/images/us-flag.png" height="13"> English</a></td></tr>
+  <tr><td><a href="README.md"><img src="https://github.com/theodubus/theodubus/blob/main/images/fr-flag.png" height="13"> Français</a></td></tr>
+  <tr><td><a href="README_en.md"><img src="https://github.com/theodubus/theodubus/blob/main/images/us-flag.png" height="13"> English</a></td></tr>
 </table>
 
 <details>
@@ -54,7 +54,7 @@ The extension is available on the [Firefox store](https://addons.mozilla.org/en-
 <summary><b> ‍⚙️ - Installation</b></summary><br>
 
 ```bash
-git clone https://github.com/Th3o-D/gest_mdp.git
+git clone https://github.com/theodubus/gest_mdp.git
 cd gest_mdp
 pip install -r requirements.txt
 ```
@@ -301,6 +301,6 @@ https://user-images.githubusercontent.com/80580619/205418250-b0da6ad6-a7ba-40d7-
 
 <div align="right" style="display: flex">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FTh3o-D%2Fgest_mdp&countColor=%231182c2" height="20"/>
-    <a href="https://github.com/Th3o-D" alt="https://github.com/Th3o-D"><img height="20" style="border-radius: 5px" src="https://img.shields.io/static/v1?style=for-the-badge&label=CREATED%20BY&message=Th3o-D&color=1182c2"></a>
+    <a href="https://github.com/theodubus" alt="https://github.com/theodubus"><img height="20" style="border-radius: 5px" src="https://img.shields.io/static/v1?style=for-the-badge&label=CREATED%20BY&message=theo d&color=1182c2"></a>
     <a href="LICENSE" alt="license"><img style="border-radius: 5px" height="20" src="https://img.shields.io/static/v1?style=for-the-badge&label=LICENSE&message=GNU+GPL+V3&color=1182c2"></a>
 </div>
