@@ -578,7 +578,7 @@ class Application:
         self.create_label(self.generer_f, 'link_label', 'Lien : ', 2, 0, sticky='ew',
                           anchor='w', pady=(0, 15), font=("arial", 22, "bold"), padx=(50, 0))
         self.add_input(self.generer_f, 'link', 2, 1, sticky='news', columnspan=3, pady=(0, 10), default=link, placeholder="Lien de connexion", padx=(0, 50))
-        self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', prio, pady=(0, 10), padx=(50, 0), font=("arial", 20))
+        self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', prio, padx=(50, 0), font=("arial", 20))
         self.add_checkbutton(self.generer_f, 'long', 'submit', 3, 1, '1', '0', wait, font=("arial", 20))
 
         self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, pady=(10, 10), show=False, default=password, placeholder="Mot de passe", padx=(50, 0))
@@ -647,7 +647,7 @@ class Application:
                           anchor='w', pady=(0, 15), font=("arial", 22, "bold"), padx=(50, 0))
         self.add_input(self.generer_f, 'link', 2, 1, sticky='ew', columnspan=3, pady=(0, 10), placeholder="Lien de connexion", padx=(0, 50))
 
-        self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', '0', pady=(0, 10), padx=(50, 0), font=('arial', 20))
+        self.add_checkbutton(self.generer_f, 'prio', 'prio', 3, 0, '1', '0', '0', padx=(50, 0), font=('arial', 20))
         self.add_checkbutton(self.generer_f, 'long', 'long', 3, 1, '1', '0', '0', font=('arial', 20))
 
         self.add_input(self.generer_f, 'generer_mdp', 4, 0, sticky='news', columnspan=2, pady=(10, 10), show=False, placeholder="Mot de passe", default="_", padx=(50, 0))
