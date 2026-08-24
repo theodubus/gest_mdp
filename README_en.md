@@ -1,6 +1,9 @@
 # gest_mdp
 Password manager with automatic connection
 
+> [!NOTE]
+> **Status: maintenance only.** I now use [Bitwarden](https://bitwarden.com/) daily and recommend it for real-world use. This project stays online as a technical showcase: PBKDF2 key derivation (1 million iterations) + Fernet encryption, a Firefox extension [published on AMO](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/), and a local server for autofill.
+
 <table align="right">
   <tr><td><a href="README.md"><img src="https://github.com/theodubus/theodubus/blob/main/images/fr-flag.png" height="13"> Français</a></td></tr>
   <tr><td><a href="README_en.md"><img src="https://github.com/theodubus/theodubus/blob/main/images/us-flag.png" height="13"> English</a></td></tr>

@@ -1,6 +1,9 @@
 # gest_mdp
 Gestionnaire de mots de passe avec connexion automatique
 
+> [!NOTE]
+> **Statut : maintenance uniquement.** J'utilise désormais [Bitwarden](https://bitwarden.com/) au quotidien et je recommande d'en faire autant pour un usage réel. Ce projet reste en ligne comme démonstration technique : dérivation de clé PBKDF2 (1 million d'itérations) + chiffrement Fernet, extension Firefox [publiée sur AMO](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/) et serveur local pour l'autocomplétion.
+
 <table align="right">
   <tr><td><a href="README.md"><img src="https://github.com/theodubus/theodubus/blob/main/images/fr-flag.png" height="13"> Français</a></td></tr>
   <tr><td><a href="README_en.md"><img src="https://github.com/theodubus/theodubus/blob/main/images/us-flag.png" height="13"> English</a></td></tr>
