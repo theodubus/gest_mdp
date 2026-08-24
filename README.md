@@ -5,8 +5,8 @@ Gestionnaire de mots de passe avec connexion automatique
 > **Statut : maintenance uniquement.** J'utilise désormais [Bitwarden](https://bitwarden.com/) au quotidien et je recommande d'en faire autant pour un usage réel. Ce projet reste en ligne comme démonstration technique : dérivation de clé PBKDF2 (1 million d'itérations) + chiffrement Fernet, extension Firefox [publiée sur AMO](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/) et serveur local pour l'autocomplétion.
 
 <table align="right">
-  <tr><td><a href="README.md"><img src="https://github.com/theodubus/theodubus/blob/main/images/fr-flag.png" height="13"> Français</a></td></tr>
-  <tr><td><a href="README_en.md"><img src="https://github.com/theodubus/theodubus/blob/main/images/us-flag.png" height="13"> English</a></td></tr>
+  <tr><td><a href="README.md"><img src="https://raw.githubusercontent.com/theodubus/theodubus/main/images/fr-flag.png" height="13"> Français</a></td></tr>
+  <tr><td><a href="README_en.md"><img src="https://raw.githubusercontent.com/theodubus/theodubus/main/images/us-flag.png" height="13"> English</a></td></tr>
 </table>
 
 <details>
@@ -302,6 +302,6 @@ https://user-images.githubusercontent.com/80580619/205418250-b0da6ad6-a7ba-40d7-
 
 <div align="right" style="display: flex">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FTh3o-D%2Fgest_mdp&countColor=%231182c2" height="20"/>
-    <a href="https://github.com/theodubus" alt="https://github.com/theodubus"><img height="20" style="border-radius: 5px" src="https://img.shields.io/static/v1?style=for-the-badge&label=CREE%20PAR&message=theo d&color=1182c2"></a>
+    <a href="https://github.com/theodubus" alt="https://github.com/theodubus"><img height="20" style="border-radius: 5px" src="https://img.shields.io/static/v1?style=for-the-badge&label=CREE%20PAR&message=theo%20d&color=1182c2"></a>
     <a href="LICENSE" alt="licence"><img style="border-radius: 5px" height="20" src="https://img.shields.io/static/v1?style=for-the-badge&label=LICENSE&message=GNU+GPL+V3&color=1182c2"></a>
 </div>

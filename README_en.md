@@ -5,8 +5,8 @@ Password manager with automatic connection
 > **Status: maintenance only.** I now use [Bitwarden](https://bitwarden.com/) daily and recommend it for real-world use. This project stays online as a technical showcase: PBKDF2 key derivation (1 million iterations) + Fernet encryption, a Firefox extension [published on AMO](https://addons.mozilla.org/en-US/firefox/addon/gest_mdp/), and a local server for autofill.
 
 <table align="right">
-  <tr><td><a href="README.md"><img src="https://github.com/theodubus/theodubus/blob/main/images/fr-flag.png" height="13"> Français</a></td></tr>
-  <tr><td><a href="README_en.md"><img src="https://github.com/theodubus/theodubus/blob/main/images/us-flag.png" height="13"> English</a></td></tr>
+  <tr><td><a href="README.md"><img src="https://raw.githubusercontent.com/theodubus/theodubus/main/images/fr-flag.png" height="13"> Français</a></td></tr>
+  <tr><td><a href="README_en.md"><img src="https://raw.githubusercontent.com/theodubus/theodubus/main/images/us-flag.png" height="13"> English</a></td></tr>
 </table>
 
 <details>
@@ -304,6 +304,6 @@ https://user-images.githubusercontent.com/80580619/205418250-b0da6ad6-a7ba-40d7-
 
 <div align="right" style="display: flex">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FTh3o-D%2Fgest_mdp&countColor=%231182c2" height="20"/>
-    <a href="https://github.com/theodubus" alt="https://github.com/theodubus"><img height="20" style="border-radius: 5px" src="https://img.shields.io/static/v1?style=for-the-badge&label=CREATED%20BY&message=theo d&color=1182c2"></a>
+    <a href="https://github.com/theodubus" alt="https://github.com/theodubus"><img height="20" style="border-radius: 5px" src="https://img.shields.io/static/v1?style=for-the-badge&label=CREATED%20BY&message=theo%20d&color=1182c2"></a>
     <a href="LICENSE" alt="license"><img style="border-radius: 5px" height="20" src="https://img.shields.io/static/v1?style=for-the-badge&label=LICENSE&message=GNU+GPL+V3&color=1182c2"></a>
 </div>
